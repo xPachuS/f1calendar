@@ -171,44 +171,6 @@ header {
 }
 
 .card-header {
-    padding: 1.2rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--glass);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.round-num {
-    font-size: 0.85rem;
-    color: var(--f1-red);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* MODIFICADO: Bandera en las tarjetas (Tamaño uniforme) */
-.flag-img {
-    width: 54px;        /* Ancho fijo exacto */
-    height: 36px;       /* Alto fijo exacto (Ratio 3:2) */
-    object-fit: cover;  /* IMPORTANTE: Mantiene la proporción recortando sobrante */
-    border-radius: 4px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    background-color: #000; /* Fondo por si tarda en cargar la imagen */
-}
-
-.card-body {
-    padding: 1.5rem;
-    flex-grow: 1;
-}
-
-.card-body h3 {
-    font-size: 1.3rem;
-    margin-bottom: 5px;
-    line-height: 1.3;
-}
-
-.card-header {
     padding: 1.5rem; /* Un poco más alto para lucir la imagen */
     display: flex;
     justify-content: space-between;
@@ -236,6 +198,27 @@ header {
     letter-spacing: 1px;
     /* Añadimos un resplandor rojo para mantener la identidad F1 */
     text-shadow: 0 0 10px var(--f1-red), 0 2px 5px rgba(0,0,0,0.8);
+}
+
+/* MODIFICADO: Bandera en las tarjetas (Tamaño uniforme) */
+.flag-img {
+    width: 54px;        /* Ancho fijo exacto */
+    height: 36px;       /* Alto fijo exacto (Ratio 3:2) */
+    object-fit: cover;  /* IMPORTANTE: Mantiene la proporción recortando sobrante */
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    background-color: #000; /* Fondo por si tarda en cargar la imagen */
+}
+
+.card-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+}
+
+.card-body h3 {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    line-height: 1.3;
 }
 
 .circuit-name {
@@ -305,4 +288,5 @@ footer {
     .timer { font-size: 2.5rem; }
     .grid-container { grid-template-columns: 1fr; }
 }
+
 
