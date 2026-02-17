@@ -1,15 +1,15 @@
 /**
  * Lógica principal para F1 Calendario 2026
- * Maneja carga de JSON, cuenta atrás, filtros y renderizado dinámico de sesiones.
+ * Maneja carga de JSON, cuenta atrás, filtros y renderizado dinámico.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     loadRaces();
 });
 
-let db_races = []; // Almacenamiento global de los datos
+let db_races = []; 
 
-// --- DICCIONARIO: TRADUCTOR DE EMOJI A CÓDIGO ISO PARA BANDERAS ---
+// MAPEO DE EMOJIS A CÓDIGOS ISO (FlagCDN)
 const emojiToIso = {
     "🇦🇺": "au", "🇨🇳": "cn", "🇯🇵": "jp", "🇧🇭": "bh", "🇸🇦": "sa",
     "🇺🇸": "us", "🇨🇦": "ca", "🇲🇨": "mc", "🇪🇸": "es", "🇦🇹": "at",
@@ -18,7 +18,7 @@ const emojiToIso = {
     "🇦🇪": "ae"
 };
 
-// --- DICCIONARIO: NOMBRES AMIGABLES PARA LAS SESIONES ---
+// TRADUCTOR DE SESIONES
 const sessionLabels = {
     "fp1": "Libres 1",
     "fp2": "Libres 2",
@@ -29,45 +29,34 @@ const sessionLabels = {
     "race": "CARRERA"
 };
 
-// --- 1. CARGA DE DATOS ---
+// 1. CARGA DE DATOS
 async function loadRaces() {
     const grid = document.getElementById('races-grid');
-    
     try {
         const response = await fetch('races.json');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        
+        if (!response.ok) throw new Error("No se pudo cargar el archivo races.json");
         db_races = await response.json();
-        
         renderRaces('all'); 
         initCountdown();    
-        
     } catch (error) {
-        console.error("Error cargando carreras:", error);
-        grid.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 2rem; border: 1px solid #ff4444; background: rgba(255,0,0,0.05); border-radius: 8px; color: #ffcccc;">
-                <h2>⚠️ Error cargando datos</h2>
-                <p>Asegúrate de usar un Servidor Local (ej. Live Server en VS Code).</p>
-            </div>
-        `;
+        grid.innerHTML = `<div class="error-msg">⚠️ Error: ${error.message}</div>`;
     }
 }
 
-// --- 2. RENDERIZADO DE TARJETAS ---
+// 2. RENDERIZADO DE TARJETAS
 function renderRaces(filter) {
     const grid = document.getElementById('races-grid');
     grid.innerHTML = ''; 
-    
     const now = new Date();
-    let racesToShow = db_races;
-
+    
+    let filtered = db_races;
     if (filter === 'upcoming') {
-        racesToShow = db_races.filter(race => new Date(race.date + "T23:59:59") >= now);
+        filtered = db_races.filter(r => new Date(r.date + "T23:59:59") >= now);
     } else if (filter === 'completed') {
-        racesToShow = db_races.filter(race => new Date(race.date + "T23:59:59") < now);
+        filtered = db_races.filter(r => new Date(r.date + "T23:59:59") < now);
     }
 
-    racesToShow.forEach(race => {
+    filtered.forEach(race => {
         const card = document.createElement('div');
         card.className = 'race-card';
         if(isImmediateNext(race)) card.classList.add('next-race-highlight');
@@ -75,34 +64,30 @@ function renderRaces(filter) {
         const humanDate = new Date(race.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
         const isoCode = emojiToIso[race.flag] || 'xx'; 
 
-        // Estilo de fondo: Degradado para legibilidad + Imagen del país
-        const backgroundStyle = `linear-gradient(rgba(20, 20, 30, 0.7), rgba(20, 20, 30, 0.9)), url('${race.bg_image}')`;
+        // Fondo dinámico
+        const backgroundStyle = `linear-gradient(rgba(20, 20, 30, 0.75), rgba(20, 20, 30, 0.95)), url('${race.bg_image}')`;
 
-        // Generar lista de sesiones dinámicamente (Líneas separadas)
-        const sessionsHTML = Object.entries(race.sessions).map(([key, value]) => {
-            return `
-                <li class="session-item ${key === 'race' ? 'main-race' : ''}">
-                    <span>${sessionLabels[key] || key}</span>
-                    <span>${value}</span>
-                </li>`;
-        }).join('');
+        // Generar lista de sesiones
+        const sessionsHTML = Object.entries(race.sessions).map(([key, value]) => `
+            <li class="session-item ${key === 'race' ? 'main-race' : ''}">
+                <span>${sessionLabels[key]}</span>
+                <span>${value}</span>
+            </li>
+        `).join('');
 
         card.innerHTML = `
             <div class="card-header" style="background-image: ${backgroundStyle}">
-                <div class="header-info">
+                <div class="header-top">
                     <span class="round-num">Ronda ${race.round}</span>
-                    ${race.is_sprint ? '<span class="sprint-badge">SPRINT</span>' : ''}
+                    ${race.is_sprint ? '<span class="sprint-tag">SPRINT WEEKEND</span>' : ''}
                 </div>
-                <img src="https://flagcdn.com/w80/${isoCode}.png" alt="${race.flag}" class="flag-img">
+                <img src="https://flagcdn.com/w80/${isoCode}.png" class="flag-img" alt="Flag">
             </div>
             <div class="card-body">
                 <h3>${race.name}</h3>
                 <span class="circuit-name"><i class="fas fa-road"></i> ${race.circuit}</span>
                 <div class="date-badge"><i class="far fa-calendar-alt"></i> ${humanDate}</div>
-                
-                <ul class="sessions-list">
-                    ${sessionsHTML}
-                </ul>
+                <ul class="sessions-list">${sessionsHTML}</ul>
             </div>
         `;
         grid.appendChild(card);
@@ -111,73 +96,57 @@ function renderRaces(filter) {
 
 function isImmediateNext(race) {
     const now = new Date();
-    const timeStr = race.sessions.race.split(' ')[1]; 
-    const raceDateTime = new Date(`${race.date}T${timeStr}:00`);
-    raceDateTime.setHours(raceDateTime.getHours() + 2); // Margen post-carrera
-    return raceDateTime > now && raceDateTime < new Date(now.getTime() + (14 * 24 * 60 * 60 * 1000));
+    const raceDate = new Date(`${race.date}T${race.sessions.race.split(' ')[1]}:00`);
+    const diffDays = (raceDate - now) / (1000 * 60 * 60 * 24);
+    return diffDays > 0 && diffDays < 14;
 }
 
-// --- 3. LÓGICA DEL COUNTDOWN ---
+// 3. COUNTDOWN
 function initCountdown() {
-    const countdownEl = document.getElementById('countdown');
-    const nextRaceNameEl = document.getElementById('next-race-name');
-    
-    const updateTimer = () => {
+    const timer = document.getElementById('countdown');
+    const name = document.getElementById('next-race-name');
+
+    const run = () => {
         const now = new Date();
-        const upcomingRace = db_races.find(r => {
-            const timeStr = r.sessions.race.split(' ')[1];
-            const raceEndObj = new Date(`${r.date}T${timeStr}:00`);
-            raceEndObj.setHours(raceEndObj.getHours() + 2); 
-            return raceEndObj > now;
+        const next = db_races.find(r => {
+            const rTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
+            rTime.setHours(rTime.getHours() + 2);
+            return rTime > now;
         });
 
-        if (!upcomingRace) {
-            nextRaceNameEl.innerText = "Temporada Finalizada";
-            countdownEl.innerText = "00d 00h 00m 00s";
+        if (!next) {
+            name.innerText = "Temporada 2026 Finalizada";
+            timer.innerText = "00d 00h 00m 00s";
             return;
         }
 
-        const isoCode = emojiToIso[upcomingRace.flag] || 'xx';
-        nextRaceNameEl.innerHTML = `
-            <img src="https://flagcdn.com/w80/${isoCode}.png" class="hero-flag" alt="Bandera">
-            <span>${upcomingRace.name}</span>
-        `;
+        const iso = emojiToIso[next.flag];
+        name.innerHTML = `<img src="https://flagcdn.com/w80/${iso}.png" class="hero-flag"> ${next.name}`;
 
-        const timeStr = upcomingRace.sessions.race.split(' ')[1];
-        const targetDate = new Date(`${upcomingRace.date}T${timeStr}:00`);
-        const distance = targetDate.getTime() - now.getTime();
+        const target = new Date(`${next.date}T${next.sessions.race.split(' ')[1]}:00`);
+        const dist = target - now;
 
-        if (distance < 0 && distance > -7200000) {
-            countdownEl.innerText = "¡EN PISTA!";
-            countdownEl.style.color = "#44ff44"; 
-            nextRaceNameEl.innerHTML += " <span style='color:#44ff44; font-size:0.6em; margin-left:10px;'>● EN VIVO</span>";
+        if (dist < 0) {
+            timer.innerText = "¡EN VIVO!";
+            timer.style.color = "#44ff44";
             return;
-        } 
-        
-        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((distance % (1000 * 60)) / 1000);
+        }
 
-        const dd = d < 10 ? "0"+d : d;
-        const hh = h < 10 ? "0"+h : h;
-        const mm = m < 10 ? "0"+m : m;
-        const ss = s < 10 ? "0"+s : s;
+        const d = Math.floor(dist / 86400000);
+        const h = Math.floor((dist % 86400000) / 3600000);
+        const m = Math.floor((dist % 3600000) / 60000);
+        const s = Math.floor((dist % 60000) / 1000);
 
-        countdownEl.innerText = `${dd}d ${hh}h ${mm}m ${ss}s`;
-        countdownEl.style.color = "var(--f1-red)";
+        timer.innerText = `${d.toString().padStart(2,'0')}d ${h.toString().padStart(2,'0')}h ${m.toString().padStart(2,'0')}m ${s.toString().padStart(2,'0')}s`;
     };
 
-    updateTimer();
-    setInterval(updateTimer, 1000);
+    run();
+    setInterval(run, 1000);
 }
 
-// --- 4. CONTROL DE FILTROS ---
-window.filterRaces = function(type) {
-    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-    const buttons = document.querySelectorAll('.filter-btn');
-    buttons.forEach(btn => {
-        if(btn.getAttribute('onclick').includes(type)) btn.classList.add('active');
-    });
+// 4. FILTROS
+window.filterRaces = (type) => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
     renderRaces(type);
 };
