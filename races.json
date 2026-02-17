@@ -121,18 +121,18 @@
     },
     {
         "round": 16,
-        "name": "GP de Madrid",
-        "circuit": "Circuito IFEMA Madrid",
+        "name": "GP de Italia",
+        "circuit": "Autodromo Nazionale Monza",
         "date": "2026-09-06",
-        "flag": "🇪🇸",
+        "flag": "🇮🇹",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
         "round": 17,
-        "name": "GP de Italia",
-        "circuit": "Autodromo Nazionale Monza",
+        "name": "GP de Madrid",
+        "circuit": "Circuito IFEMA Madrid",
         "date": "2026-09-13",
-        "flag": "🇮🇹",
+        "flag": "🇪🇸",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
