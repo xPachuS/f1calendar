@@ -23,7 +23,7 @@
         "circuit": "Suzuka International Racing Course",
         "date": "2026-03-29",
         "flag": "🇯🇵",
-        "bg_image": "https://www.transitours.com/blog/wp-content/uploads/2025/06/que-ver-en-tokio.jpg?q=80&w=1470&auto=format&fit=crop",
+        "bg_image": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1471&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 04:30", "fp2": "Vie 08:00", "quali": "Sáb 08:00", "race": "Dom 07:00" }
     },
     {
@@ -216,4 +216,5 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
