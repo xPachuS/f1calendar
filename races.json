@@ -26,7 +26,7 @@
         "date": "2026-03-29",
         "flag": "🇯🇵",
         "is_sprint": false,
-        "bg_image": "https://images.unsplash.com/photo-1490806843928-8f7a74d2b450?q=80&w=1470&auto=format&fit=crop",
+        "bg_image": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1471&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 04:30", "fp2": "Vie 08:00", "fp3": "Sáb 04:30", "quali": "Sáb 08:00", "race": "Dom 07:00" }
     },
     {
@@ -240,6 +240,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
