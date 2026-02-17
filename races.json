@@ -149,7 +149,7 @@
         "circuit": "Baku City Circuit",
         "date": "2026-09-26",
         "flag": "🇦🇿",
-        "bg_image": "https://images.unsplash.com/photo-1601885337723-2da2fb56b249?q=80&w=1470&auto=format&fit=crop",
+        "bg_image": "https://keystoneacademic-res.cloudinary.com/image/upload/v1696411259/articles/educationscom/article-hero-image-2991.jpg?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 11:30", "fp2": "Vie 15:00", "quali": "Sáb 14:00", "race": "Dom 13:00" }
     },
     {
@@ -216,6 +216,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
