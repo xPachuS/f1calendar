@@ -19,7 +19,7 @@ body {
     background-color: var(--dark-bg);
     color: var(--text-light);
     line-height: 1.6;
-    overflow-x: hidden; /* Prevenir scroll horizontal accidental */
+    overflow-x: hidden;
 }
 
 /* --- HEADER --- */
@@ -31,13 +31,6 @@ header {
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-.header-content h1 {
-    font-weight: 700;
-    font-size: 2.5rem;
-    letter-spacing: 1px;
-    margin-bottom: 5px;
-}
-
 .f1-red { 
     color: var(--f1-red); 
     background: white; 
@@ -45,6 +38,13 @@ header {
     border-radius: 4px;
     margin-right: 5px;
     display: inline-block;
+}
+
+.header-content h1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
 }
 
 /* --- HERO COUNTDOWN --- */
@@ -64,7 +64,7 @@ header {
     margin-bottom: 10px;
 }
 
-/* Nombre de la carrera y bandera en el Hero */
+/* Contenedor del nombre y bandera en el Hero */
 #next-race-name {
     font-size: 1.8rem;
     font-weight: 600;
@@ -72,23 +72,33 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px; /* Separación entre bandera y texto */
+    gap: 15px;
+}
+
+/* NUEVO: Clase específica para la bandera del Hero (uniformidad) */
+.hero-flag {
+    width: 60px;        /* Ancho fijo */
+    height: 40px;       /* Alto fijo (Ratio 3:2) */
+    object-fit: cover;  /* Recorta la imagen para llenar el espacio sin deformar */
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(225, 6, 0, 0.4);
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .timer {
     font-size: 3.5rem;
     font-weight: 700;
     color: var(--f1-red);
-    font-variant-numeric: tabular-nums; /* Evita que los números salten al cambiar */
+    font-variant-numeric: tabular-nums;
     margin-top: 10px;
     text-shadow: 0 0 20px rgba(225, 6, 0, 0.4);
 }
 
-/* --- CONTROLES / FILTROS --- */
+/* --- CONTROLES --- */
 .controls {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap; /* Para móviles */
+    flex-wrap: wrap;
     gap: 15px;
     margin: 2.5rem 0;
     padding: 0 1rem;
@@ -130,13 +140,13 @@ header {
     padding: 0 20px 80px;
 }
 
-/* --- TARJETA DE CARRERA (Race Card) --- */
+/* --- RACE CARD --- */
 .race-card {
     background-color: var(--card-bg);
     border-radius: 16px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-top: 4px solid transparent; /* Borde invisible por defecto */
+    border-top: 4px solid transparent;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -148,7 +158,6 @@ header {
     border-top: 4px solid var(--f1-red);
 }
 
-/* Estilo especial para la próxima carrera (Highlight) */
 .next-race-highlight {
     border: 2px solid var(--f1-red);
     box-shadow: 0 0 20px rgba(225, 6, 0, 0.2);
@@ -161,7 +170,6 @@ header {
     100% { box-shadow: 0 0 10px rgba(225, 6, 0, 0.2); }
 }
 
-/* Cabecera de la tarjeta */
 .card-header {
     padding: 1.2rem 1.5rem;
     display: flex;
@@ -179,16 +187,16 @@ header {
     letter-spacing: 1px;
 }
 
-/* Estilo para la imagen de la bandera */
+/* MODIFICADO: Bandera en las tarjetas (Tamaño uniforme) */
 .flag-img {
-    width: 48px;
-    height: auto;
+    width: 54px;        /* Ancho fijo exacto */
+    height: 36px;       /* Alto fijo exacto (Ratio 3:2) */
+    object-fit: cover;  /* IMPORTANTE: Mantiene la proporción recortando sobrante */
     border-radius: 4px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    object-fit: cover;
+    background-color: #000; /* Fondo por si tarda en cargar la imagen */
 }
 
-/* Cuerpo de la tarjeta */
 .card-body {
     padding: 1.5rem;
     flex-grow: 1;
@@ -214,7 +222,6 @@ header {
     text-align: center;
 }
 
-/* Badge de fecha */
 .date-badge {
     display: inline-block;
     background: rgba(255, 255, 255, 0.08);
@@ -226,10 +233,9 @@ header {
     margin-bottom: 20px;
 }
 
-/* Lista de sesiones */
 .sessions-list {
     list-style: none;
-    margin-top: auto; /* Empuja la lista hacia abajo */
+    margin-top: auto;
     border-top: 1px solid var(--accent);
     padding-top: 15px;
 }
@@ -255,7 +261,6 @@ header {
     color: var(--f1-red);
 }
 
-/* --- FOOTER --- */
 footer {
     text-align: center;
     padding: 3rem 1rem;
@@ -265,10 +270,8 @@ footer {
     background-color: #0b0b10;
 }
 
-/* --- RESPONSIVE --- */
 @media (max-width: 600px) {
     .header-content h1 { font-size: 1.8rem; }
     .timer { font-size: 2.5rem; }
-    #next-race-name { font-size: 1.3rem; flex-direction: column; }
     .grid-container { grid-template-columns: 1fr; }
 }
