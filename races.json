@@ -113,7 +113,7 @@
         "circuit": "Hungaroring",
         "date": "2026-07-26",
         "flag": "🇭🇺",
-        "bg_image": "https://images.unsplash.com/photo-1565426873118-a17ed65d7429?q=80&w=1471&auto=format&fit=crop",
+        "bg_image": "https://stories.weroad.es/wp-content/uploads/2024/02/viaje-que-ver-en-budapest.jpg?q=80&w=1471&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
@@ -122,7 +122,7 @@
         "circuit": "Circuit Zandvoort",
         "date": "2026-08-23",
         "flag": "🇳🇱",
-        "bg_image": "https://images.unsplash.com/photo-1605212945811-5250b732b81a?q=80&w=1471&auto=format&fit=crop",
+        "bg_image": "https://cdn.sanity.io/images/nxpteyfv/goguides/2a049d02cea169825831a1987fa795fe2fae3fee-1600x1066.jpg?q=80&w=1471&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 12:30", "fp2": "Vie 16:00", "quali": "Sáb 15:00", "race": "Dom 15:00" }
     },
     {
@@ -216,6 +216,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
