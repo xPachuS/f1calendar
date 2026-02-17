@@ -1,27 +1,27 @@
 /**
  * Lógica principal para F1 Calendario 2026
- * * CARACTERÍSTICAS:
- * 1. Lee el archivo 'races.json'.
- * 2. Convierte los Emojis del JSON a imágenes reales de banderas.
- * 3. Calcula la cuenta atrás precisa (ajustada a zona horaria local).
- * 4. Filtra entre carreras Próximas y Completadas.
+ * * FUNCIONALIDADES:
+ * 1. Carga datos desde 'races.json'.
+ * 2. Convierte Emojis de banderas a Imágenes (FlagCDN) para uniformidad.
+ * 3. Gestiona la cuenta atrás en tiempo real.
+ * 4. Filtra carreras (Todas / Próximas / Completadas).
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     loadRaces();
 });
 
-let db_races = []; // Variable global para almacenar los datos
+let db_races = []; // Variable global para los datos
 
 // --- DICCIONARIO: TRADUCTOR DE EMOJI A CÓDIGO ISO ---
-// Esto permite usar tu JSON con emojis y mostrar fotos reales de banderas
+// Necesario para convertir el emoji del JSON en una URL de imagen válida
 const emojiToIso = {
     "🇦🇺": "au", // Australia
     "🇨🇳": "cn", // China
     "🇯🇵": "jp", // Japón
     "🇧🇭": "bh", // Bahrein
     "🇸🇦": "sa", // Arabia Saudí
-    "🇺🇸": "us", // Estados Unidos (Miami, Austin, Vegas)
+    "🇺🇸": "us", // USA (Miami, Austin, Vegas)
     "🇨🇦": "ca", // Canadá
     "🇲🇨": "mc", // Mónaco
     "🇪🇸": "es", // España (Barcelona, Madrid)
@@ -36,7 +36,7 @@ const emojiToIso = {
     "🇲🇽": "mx", // México
     "🇧🇷": "br", // Brasil
     "🇶🇦": "qa", // Qatar
-    "🇦🇪": "ae"  // Emiratos Árabes (Abu Dhabi)
+    "🇦🇪": "ae"  // Emiratos Árabes
 };
 
 // --- 1. CARGA DE DATOS ---
@@ -58,14 +58,12 @@ async function loadRaces() {
         
     } catch (error) {
         console.error("Error cargando carreras:", error);
-        // Mensaje de error amigable
         grid.innerHTML = `
             <div style="grid-column: 1/-1; text-align: center; padding: 2rem; border: 1px solid #ff4444; background: rgba(255,0,0,0.05); border-radius: 8px; color: #ffcccc;">
                 <h2>⚠️ Error cargando datos</h2>
-                <p>No se pudo leer <strong>races.json</strong>.</p>
+                <p>No se pudo leer el archivo <strong>races.json</strong>.</p>
                 <p style="font-size: 0.9em; margin-top: 10px; color: #aaa;">
-                    Recuerda: Para que esto funcione, necesitas abrir el archivo HTML usando un <strong>Servidor Local</strong> 
-                    (como la extensión 'Live Server' en VS Code), no haciendo doble clic en el archivo.
+                    Asegúrate de ejecutar esto en un <strong>Servidor Local</strong> (Live Server), no abriendo el HTML directamente.
                 </p>
             </div>
         `;
@@ -75,38 +73,35 @@ async function loadRaces() {
 // --- 2. RENDERIZADO DE TARJETAS ---
 function renderRaces(filter) {
     const grid = document.getElementById('races-grid');
-    grid.innerHTML = ''; // Limpiar contenido anterior
+    grid.innerHTML = ''; // Limpiar grid
     
     const now = new Date();
     let racesToShow = db_races;
 
-    // Lógica de filtrado
+    // Filtros de tiempo
     if (filter === 'upcoming') {
-        racesToShow = db_races.filter(race => {
-            // Se considera "futura" si no ha terminado el día de la carrera
-            return new Date(race.date + "T23:59:59") >= now;
-        });
+        racesToShow = db_races.filter(race => new Date(race.date + "T23:59:59") >= now);
     } else if (filter === 'completed') {
-        racesToShow = db_races.filter(race => {
-            return new Date(race.date + "T23:59:59") < now;
-        });
+        racesToShow = db_races.filter(race => new Date(race.date + "T23:59:59") < now);
     }
 
     racesToShow.forEach(race => {
         const card = document.createElement('div');
         card.className = 'race-card';
         
-        // Destacar la próxima carrera inmediata
+        // Destacar visualmente la próxima carrera inmediata
         if(isImmediateNext(race)) card.classList.add('next-race-highlight');
 
-        // Formatear fecha (Ej: "8 de marzo")
+        // Formato de fecha español
         const humanDate = new Date(race.date).toLocaleDateString('es-ES', { 
             day: 'numeric', month: 'long' 
         });
 
-        // Obtener código ISO para la imagen, o usar 'xx' si no existe
+        // Convertir Emoji a Código ISO para la imagen
         const isoCode = emojiToIso[race.flag] || 'xx'; 
 
+        // HTML de la tarjeta
+        // Nota: Usamos la clase 'flag-img' definida en el CSS para tamaño fijo
         card.innerHTML = `
             <div class="card-header">
                 <span class="round-num">Ronda ${race.round}</span>
@@ -128,16 +123,16 @@ function renderRaces(filter) {
     });
 }
 
-// Helper: Detecta si es la carrera activa o la siguiente inmediata (para el borde rojo)
+// Helper: ¿Es esta la próxima carrera activa?
 function isImmediateNext(race) {
     const now = new Date();
-    const timeStr = race.sessions.race.split(' ')[1]; // Extraer hora "06:00"
+    const timeStr = race.sessions.race.split(' ')[1]; // "16:00"
     const raceDateTime = new Date(`${race.date}T${timeStr}:00`);
     
-    // Margen de 2 horas post-inicio
+    // Sumamos 2 horas de duración de carrera para que siga siendo "la actual" mientras corren
     raceDateTime.setHours(raceDateTime.getHours() + 2);
     
-    // Si la fecha es futura Y está dentro de las próximas 2 semanas
+    // Si es futura Y es la más cercana (dentro de 2 semanas)
     return raceDateTime > now && raceDateTime < new Date(now.getTime() + (14 * 24 * 60 * 60 * 1000));
 }
 
@@ -149,11 +144,11 @@ function initCountdown() {
     const updateTimer = () => {
         const now = new Date();
         
-        // Buscar la primera carrera que NO ha terminado
+        // Buscar la próxima carrera que no ha terminado
         const upcomingRace = db_races.find(r => {
             const timeStr = r.sessions.race.split(' ')[1];
             const raceEndObj = new Date(`${r.date}T${timeStr}:00`);
-            raceEndObj.setHours(raceEndObj.getHours() + 2); // +2 horas de duración estimada
+            raceEndObj.setHours(raceEndObj.getHours() + 2); 
             return raceEndObj > now;
         });
 
@@ -163,34 +158,36 @@ function initCountdown() {
             return;
         }
 
-        // Mostrar bandera e info en la cabecera
+        // Obtener código de bandera para el Hero
         const isoCode = emojiToIso[upcomingRace.flag] || 'xx';
         
+        // Renderizar nombre y bandera grande en el Hero
+        // Nota: Usamos la clase 'hero-flag' definida en el CSS
         nextRaceNameEl.innerHTML = `
-            <img src="https://flagcdn.com/w40/${isoCode}.png" style="height: 30px; border-radius: 4px; box-shadow: 0 0 5px rgba(0,0,0,0.5);">
+            <img src="https://flagcdn.com/w80/${isoCode}.png" class="hero-flag" alt="Bandera">
             <span>${upcomingRace.name}</span>
         `;
 
-        // Calcular tiempo restante
+        // Cálculos de tiempo
         const timeStr = upcomingRace.sessions.race.split(' ')[1];
         const targetDate = new Date(`${upcomingRace.date}T${timeStr}:00`);
         const distance = targetDate.getTime() - now.getTime();
 
-        // Si la carrera ya empezó pero no ha terminado (distancia negativa pequeña)
+        // Si la carrera está en curso
         if (distance < 0 && distance > -7200000) {
             countdownEl.innerText = "¡EN PISTA AHORA!";
-            countdownEl.style.color = "#44ff44"; // Verde neón
-            nextRaceNameEl.innerHTML += " <span style='color:#44ff44; font-size:0.6em; vertical-align:middle; margin-left:10px;'>● EN VIVO</span>";
+            countdownEl.style.color = "#44ff44"; 
+            nextRaceNameEl.innerHTML += " <span style='color:#44ff44; font-size:0.6em; margin-left:10px;'>● EN VIVO</span>";
             return;
         } 
         
-        // Cálculos de días, horas, etc.
+        // Matemáticas del tiempo
         const d = Math.floor(distance / (1000 * 60 * 60 * 24));
         const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const s = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Formato con ceros a la izquierda (01d 05h...)
+        // Padding con ceros
         const dd = d < 10 ? "0"+d : d;
         const hh = h < 10 ? "0"+h : h;
         const mm = m < 10 ? "0"+m : m;
@@ -200,17 +197,15 @@ function initCountdown() {
         countdownEl.style.color = "var(--f1-red)";
     };
 
-    // Actualizar inmediatamente y luego cada segundo
     updateTimer();
     setInterval(updateTimer, 1000);
 }
 
-// --- 4. FILTROS DE BOTONES ---
+// --- 4. CONTROL DE BOTONES DE FILTRO ---
 window.filterRaces = function(type) {
-    // Actualizar estilo de los botones
     document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
     
-    // Buscar qué botón se pulsó y activarlo
+    // Activar el botón correspondiente
     const buttons = document.querySelectorAll('.filter-btn');
     buttons.forEach(btn => {
         if(btn.getAttribute('onclick').includes(type)) {
