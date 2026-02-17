@@ -3,7 +3,7 @@
         "round": 1,
         "name": "GP de Australia",
         "circuit": "Albert Park Circuit",
-        "date": "2026-03-06 - 2026-03-08",
+        "date": "2026-03-08",
         "flag": "🇦🇺",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=1470&auto=format&fit=crop",
@@ -240,6 +240,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
