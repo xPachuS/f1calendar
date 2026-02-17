@@ -7,7 +7,7 @@
         "flag": "🇦🇺",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=1470&auto=format&fit=crop",
-        "circuit_image": "https://media.formula1.com/image/upload/f_auto,q_auto,w_240/content/dam/fom-website/2018-redesign-assets/circuit-maps/white/Australia.png",
+        "circuit_image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000000/common/f1/2026/track/2026trackmelbournedetailed.webp",
         "sessions": { "fp1": "Vie 02:30", "fp2": "Vie 06:00", "fp3": "Sáb 02:30", "quali": "Sáb 06:00", "race": "Dom 05:00" }
     },
     {
@@ -241,4 +241,5 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
