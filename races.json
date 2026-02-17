@@ -11,15 +11,15 @@
         "round": 2,
         "name": "GP de China",
         "circuit": "Shanghai International Circuit",
-        "date": "2026-03-22",
+        "date": "2026-03-15",
         "flag": "🇨🇳",
-        "sessions": { "fp1": "Vie 04:30", "fp2": "Vie 08:30", "quali": "Sáb 08:30", "race": "Dom 09:00" }
+        "sessions": { "fp1": "Vie 04:30", "fp2": "Vie 08:30", "quali": "Sáb 08:30", "race": "Dom 08:00" }
     },
     {
         "round": 3,
         "name": "GP de Japón",
         "circuit": "Suzuka International Racing Course",
-        "date": "2026-04-05",
+        "date": "2026-03-29",
         "flag": "🇯🇵",
         "sessions": { "fp1": "Vie 04:30", "fp2": "Vie 08:00", "quali": "Sáb 08:00", "race": "Dom 07:00" }
     },
@@ -27,7 +27,7 @@
         "round": 4,
         "name": "GP de Bahrein",
         "circuit": "Bahrain International Circuit",
-        "date": "2026-04-19",
+        "date": "2026-04-12",
         "flag": "🇧🇭",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 17:00", "race": "Dom 17:00" }
     },
@@ -35,7 +35,7 @@
         "round": 5,
         "name": "GP de Arabia Saudí",
         "circuit": "Jeddah Corniche Circuit",
-        "date": "2026-04-26",
+        "date": "2026-04-19",
         "flag": "🇸🇦",
         "sessions": { "fp1": "Vie 15:30", "fp2": "Vie 19:00", "quali": "Sáb 19:00", "race": "Dom 19:00" }
     },
@@ -49,38 +49,30 @@
     },
     {
         "round": 7,
-        "name": "GP de Emilia Romagna",
-        "circuit": "Autodromo Enzo e Dino Ferrari",
-        "date": "2026-05-17",
-        "flag": "🇮🇹",
-        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
+        "name": "GP de Canadá",
+        "circuit": "Circuit Gilles-Villeneuve",
+        "date": "2026-05-24",
+        "flag": "🇨🇦",
+        "sessions": { "fp1": "Vie 19:30", "fp2": "Sáb 23:00", "quali": "Sáb 22:00", "race": "Dom 20:00" }
     },
     {
         "round": 8,
         "name": "GP de Mónaco",
         "circuit": "Circuit de Monaco",
-        "date": "2026-05-24",
+        "date": "2026-06-07",
         "flag": "🇲🇨",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
         "round": 9,
-        "name": "GP de Barcelona",
+        "name": "GP de Barcelona-Catalunya",
         "circuit": "Circuit de Barcelona-Catalunya",
-        "date": "2026-06-07",
+        "date": "2026-06-14",
         "flag": "🇪🇸",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
         "round": 10,
-        "name": "GP de Canadá",
-        "circuit": "Circuit Gilles-Villeneuve",
-        "date": "2026-06-21",
-        "flag": "🇨🇦",
-        "sessions": { "fp1": "Vie 19:30", "fp2": "Sáb 23:00", "quali": "Sáb 22:00", "race": "Dom 20:00" }
-    },
-    {
-        "round": 11,
         "name": "GP de Austria",
         "circuit": "Red Bull Ring",
         "date": "2026-06-28",
@@ -88,7 +80,7 @@
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
-        "round": 12,
+        "round": 11,
         "name": "GP de Gran Bretaña",
         "circuit": "Silverstone Circuit",
         "date": "2026-07-05",
@@ -96,23 +88,23 @@
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 16:00" }
     },
     {
-        "round": 13,
+        "round": 12,
         "name": "GP de Bélgica",
         "circuit": "Circuit de Spa-Francorchamps",
-        "date": "2026-07-26",
+        "date": "2026-07-19",
         "flag": "🇧🇪",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
-        "round": 14,
+        "round": 13,
         "name": "GP de Hungría",
         "circuit": "Hungaroring",
-        "date": "2026-08-02",
+        "date": "2026-07-26",
         "flag": "🇭🇺",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
-        "round": 15,
+        "round": 14,
         "name": "GP de Países Bajos",
         "circuit": "Circuit Zandvoort",
         "date": "2026-08-23",
@@ -120,7 +112,7 @@
         "sessions": { "fp1": "Vie 12:30", "fp2": "Vie 16:00", "quali": "Sáb 15:00", "race": "Dom 15:00" }
     },
     {
-        "round": 16,
+        "round": 15,
         "name": "GP de Italia",
         "circuit": "Autodromo Nazionale Monza",
         "date": "2026-09-06",
@@ -128,47 +120,47 @@
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
-        "round": 17,
-        "name": "GP de Madrid",
+        "round": 16,
+        "name": "GP de España",
         "circuit": "Circuito IFEMA Madrid",
         "date": "2026-09-13",
         "flag": "🇪🇸",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
-        "round": 18,
+        "round": 17,
         "name": "GP de Azerbaiyán",
         "circuit": "Baku City Circuit",
-        "date": "2026-09-27",
+        "date": "2026-09-26",
         "flag": "🇦🇿",
         "sessions": { "fp1": "Vie 11:30", "fp2": "Vie 15:00", "quali": "Sáb 14:00", "race": "Dom 13:00" }
     },
     {
-        "round": 19,
+        "round": 18,
         "name": "GP de Singapur",
         "circuit": "Marina Bay Street Circuit",
-        "date": "2026-10-04",
+        "date": "2026-10-11",
         "flag": "🇸🇬",
         "sessions": { "fp1": "Vie 11:30", "fp2": "Vie 15:00", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     },
     {
-        "round": 20,
+        "round": 19,
         "name": "GP de Estados Unidos",
         "circuit": "Circuit of The Americas",
-        "date": "2026-10-18",
+        "date": "2026-10-25",
         "flag": "🇺🇸",
         "sessions": { "fp1": "Vie 19:30", "fp2": "Vie 23:00", "quali": "Sáb 23:00", "race": "Dom 21:00" }
     },
     {
-        "round": 21,
+        "round": 20,
         "name": "GP de México",
         "circuit": "Autódromo Hermanos Rodríguez",
-        "date": "2026-10-25",
+        "date": "2026-11-01",
         "flag": "🇲🇽",
         "sessions": { "fp1": "Vie 20:30", "fp2": "Sáb 00:00", "quali": "Sáb 23:00", "race": "Dom 21:00" }
     },
     {
-        "round": 22,
+        "round": 21,
         "name": "GP de Brasil",
         "circuit": "Autódromo José Carlos Pace",
         "date": "2026-11-08",
@@ -176,7 +168,7 @@
         "sessions": { "fp1": "Vie 15:30", "fp2": "Vie 19:00", "quali": "Sáb 19:00", "race": "Dom 18:00" }
     },
     {
-        "round": 23,
+        "round": 22,
         "name": "GP de Las Vegas",
         "circuit": "Las Vegas Strip Circuit",
         "date": "2026-11-21",
@@ -184,7 +176,7 @@
         "sessions": { "fp1": "Vie 03:30", "fp2": "Vie 07:00", "quali": "Sáb 07:00", "race": "Dom 07:00" }
     },
     {
-        "round": 24,
+        "round": 23,
         "name": "GP de Qatar",
         "circuit": "Lusail International Circuit",
         "date": "2026-11-29",
@@ -192,7 +184,7 @@
         "sessions": { "fp1": "Vie 12:30", "fp2": "Vie 16:00", "quali": "Sáb 16:00", "race": "Dom 17:00" }
     },
     {
-        "round": 25,
+        "round": 24,
         "name": "GP de Abu Dhabi",
         "circuit": "Yas Marina Circuit",
         "date": "2026-12-06",
