@@ -1,3 +1,4 @@
+/* --- VARIABLES --- */
 :root {
     --f1-red: #e10600;
     --dark-bg: #15151e;
@@ -8,6 +9,7 @@
     --glass: rgba(255, 255, 255, 0.05);
 }
 
+/* --- RESET --- */
 * {
     margin: 0;
     padding: 0;
@@ -64,7 +66,6 @@ header {
     margin-bottom: 10px;
 }
 
-/* Contenedor del nombre y bandera en el Hero */
 #next-race-name {
     font-size: 1.8rem;
     font-weight: 600;
@@ -75,14 +76,13 @@ header {
     gap: 15px;
 }
 
-/* NUEVO: Clase específica para la bandera del Hero (uniformidad) */
+/* Imagen del circuito y bandera en el Hero */
 .hero-flag {
-    width: 60px;        /* Ancho fijo */
-    height: 40px;       /* Alto fijo (Ratio 3:2) */
-    object-fit: cover;  /* Recorta la imagen para llenar el espacio sin deformar */
+    width: 60px;
+    height: 40px;
+    object-fit: cover;
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(225, 6, 0, 0.4);
-    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .timer {
@@ -118,12 +118,7 @@ header {
     text-transform: uppercase;
 }
 
-.filter-btn:hover {
-    border-color: var(--f1-red);
-    background: rgba(225, 6, 0, 0.1);
-}
-
-.filter-btn.active {
+.filter-btn:hover, .filter-btn.active {
     background: var(--f1-red);
     border-color: var(--f1-red);
     color: white;
@@ -170,55 +165,86 @@ header {
     100% { box-shadow: 0 0 10px rgba(225, 6, 0, 0.2); }
 }
 
+/* Cabecera con fondo de imagen difuminado */
 .card-header {
-    padding: 1.5rem; /* Un poco más alto para lucir la imagen */
+    height: 120px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.header-top {
     display: flex;
     justify-content: space-between;
+    width: 100%;
     align-items: center;
-    
-    /* PROPIEDADES PARA LA IMAGEN DE FONDO */
-    background-color: var(--card-bg); /* Color de respaldo */
-    background-size: cover;           /* La imagen cubre todo el header */
-    background-position: center;      /* Centrada */
-    background-repeat: no-repeat;
-    
-    /* Eliminamos el borde inferior para que se integre con la imagen */
-    border-bottom: none; 
-    
-    /* Sombra en el texto para mejorar legibilidad sobre imágenes claras */
-    text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+    z-index: 1; /* Por encima del degradado */
 }
 
 .round-num {
     font-size: 0.9rem;
-    /* Cambiamos el color a blanco para contraste sobre fondo oscuro */
     color: white; 
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    /* Añadimos un resplandor rojo para mantener la identidad F1 */
-    text-shadow: 0 0 10px var(--f1-red), 0 2px 5px rgba(0,0,0,0.8);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.9);
 }
 
-/* MODIFICADO: Bandera en las tarjetas (Tamaño uniforme) */
+.sprint-tag {
+    background: var(--f1-red);
+    color: white;
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
 .flag-img {
-    width: 54px;        /* Ancho fijo exacto */
-    height: 36px;       /* Alto fijo exacto (Ratio 3:2) */
-    object-fit: cover;  /* IMPORTANTE: Mantiene la proporción recortando sobrante */
+    width: 50px;
+    height: 33px;
+    object-fit: cover;
     border-radius: 4px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    background-color: #000; /* Fondo por si tarda en cargar la imagen */
+    z-index: 1;
 }
 
+/* --- CARD BODY --- */
 .card-body {
     padding: 1.5rem;
     flex-grow: 1;
 }
 
+.title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
 .card-body h3 {
-    font-size: 1.3rem;
-    margin-bottom: 5px;
-    line-height: 1.3;
+    font-size: 1.4rem;
+    margin-bottom: 0;
+    line-height: 1.2;
+    max-width: 75%;
+}
+
+.circuit-thumb {
+    width: 65px;
+    height: auto;
+    filter: brightness(0) invert(1); /* Pone el circuito en blanco */
+    opacity: 0.7;
+    transition: transform 0.3s ease;
+}
+
+.race-card:hover .circuit-thumb {
+    transform: scale(1.1);
+    opacity: 1;
 }
 
 .circuit-name {
@@ -231,8 +257,6 @@ header {
 .circuit-name i, .date-badge i {
     margin-right: 6px;
     color: var(--f1-red);
-    width: 15px;
-    text-align: center;
 }
 
 .date-badge {
@@ -246,6 +270,7 @@ header {
     margin-bottom: 20px;
 }
 
+/* --- LISTA DE SESIONES --- */
 .sessions-list {
     list-style: none;
     margin-top: auto;
@@ -274,6 +299,7 @@ header {
     color: var(--f1-red);
 }
 
+/* --- FOOTER --- */
 footer {
     text-align: center;
     padding: 3rem 1rem;
@@ -283,10 +309,11 @@ footer {
     background-color: #0b0b10;
 }
 
+/* --- RESPONSIVE --- */
 @media (max-width: 600px) {
     .header-content h1 { font-size: 1.8rem; }
     .timer { font-size: 2.5rem; }
+    #next-race-name { font-size: 1.3rem; flex-direction: column; }
     .grid-container { grid-template-columns: 1fr; }
+    .circuit-thumb { width: 50px; }
 }
-
-
