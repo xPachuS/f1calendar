@@ -39,7 +39,8 @@ async function loadRaces() {
         renderRaces('all'); 
         initCountdown();    
     } catch (error) {
-        grid.innerHTML = `<div class="error-msg">⚠️ Error: ${error.message}</div>`;
+        console.error(error);
+        grid.innerHTML = `<div class="error-msg" style="color:white; text-align:center; grid-column:1/-1;">⚠️ Error: ${error.message}</div>`;
     }
 }
 
@@ -64,30 +65,41 @@ function renderRaces(filter) {
         const humanDate = new Date(race.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
         const isoCode = emojiToIso[race.flag] || 'xx'; 
 
-        // Fondo dinámico
+        // Fondo dinámico del header
         const backgroundStyle = `linear-gradient(rgba(20, 20, 30, 0.75), rgba(20, 20, 30, 0.95)), url('${race.bg_image}')`;
 
         // Generar lista de sesiones
         const sessionsHTML = Object.entries(race.sessions).map(([key, value]) => `
             <li class="session-item ${key === 'race' ? 'main-race' : ''}">
-                <span>${sessionLabels[key]}</span>
+                <span>${sessionLabels[key] || key}</span>
                 <span>${value}</span>
             </li>
         `).join('');
 
         card.innerHTML = `
-            <div class="card-header" style="background-image: ${backgroundStyle}">
-                <div class="header-top">
-                    <span class="round-num">Ronda ${race.round}</span>
-                    ${race.is_sprint ? '<span class="sprint-tag">SPRINT WEEKEND</span>' : ''}
+            <div class="card-header" style="background-image: ${backgroundStyle}; background-size: cover; background-position: center;">
+                <div class="header-top" style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                    <div style="display: flex; flex-direction: column;">
+                        <span class="round-num" style="color: #e10600; font-weight: bold; font-size: 0.8em;">RONDA ${race.round}</span>
+                        ${race.is_sprint ? '<span class="sprint-tag" style="background: #e10600; color: white; font-size: 0.6em; padding: 2px 5px; border-radius: 3px; margin-top: 5px; width: fit-content;">SPRINT</span>' : ''}
+                    </div>
+                    <img src="https://flagcdn.com/w80/${isoCode}.png" class="flag-img" alt="Flag" style="width: 40px; border-radius: 3px;">
                 </div>
-                <img src="https://flagcdn.com/w80/${isoCode}.png" class="flag-img" alt="Flag">
             </div>
-            <div class="card-body">
-                <h3>${race.name}</h3>
-                <span class="circuit-name"><i class="fas fa-road"></i> ${race.circuit}</span>
-                <div class="date-badge"><i class="far fa-calendar-alt"></i> ${humanDate}</div>
-                <ul class="sessions-list">${sessionsHTML}</ul>
+            <div class="card-body" style="padding: 1.5rem; position: relative;">
+                <div class="title-row" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                    <h3 style="margin: 0; font-size: 1.4em; max-width: 70%;">${race.name}</h3>
+                    <img src="${race.circuit_image}" class="circuit-thumb" alt="Layout" style="width: 60px; filter: brightness(0) invert(1); opacity: 0.8;">
+                </div>
+                <span class="circuit-name" style="color: #a0a0a0; font-size: 0.9em; display: block; margin-bottom: 10px;">
+                    <i class="fas fa-road"></i> ${race.circuit}
+                </span>
+                <div class="date-badge" style="background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 5px; font-size: 0.85em; display: inline-block; margin-bottom: 15px;">
+                    <i class="far fa-calendar-alt"></i> ${humanDate}
+                </div>
+                <ul class="sessions-list" style="list-style: none; padding: 0; border-top: 1px solid #38383f; padding-top: 10px;">
+                    ${sessionsHTML}
+                </ul>
             </div>
         `;
         grid.appendChild(card);
@@ -121,7 +133,13 @@ function initCountdown() {
         }
 
         const iso = emojiToIso[next.flag];
-        name.innerHTML = `<img src="https://flagcdn.com/w80/${iso}.png" class="hero-flag"> ${next.name}`;
+        name.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+                <img src="https://flagcdn.com/w80/${iso}.png" class="hero-flag" style="width: 50px; border-radius: 5px;">
+                <span>${next.name}</span>
+                <img src="${next.circuit_image}" style="width: 50px; filter: brightness(0) invert(1);">
+            </div>
+        `;
 
         const target = new Date(`${next.date}T${next.sessions.race.split(' ')[1]}:00`);
         const dist = target - now;
@@ -147,6 +165,6 @@ function initCountdown() {
 // 4. FILTROS
 window.filterRaces = (type) => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
+    if (event) event.target.classList.add('active');
     renderRaces(type);
 };
