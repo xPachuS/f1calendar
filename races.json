@@ -66,7 +66,7 @@
         "date": "2026-05-24",
         "flag": "🇨🇦",
         "is_sprint": false,
-        "bg_image": "https://images.unsplash.com/photo-1519178173-e07323cb755e?q=80&w=1470&auto=format&fit=crop",
+        "bg_image": "https://cdn.authentik.com/canada/uploads/images/orig/dec_montreal/1-centre-ville-montreal.jpg?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 19:30", "fp2": "Vie 23:00", "fp3": "Sáb 18:30", "quali": "Sáb 22:00", "race": "Dom 20:00" }
     },
     {
@@ -152,11 +152,11 @@
     {
         "round": 16,
         "name": "GP de España (Madrid)",
-        "circuit": "IFEMA Madrid Circuit",
+        "circuit": "MADRING Circuit",
         "date": "2026-09-13",
         "flag": "🇪🇸",
         "is_sprint": false,
-        "bg_image": "https://images.unsplash.com/photo-1539037116277-4db208895724?q=80&w=1470&auto=format&fit=crop",
+        "bg_image": "https://cdn.prod.website-files.com/63b7026306af943f8e01771f/68ee54313a986a4456cbd519_bairros%20de%20madrid.webp?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 12:30", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
@@ -240,6 +240,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
