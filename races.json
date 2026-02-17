@@ -5,6 +5,7 @@
         "circuit": "Albert Park Circuit",
         "date": "2026-03-08",
         "flag": "🇦🇺",
+        "bg_image": "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 03:30", "fp2": "Vie 07:00", "quali": "Sáb 07:00", "race": "Dom 06:00" }
     },
     {
@@ -13,6 +14,7 @@
         "circuit": "Shanghai International Circuit",
         "date": "2026-03-15",
         "flag": "🇨🇳",
+        "bg_image": "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 04:30", "fp2": "Vie 08:30", "quali": "Sáb 08:30", "race": "Dom 08:00" }
     },
     {
@@ -21,6 +23,7 @@
         "circuit": "Suzuka International Racing Course",
         "date": "2026-03-29",
         "flag": "🇯🇵",
+        "bg_image": "https://images.unsplash.com/photo-1528360983277-4e6807f2f535?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 04:30", "fp2": "Vie 08:00", "quali": "Sáb 08:00", "race": "Dom 07:00" }
     },
     {
@@ -29,6 +32,7 @@
         "circuit": "Bahrain International Circuit",
         "date": "2026-04-12",
         "flag": "🇧🇭",
+        "bg_image": "https://images.unsplash.com/photo-1548684362-f55f894cb469?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 17:00", "race": "Dom 17:00" }
     },
     {
@@ -37,6 +41,7 @@
         "circuit": "Jeddah Corniche Circuit",
         "date": "2026-04-19",
         "flag": "🇸🇦",
+        "bg_image": "https://images.unsplash.com/photo-1580904762195-f261fb0c1943?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 15:30", "fp2": "Vie 19:00", "quali": "Sáb 19:00", "race": "Dom 19:00" }
     },
     {
@@ -45,6 +50,7 @@
         "circuit": "Miami International Autodrome",
         "date": "2026-05-03",
         "flag": "🇺🇸",
+        "bg_image": "https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 19:30", "fp2": "Vie 23:30", "quali": "Sáb 22:00", "race": "Dom 22:00" }
     },
     {
@@ -53,6 +59,7 @@
         "circuit": "Circuit Gilles-Villeneuve",
         "date": "2026-05-24",
         "flag": "🇨🇦",
+        "bg_image": "https://images.unsplash.com/photo-1519178173-e07323cb755e?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 19:30", "fp2": "Sáb 23:00", "quali": "Sáb 22:00", "race": "Dom 20:00" }
     },
     {
@@ -61,6 +68,7 @@
         "circuit": "Circuit de Monaco",
         "date": "2026-06-07",
         "flag": "🇲🇨",
+        "bg_image": "https://images.unsplash.com/photo-1558195833-d7a9442f1db4?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
@@ -69,6 +77,7 @@
         "circuit": "Circuit de Barcelona-Catalunya",
         "date": "2026-06-14",
         "flag": "🇪🇸",
+        "bg_image": "https://images.unsplash.com/photo-1583422409516-2895a77efded?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
@@ -77,6 +86,7 @@
         "circuit": "Red Bull Ring",
         "date": "2026-06-28",
         "flag": "🇦🇹",
+        "bg_image": "https://images.unsplash.com/photo-1516550893923-42d28e560341?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
@@ -85,6 +95,7 @@
         "circuit": "Silverstone Circuit",
         "date": "2026-07-05",
         "flag": "🇬🇧",
+        "bg_image": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 16:00" }
     },
     {
@@ -93,6 +104,7 @@
         "circuit": "Circuit de Spa-Francorchamps",
         "date": "2026-07-19",
         "flag": "🇧🇪",
+        "bg_image": "https://images.unsplash.com/photo-1637506534751-3085454c317d?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
@@ -101,6 +113,7 @@
         "circuit": "Hungaroring",
         "date": "2026-07-26",
         "flag": "🇭🇺",
+        "bg_image": "https://images.unsplash.com/photo-1565426873118-a17ed65d7429?q=80&w=1471&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
@@ -109,6 +122,7 @@
         "circuit": "Circuit Zandvoort",
         "date": "2026-08-23",
         "flag": "🇳🇱",
+        "bg_image": "https://images.unsplash.com/photo-1605212945811-5250b732b81a?q=80&w=1471&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 12:30", "fp2": "Vie 16:00", "quali": "Sáb 15:00", "race": "Dom 15:00" }
     },
     {
@@ -117,6 +131,7 @@
         "circuit": "Autodromo Nazionale Monza",
         "date": "2026-09-06",
         "flag": "🇮🇹",
+        "bg_image": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1286&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
@@ -125,6 +140,7 @@
         "circuit": "Circuito IFEMA Madrid",
         "date": "2026-09-13",
         "flag": "🇪🇸",
+        "bg_image": "https://images.unsplash.com/photo-1539037116277-4db208895724?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
@@ -133,6 +149,7 @@
         "circuit": "Baku City Circuit",
         "date": "2026-09-26",
         "flag": "🇦🇿",
+        "bg_image": "https://images.unsplash.com/photo-1601885337723-2da2fb56b249?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 11:30", "fp2": "Vie 15:00", "quali": "Sáb 14:00", "race": "Dom 13:00" }
     },
     {
@@ -141,6 +158,7 @@
         "circuit": "Marina Bay Street Circuit",
         "date": "2026-10-11",
         "flag": "🇸🇬",
+        "bg_image": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 11:30", "fp2": "Vie 15:00", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     },
     {
@@ -149,6 +167,7 @@
         "circuit": "Circuit of The Americas",
         "date": "2026-10-25",
         "flag": "🇺🇸",
+        "bg_image": "https://images.unsplash.com/photo-1534270804882-6b5048b1c1fc?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 19:30", "fp2": "Vie 23:00", "quali": "Sáb 23:00", "race": "Dom 21:00" }
     },
     {
@@ -157,6 +176,7 @@
         "circuit": "Autódromo Hermanos Rodríguez",
         "date": "2026-11-01",
         "flag": "🇲🇽",
+        "bg_image": "https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 20:30", "fp2": "Sáb 00:00", "quali": "Sáb 23:00", "race": "Dom 21:00" }
     },
     {
@@ -165,6 +185,7 @@
         "circuit": "Autódromo José Carlos Pace",
         "date": "2026-11-08",
         "flag": "🇧🇷",
+        "bg_image": "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 15:30", "fp2": "Vie 19:00", "quali": "Sáb 19:00", "race": "Dom 18:00" }
     },
     {
@@ -173,6 +194,7 @@
         "circuit": "Las Vegas Strip Circuit",
         "date": "2026-11-21",
         "flag": "🇺🇸",
+        "bg_image": "https://images.unsplash.com/photo-1605833556294-ea5c7a74f57d?q=80&w=1474&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 03:30", "fp2": "Vie 07:00", "quali": "Sáb 07:00", "race": "Dom 07:00" }
     },
     {
@@ -181,6 +203,7 @@
         "circuit": "Lusail International Circuit",
         "date": "2026-11-29",
         "flag": "🇶🇦",
+        "bg_image": "https://images.unsplash.com/photo-1594322436404-5a0526db4d13?q=80&w=1429&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 12:30", "fp2": "Vie 16:00", "quali": "Sáb 16:00", "race": "Dom 17:00" }
     },
     {
@@ -189,6 +212,7 @@
         "circuit": "Yas Marina Circuit",
         "date": "2026-12-06",
         "flag": "🇦🇪",
+        "bg_image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
