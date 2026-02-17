@@ -208,6 +208,36 @@ header {
     line-height: 1.3;
 }
 
+.card-header {
+    padding: 1.5rem; /* Un poco más alto para lucir la imagen */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    /* PROPIEDADES PARA LA IMAGEN DE FONDO */
+    background-color: var(--card-bg); /* Color de respaldo */
+    background-size: cover;           /* La imagen cubre todo el header */
+    background-position: center;      /* Centrada */
+    background-repeat: no-repeat;
+    
+    /* Eliminamos el borde inferior para que se integre con la imagen */
+    border-bottom: none; 
+    
+    /* Sombra en el texto para mejorar legibilidad sobre imágenes claras */
+    text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+}
+
+.round-num {
+    font-size: 0.9rem;
+    /* Cambiamos el color a blanco para contraste sobre fondo oscuro */
+    color: white; 
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    /* Añadimos un resplandor rojo para mantener la identidad F1 */
+    text-shadow: 0 0 10px var(--f1-red), 0 2px 5px rgba(0,0,0,0.8);
+}
+
 .circuit-name {
     color: var(--text-dim);
     font-size: 0.9rem;
@@ -275,3 +305,4 @@ footer {
     .timer { font-size: 2.5rem; }
     .grid-container { grid-template-columns: 1fr; }
 }
+
