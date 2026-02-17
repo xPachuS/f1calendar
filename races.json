@@ -158,7 +158,7 @@
         "circuit": "Marina Bay Street Circuit",
         "date": "2026-10-11",
         "flag": "🇸🇬",
-        "bg_image": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=1470&auto=format&fit=crop",
+        "bg_image": "https://www.viajarsingapur.com/img/que-visitar.jpg?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 11:30", "fp2": "Vie 15:00", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     },
     {
@@ -216,6 +216,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
