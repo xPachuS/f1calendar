@@ -203,7 +203,7 @@
         "circuit": "Lusail International Circuit",
         "date": "2026-11-29",
         "flag": "🇶🇦",
-        "bg_image": "https://images.unsplash.com/photo-1594322436404-5a0526db4d13?q=80&w=1429&auto=format&fit=crop",
+        "bg_image": "https://images.trvl-media.com/place/6361053/b3f7cfde-2031-4df4-8afc-4db6d101ae6b.jpg?q=80&w=1429&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 12:30", "fp2": "Vie 16:00", "quali": "Sáb 16:00", "race": "Dom 17:00" }
     },
     {
@@ -216,6 +216,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
