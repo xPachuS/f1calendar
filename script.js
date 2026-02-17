@@ -1,6 +1,6 @@
 /**
  * Lógica principal para F1 Calendario 2026
- * Maneja carga de datos JSON, renderizado y cuenta atrás.
+ * Maneja carga de datos JSON, renderizado de tarjetas con imágenes y cuenta atrás.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -78,16 +78,17 @@ function renderRaces(filter) {
             card.classList.add('next-race-highlight');
         }
 
-        // Parsear fecha para mostrarla bonita
+        // Parsear fecha para mostrarla bonita (Ej: 8 de marzo)
         const humanDate = new Date(race.date).toLocaleDateString('es-ES', { 
             day: 'numeric', 
             month: 'long' 
         });
 
+        // NOTA: Aquí generamos la imagen de la bandera usando el código (race.flag)
         card.innerHTML = `
             <div class="card-header">
                 <span class="round-num">Ronda ${race.round}</span>
-                <span class="flag">${race.flag}</span>
+                <img src="https://flagcdn.com/w80/${race.flag}.png" alt="Bandera ${race.flag}" class="flag-img">
             </div>
             <div class="card-body">
                 <h3>${race.name}</h3>
@@ -116,8 +117,7 @@ function isImmediateNext(race) {
     raceDateTime.setHours(raceDateTime.getHours() + 2);
     
     // Si la fecha es futura y es la primera en la lista que cumple...
-    // (Esta lógica es simplificada para visualización, el countdown es más preciso)
-    return raceDateTime > now && raceDateTime < new Date(now.getTime() + (7 * 24 * 60 * 60 * 1000));
+    return raceDateTime > now && raceDateTime < new Date(now.getTime() + (14 * 24 * 60 * 60 * 1000));
 }
 
 // --- 3. LÓGICA DEL COUNTDOWN ---
@@ -129,7 +129,6 @@ function initCountdown() {
         const now = new Date();
         
         // 1. Encontrar la próxima carrera
-        // Filtramos las carreras que aún no han terminado (Fecha + Hora carrera + 2h margen)
         const upcomingRace = db_races.find(r => {
             const timeStr = r.sessions.race.split(' ')[1]; // Extraer hora "06:00"
             const raceEndObj = new Date(`${r.date}T${timeStr}:00`);
@@ -143,8 +142,11 @@ function initCountdown() {
             return;
         }
 
-        // 2. Mostrar datos de la próxima
-        nextRaceNameEl.innerHTML = `<span style="font-size:1.2em; margin-right:10px;">${upcomingRace.flag}</span> ${upcomingRace.name}`;
+        // 2. Mostrar datos de la próxima (Con bandera pequeña)
+        nextRaceNameEl.innerHTML = `
+            <img src="https://flagcdn.com/w40/${upcomingRace.flag}.png" style="vertical-align: middle; margin-right: 10px; border-radius: 4px;">
+            ${upcomingRace.name}
+        `;
 
         // 3. Calcular tiempo restante
         const timeStr = upcomingRace.sessions.race.split(' ')[1];
@@ -184,7 +186,7 @@ window.filterRaces = function(type) {
     // Gestión de clases CSS 'active'
     document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
     
-    // Identificar botón pulsado (truco para encontrar el botón correcto)
+    // Identificar botón pulsado
     const buttons = document.querySelectorAll('.filter-btn');
     buttons.forEach(btn => {
         if(btn.getAttribute('onclick').includes(type)) {
