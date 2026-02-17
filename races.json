@@ -7,13 +7,7 @@
         "flag": "🇦🇺",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 03:30",
-            "fp2": "Vie 07:00",
-            "fp3": "Sáb 03:30",
-            "quali": "Sáb 07:00",
-            "race": "Dom 06:00"
-        }
+        "sessions": { "fp1": "Vie 02:30", "fp2": "Vie 06:00", "fp3": "Sáb 02:30", "quali": "Sáb 06:00", "race": "Dom 05:00" }
     },
     {
         "round": 2,
@@ -23,13 +17,7 @@
         "flag": "🇨🇳",
         "is_sprint": true,
         "bg_image": "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 04:30",
-            "sprint_quali": "Vie 08:30",
-            "sprint_race": "Sáb 04:00",
-            "quali": "Sáb 08:00",
-            "race": "Dom 08:00"
-        }
+        "sessions": { "fp1": "Vie 04:30", "sprint_quali": "Vie 08:30", "sprint_race": "Sáb 04:00", "quali": "Sáb 08:00", "race": "Dom 08:00" }
     },
     {
         "round": 3,
@@ -38,14 +26,8 @@
         "date": "2026-03-29",
         "flag": "🇯🇵",
         "is_sprint": false,
-        "bg_image": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1471&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 04:30",
-            "fp2": "Vie 08:00",
-            "fp3": "Sáb 04:30",
-            "quali": "Sáb 08:00",
-            "race": "Dom 07:00"
-        }
+        "bg_image": "https://images.unsplash.com/photo-1490806843928-8f7a74d2b450?q=80&w=1470&auto=format&fit=crop",
+        "sessions": { "fp1": "Vie 04:30", "fp2": "Vie 08:00", "fp3": "Sáb 04:30", "quali": "Sáb 08:00", "race": "Dom 07:00" }
     },
     {
         "round": 4,
@@ -55,13 +37,7 @@
         "flag": "🇧🇭",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1569431804938-27b9264c393b?q=80&w=1000&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 13:30",
-            "fp2": "Vie 17:00",
-            "fp3": "Sáb 13:30",
-            "quali": "Sáb 17:00",
-            "race": "Dom 17:00"
-        }
+        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 13:30", "quali": "Sáb 17:00", "race": "Dom 17:00" }
     },
     {
         "round": 5,
@@ -71,13 +47,7 @@
         "flag": "🇸🇦",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1580904762195-f261fb0c1943?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 15:30",
-            "fp2": "Vie 19:00",
-            "fp3": "Sáb 15:30",
-            "quali": "Sáb 19:00",
-            "race": "Dom 19:00"
-        }
+        "sessions": { "fp1": "Vie 15:30", "fp2": "Vie 19:00", "fp3": "Sáb 15:30", "quali": "Sáb 19:00", "race": "Dom 19:00" }
     },
     {
         "round": 6,
@@ -87,61 +57,37 @@
         "flag": "🇺🇸",
         "is_sprint": true,
         "bg_image": "https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 18:30",
-            "sprint_quali": "Vie 22:30",
-            "sprint_race": "Sáb 18:00",
-            "quali": "Sáb 22:00",
-            "race": "Dom 22:00"
-        }
+        "sessions": { "fp1": "Vie 18:30", "sprint_quali": "Vie 22:30", "sprint_race": "Sáb 18:00", "quali": "Sáb 22:00", "race": "Dom 22:00" }
     },
     {
         "round": 7,
-        "name": "GP de Mónaco",
-        "circuit": "Circuit de Monaco",
-        "date": "2026-05-24",
-        "flag": "🇲🇨",
-        "is_sprint": false,
-        "bg_image": "https://images.unsplash.com/photo-1555992828-ca4dbe893e55?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 13:30",
-            "fp2": "Vie 17:00",
-            "fp3": "Sáb 12:30",
-            "quali": "Sáb 16:00",
-            "race": "Dom 15:00"
-        }
-    },
-    {
-        "round": 8,
-        "name": "GP de Barcelona-Catalunya",
-        "circuit": "Circuit de Montmeló",
-        "date": "2026-06-07",
-        "flag": "🇪🇸",
-        "is_sprint": false,
-        "bg_image": "https://images.unsplash.com/photo-1583422409516-2895a77efded?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 13:30",
-            "fp2": "Vie 17:00",
-            "fp3": "Sáb 12:30",
-            "quali": "Sáb 16:00",
-            "race": "Dom 15:00"
-        }
-    },
-    {
-        "round": 9,
         "name": "GP de Canadá",
         "circuit": "Gilles-Villeneuve",
-        "date": "2026-06-14",
+        "date": "2026-05-24",
         "flag": "🇨🇦",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1519178173-e07323cb755e?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 19:30",
-            "fp2": "Vie 23:00",
-            "fp3": "Sáb 18:30",
-            "quali": "Sáb 22:00",
-            "race": "Dom 20:00"
-        }
+        "sessions": { "fp1": "Vie 19:30", "fp2": "Vie 23:00", "fp3": "Sáb 18:30", "quali": "Sáb 22:00", "race": "Dom 20:00" }
+    },
+    {
+        "round": 8,
+        "name": "GP de Mónaco",
+        "circuit": "Circuit de Monaco",
+        "date": "2026-06-07",
+        "flag": "🇲🇨",
+        "is_sprint": false,
+        "bg_image": "https://as2.ftcdn.net/v2/jpg/02/25/65/85/1000_F_225658538_i9YynnJhc0LTQFTnE9C71i2SvE6lG87p.jpg?q=80&w=1470&auto=format&fit=crop",
+        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 12:30", "quali": "Sáb 16:00", "race": "Dom 15:00" }
+    },
+    {
+        "round": 9,
+        "name": "GP de Barcelona",
+        "circuit": "Circuit de Montmeló",
+        "date": "2026-06-14",
+        "flag": "🇪🇸",
+        "is_sprint": false,
+        "bg_image": "https://images.unsplash.com/photo-1583422409516-2895a77efded?q=80&w=1470&auto=format&fit=crop",
+        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 12:30", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
         "round": 10,
@@ -150,14 +96,8 @@
         "date": "2026-06-28",
         "flag": "🇦🇹",
         "is_sprint": true,
-        "bg_image": "https://images.unsplash.com/photo-1566412140134-2e9095690b20?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 13:30",
-            "sprint_quali": "Vie 16:30",
-            "sprint_race": "Sáb 12:00",
-            "quali": "Sáb 16:00",
-            "race": "Dom 15:00"
-        }
+        "bg_image": "https://tr2storage.blob.core.windows.net/imagenes/FSKMHeo0hvdeezenYjQp3yEQ.jpg?q=80&w=1470&auto=format&fit=crop",
+        "sessions": { "fp1": "Vie 12:30", "sprint_quali": "Vie 16:30", "sprint_race": "Sáb 12:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
         "round": 11,
@@ -167,13 +107,7 @@
         "flag": "🇬🇧",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 13:30",
-            "fp2": "Vie 17:00",
-            "fp3": "Sáb 12:30",
-            "quali": "Sáb 16:00",
-            "race": "Dom 16:00"
-        }
+        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 12:30", "quali": "Sáb 16:00", "race": "Dom 16:00" }
     },
     {
         "round": 12,
@@ -182,14 +116,8 @@
         "date": "2026-07-19",
         "flag": "🇧🇪",
         "is_sprint": true,
-        "bg_image": "https://images.unsplash.com/photo-1596464716127-f2a82984de30?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 13:30",
-            "sprint_quali": "Vie 17:30",
-            "sprint_race": "Sáb 13:00",
-            "quali": "Sáb 17:00",
-            "race": "Dom 15:00"
-        }
+        "bg_image": "https://traveltomorrow.com/wp-content/uploads/2021/07/Spa-Belgium.png?q=80&w=1470&auto=format&fit=crop",
+        "sessions": { "fp1": "Vie 13:30", "sprint_quali": "Vie 17:30", "sprint_race": "Sáb 13:00", "quali": "Sáb 17:00", "race": "Dom 15:00" }
     },
     {
         "round": 13,
@@ -198,46 +126,28 @@
         "date": "2026-07-26",
         "flag": "🇭🇺",
         "is_sprint": false,
-        "bg_image": "https://images.unsplash.com/photo-1551867633-194f125bddfa?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 13:30",
-            "fp2": "Vie 17:00",
-            "fp3": "Sáb 12:30",
-            "quali": "Sáb 16:00",
-            "race": "Dom 15:00"
-        }
+        "bg_image": "https://stories.weroad.es/wp-content/uploads/2024/02/viaje-que-ver-en-budapest.jpg?q=80&w=1471&auto=format&fit=crop",
+        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 12:30", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
         "round": 14,
         "name": "GP de Países Bajos",
-        "circuit": "Zandvoort Circuit",
+        "circuit": "Circuit Zandvoort",
         "date": "2026-08-23",
         "flag": "🇳🇱",
         "is_sprint": false,
-        "bg_image": "https://images.unsplash.com/photo-1469065990520-410080644342?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 12:30",
-            "fp2": "Vie 16:00",
-            "fp3": "Sáb 11:30",
-            "quali": "Sáb 15:00",
-            "race": "Dom 15:00"
-        }
+        "bg_image": "https://cdn.sanity.io/images/nxpteyfv/goguides/2a049d02cea169825831a1987fa795fe2fae3fee-1600x1066.jpg?q=80&w=1471&auto=format&fit=crop",
+        "sessions": { "fp1": "Vie 12:30", "fp2": "Vie 16:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 15:00" }
     },
     {
         "round": 15,
         "name": "GP de Italia",
         "circuit": "Monza Circuit",
-        "date": "2026-08-30",
+        "date": "2026-09-06",
         "flag": "🇮🇹",
         "is_sprint": false,
-        "bg_image": "https://images.unsplash.com/photo-1520118182670-81d3741f5d53?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 13:30",
-            "fp2": "Vie 17:00",
-            "fp3": "Sáb 12:30",
-            "quali": "Sáb 16:00",
-            "race": "Dom 15:00"
-        }
+        "bg_image": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1286&auto=format&fit=crop",
+        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 12:30", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
         "round": 16,
@@ -247,77 +157,47 @@
         "flag": "🇪🇸",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1539037116277-4db208895724?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 13:30",
-            "fp2": "Vie 17:00",
-            "fp3": "Sáb 12:30",
-            "quali": "Sáb 16:00",
-            "race": "Dom 15:00"
-        }
+        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 12:30", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
         "round": 17,
         "name": "GP de Azerbaiyán",
         "circuit": "Baku City Circuit",
-        "date": "2026-09-20",
+        "date": "2026-09-26",
         "flag": "🇦🇿",
         "is_sprint": false,
-        "bg_image": "https://images.unsplash.com/photo-1543160732-2d159b2011b0?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 11:30",
-            "fp2": "Vie 15:00",
-            "fp3": "Sáb 10:30",
-            "quali": "Sáb 14:00",
-            "race": "Dom 13:00"
-        }
+        "bg_image": "https://keystoneacademic-res.cloudinary.com/image/upload/v1696411259/articles/educationscom/article-hero-image-2991.jpg?q=80&w=1470&auto=format&fit=crop",
+        "sessions": { "fp1": "Vie 11:30", "fp2": "Vie 15:00", "fp3": "Sáb 10:30", "quali": "Sáb 14:00", "race": "Dom 13:00" }
     },
     {
         "round": 18,
         "name": "GP de Singapur",
         "circuit": "Marina Bay Street",
-        "date": "2026-10-04",
+        "date": "2026-10-11",
         "flag": "🇸🇬",
         "is_sprint": false,
-        "bg_image": "https://images.unsplash.com/photo-1525625232717-121ad3108154?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 11:30",
-            "fp2": "Vie 15:00",
-            "fp3": "Sáb 11:30",
-            "quali": "Sáb 15:00",
-            "race": "Dom 14:00"
-        }
+        "bg_image": "https://www.viajarsingapur.com/img/que-visitar.jpg?q=80&w=1470&auto=format&fit=crop",
+        "sessions": { "fp1": "Vie 11:30", "fp2": "Vie 15:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     },
     {
         "round": 19,
         "name": "GP de Estados Unidos",
         "circuit": "COTA Austin",
-        "date": "2026-10-18",
+        "date": "2026-10-25",
         "flag": "🇺🇸",
         "is_sprint": true,
         "bg_image": "https://images.unsplash.com/photo-1534270804882-6b5048b1c1fc?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 19:30",
-            "sprint_quali": "Vie 23:30",
-            "sprint_race": "Sáb 20:00",
-            "quali": "Sáb 23:59",
-            "race": "Dom 21:00"
-        }
+        "sessions": { "fp1": "Vie 19:30", "sprint_quali": "Vie 23:30", "sprint_race": "Sáb 20:00", "quali": "Sáb 23:59", "race": "Dom 21:00" }
     },
     {
         "round": 20,
         "name": "GP de México",
         "circuit": "Hermanos Rodríguez",
-        "date": "2026-10-25",
+        "date": "2026-11-01",
         "flag": "🇲🇽",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 20:30",
-            "fp2": "Sáb 00:00",
-            "fp3": "Sáb 19:30",
-            "quali": "Sáb 23:00",
-            "race": "Dom 21:00"
-        }
+        "sessions": { "fp1": "Vie 20:30", "fp2": "Sáb 00:00", "fp3": "Sáb 19:30", "quali": "Sáb 23:00", "race": "Dom 21:00" }
     },
     {
         "round": 21,
@@ -327,13 +207,7 @@
         "flag": "🇧🇷",
         "is_sprint": true,
         "bg_image": "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 15:30",
-            "sprint_quali": "Vie 19:30",
-            "sprint_race": "Sáb 15:00",
-            "quali": "Sáb 19:00",
-            "race": "Dom 18:00"
-        }
+        "sessions": { "fp1": "Vie 15:30", "sprint_quali": "Vie 19:30", "sprint_race": "Sáb 15:00", "quali": "Sáb 19:00", "race": "Dom 18:00" }
     },
     {
         "round": 22,
@@ -343,13 +217,7 @@
         "flag": "🇺🇸",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1605833556294-ea5c7a74f57d?q=80&w=1474&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 03:30",
-            "fp2": "Vie 07:00",
-            "fp3": "Sáb 03:30",
-            "quali": "Sáb 07:00",
-            "race": "Dom 07:00"
-        }
+        "sessions": { "fp1": "Vie 03:30", "fp2": "Vie 07:00", "fp3": "Sáb 03:30", "quali": "Sáb 07:00", "race": "Dom 07:00" }
     },
     {
         "round": 23,
@@ -358,14 +226,8 @@
         "date": "2026-11-29",
         "flag": "🇶🇦",
         "is_sprint": true,
-        "bg_image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 12:30",
-            "sprint_quali": "Vie 16:30",
-            "sprint_race": "Sáb 13:00",
-            "quali": "Sáb 17:00",
-            "race": "Dom 17:00"
-        }
+        "bg_image": "https://images.trvl-media.com/place/6361053/b3f7cfde-2031-4df4-8afc-4db6d101ae6b.jpg?q=80&w=1429&auto=format&fit=crop",
+        "sessions": { "fp1": "Vie 12:30", "sprint_quali": "Vie 16:30", "sprint_race": "Sáb 13:00", "quali": "Sáb 17:00", "race": "Dom 17:00" }
     },
     {
         "round": 24,
@@ -374,13 +236,7 @@
         "date": "2026-12-06",
         "flag": "🇦🇪",
         "is_sprint": false,
-        "bg_image": "https://images.unsplash.com/photo-1534008133332-68c37d3f827f?q=80&w=1470&auto=format&fit=crop",
-        "sessions": {
-            "fp1": "Vie 10:30",
-            "fp2": "Vie 14:00",
-            "fp3": "Sáb 11:30",
-            "quali": "Sáb 15:00",
-            "race": "Dom 14:00"
-        }
+        "bg_image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1470&auto=format&fit=crop",
+        "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
