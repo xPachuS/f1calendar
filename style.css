@@ -1,0 +1,155 @@
+:root {
+    --f1-red: #e10600;
+    --dark-bg: #15151e;
+    --card-bg: #1f1f2b;
+    --text-light: #f1f1f1;
+    --text-dim: #a0a0a0;
+    --accent: #38383f;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Titillium Web', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background: linear-gradient(to right, #000 0%, var(--f1-red) 100%);
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 4px solid white;
+}
+
+.f1-red { color: var(--f1-red); background: white; padding: 0 5px; border-radius: 4px; }
+
+/* Countdown Hero */
+.hero-countdown {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'), #111;
+    border-bottom: 1px solid var(--accent);
+}
+
+.timer {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--f1-red);
+    font-variant-numeric: tabular-nums;
+    margin-top: 10px;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 2rem 0;
+}
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid var(--text-dim);
+    color: var(--text-light);
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: inherit;
+    font-weight: 600;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background: var(--f1-red);
+    border-color: var(--f1-red);
+}
+
+/* Grid Layout */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 50px;
+}
+
+/* Race Card */
+.race-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 3px solid transparent;
+}
+
+.race-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    border-top: 3px solid var(--f1-red);
+}
+
+.card-header {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.03);
+}
+
+.round-num {
+    font-size: 0.9rem;
+    color: var(--f1-red);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.flag { font-size: 1.5rem; }
+
+.card-body { padding: 1.5rem; }
+
+.card-body h3 { font-size: 1.4rem; margin-bottom: 5px; }
+.circuit-name { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 15px; display: block; }
+
+.sessions-list {
+    list-style: none;
+    margin-top: 15px;
+    border-top: 1px solid var(--accent);
+    padding-top: 10px;
+}
+
+.session-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    color: var(--text-dim);
+}
+
+.session-item.main-race {
+    color: var(--text-light);
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--accent);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .timer { font-size: 2rem; }
+    .header-content h1 { font-size: 1.5rem; }
+}

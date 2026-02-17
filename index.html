@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Calendario 2026 - Temporada Oficial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1><span class="f1-red">F1</span> CALENDARIO 2026</h1>
+            <p>Horarios oficiales en tiempo de España (CET/CEST)</p>
+        </div>
+    </header>
+
+    <div class="hero-countdown">
+        <h2>PRÓXIMA CARRERA</h2>
+        <div id="next-race-name">Cargando...</div>
+        <div id="countdown" class="timer">00d 00h 00m 00s</div>
+    </div>
+
+    <main>
+        <div class="controls">
+            <button class="filter-btn active" onclick="filterRaces('all')">Todo</button>
+            <button class="filter-btn" onclick="filterRaces('upcoming')">Próximas</button>
+            <button class="filter-btn" onclick="filterRaces('completed')">Completadas</button>
+        </div>
+
+        <section id="races-grid" class="grid-container">
+            </section>
+    </main>
+
+    <footer>
+        <p>Desarrollado con pasión para la F1 | Temporada 2026</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
