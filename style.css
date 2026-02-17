@@ -5,6 +5,7 @@
     --text-light: #f1f1f1;
     --text-dim: #a0a0a0;
     --accent: #38383f;
+    --glass: rgba(255, 255, 255, 0.05);
 }
 
 * {
@@ -18,117 +19,225 @@ body {
     background-color: var(--dark-bg);
     color: var(--text-light);
     line-height: 1.6;
+    overflow-x: hidden; /* Prevenir scroll horizontal accidental */
 }
 
-/* Header */
+/* --- HEADER --- */
 header {
-    background: linear-gradient(to right, #000 0%, var(--f1-red) 100%);
-    padding: 2rem;
+    background: linear-gradient(135deg, #000 0%, var(--f1-red) 120%);
+    padding: 2rem 1rem;
     text-align: center;
     border-bottom: 4px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-.f1-red { color: var(--f1-red); background: white; padding: 0 5px; border-radius: 4px; }
+.header-content h1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
 
-/* Countdown Hero */
+.f1-red { 
+    color: var(--f1-red); 
+    background: white; 
+    padding: 0 8px; 
+    border-radius: 4px;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+/* --- HERO COUNTDOWN --- */
 .hero-countdown {
     text-align: center;
     padding: 3rem 1rem;
-    background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'), #111;
+    background-color: #0b0b10;
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23222' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
     border-bottom: 1px solid var(--accent);
 }
 
-.timer {
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--f1-red);
-    font-variant-numeric: tabular-nums;
-    margin-top: 10px;
+.hero-countdown h2 {
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 10px;
 }
 
-/* Controls */
+/* Nombre de la carrera y bandera en el Hero */
+#next-race-name {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Separación entre bandera y texto */
+}
+
+.timer {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--f1-red);
+    font-variant-numeric: tabular-nums; /* Evita que los números salten al cambiar */
+    margin-top: 10px;
+    text-shadow: 0 0 20px rgba(225, 6, 0, 0.4);
+}
+
+/* --- CONTROLES / FILTROS --- */
 .controls {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap; /* Para móviles */
     gap: 15px;
-    margin: 2rem 0;
+    margin: 2.5rem 0;
+    padding: 0 1rem;
 }
 
 .filter-btn {
     background: transparent;
     border: 1px solid var(--text-dim);
     color: var(--text-light);
-    padding: 8px 20px;
-    border-radius: 20px;
+    padding: 10px 24px;
+    border-radius: 30px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
     font-family: inherit;
     font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
 }
 
-.filter-btn:hover, .filter-btn.active {
+.filter-btn:hover {
+    border-color: var(--f1-red);
+    background: rgba(225, 6, 0, 0.1);
+}
+
+.filter-btn.active {
     background: var(--f1-red);
     border-color: var(--f1-red);
+    color: white;
+    box-shadow: 0 0 15px rgba(225, 6, 0, 0.4);
 }
 
-/* Grid Layout */
+/* --- GRID LAYOUT --- */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px 50px;
+    padding: 0 20px 80px;
 }
 
-/* Race Card */
+/* --- TARJETA DE CARRERA (Race Card) --- */
 .race-card {
     background-color: var(--card-bg);
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-top: 3px solid transparent;
+    border-top: 4px solid transparent; /* Borde invisible por defecto */
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .race-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    border-top: 3px solid var(--f1-red);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    border-top: 4px solid var(--f1-red);
 }
 
+/* Estilo especial para la próxima carrera (Highlight) */
+.next-race-highlight {
+    border: 2px solid var(--f1-red);
+    box-shadow: 0 0 20px rgba(225, 6, 0, 0.2);
+    animation: pulseBorder 3s infinite;
+}
+
+@keyframes pulseBorder {
+    0% { box-shadow: 0 0 10px rgba(225, 6, 0, 0.2); }
+    50% { box-shadow: 0 0 20px rgba(225, 6, 0, 0.5); }
+    100% { box-shadow: 0 0 10px rgba(225, 6, 0, 0.2); }
+}
+
+/* Cabecera de la tarjeta */
 .card-header {
-    padding: 1.5rem;
+    padding: 1.2rem 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255,255,255,0.03);
+    background: var(--glass);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .round-num {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--f1-red);
     font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.flag { font-size: 1.5rem; }
+/* Estilo para la imagen de la bandera */
+.flag-img {
+    width: 48px;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    object-fit: cover;
+}
 
-.card-body { padding: 1.5rem; }
+/* Cuerpo de la tarjeta */
+.card-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+}
 
-.card-body h3 { font-size: 1.4rem; margin-bottom: 5px; }
-.circuit-name { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 15px; display: block; }
+.card-body h3 {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    line-height: 1.3;
+}
 
+.circuit-name {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.circuit-name i, .date-badge i {
+    margin-right: 6px;
+    color: var(--f1-red);
+    width: 15px;
+    text-align: center;
+}
+
+/* Badge de fecha */
+.date-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+/* Lista de sesiones */
 .sessions-list {
     list-style: none;
-    margin-top: 15px;
+    margin-top: auto; /* Empuja la lista hacia abajo */
     border-top: 1px solid var(--accent);
-    padding-top: 10px;
+    padding-top: 15px;
 }
 
 .session-item {
     display: flex;
     justify-content: space-between;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin-bottom: 8px;
     color: var(--text-dim);
 }
@@ -136,20 +245,30 @@ header {
 .session-item.main-race {
     color: var(--text-light);
     font-weight: 700;
-    margin-top: 10px;
+    font-size: 0.95rem;
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(255,255,255,0.1);
 }
 
-/* Footer */
+.session-item.main-race span:last-child {
+    color: var(--f1-red);
+}
+
+/* --- FOOTER --- */
 footer {
     text-align: center;
-    padding: 2rem;
+    padding: 3rem 1rem;
     color: var(--text-dim);
     font-size: 0.8rem;
     border-top: 1px solid var(--accent);
+    background-color: #0b0b10;
 }
 
-/* Responsive */
+/* --- RESPONSIVE --- */
 @media (max-width: 600px) {
-    .timer { font-size: 2rem; }
-    .header-content h1 { font-size: 1.5rem; }
+    .header-content h1 { font-size: 1.8rem; }
+    .timer { font-size: 2.5rem; }
+    #next-race-name { font-size: 1.3rem; flex-direction: column; }
+    .grid-container { grid-template-columns: 1fr; }
 }
