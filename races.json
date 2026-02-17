@@ -59,7 +59,7 @@
         "circuit": "Circuit Gilles-Villeneuve",
         "date": "2026-05-24",
         "flag": "🇨🇦",
-        "bg_image": "https://images.unsplash.com/photo-1519178173-e07323cb755e?q=80&w=1470&auto=format&fit=crop",
+        "bg_image": "https://cdn.authentik.com/canada/uploads/images/orig/dec_montreal/1-centre-ville-montreal.jpg?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 19:30", "fp2": "Sáb 23:00", "quali": "Sáb 22:00", "race": "Dom 20:00" }
     },
     {
@@ -68,7 +68,7 @@
         "circuit": "Circuit de Monaco",
         "date": "2026-06-07",
         "flag": "🇲🇨",
-        "bg_image": "https://images.unsplash.com/photo-1558195833-d7a9442f1db4?q=80&w=1470&auto=format&fit=crop",
+        "bg_image": "https://as2.ftcdn.net/v2/jpg/02/25/65/85/1000_F_225658538_i9YynnJhc0LTQFTnE9C71i2SvE6lG87p.jpg?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
@@ -216,6 +216,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
