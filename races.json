@@ -81,7 +81,7 @@
     },
     {
         "round": 9,
-        "name": "GP de Barcelona",
+        "name": "GP de Barcelona-Catalunya",
         "circuit": "Circuit de Montmeló",
         "date": "2026-06-14",
         "flag": "🇪🇸",
@@ -151,7 +151,7 @@
     },
     {
         "round": 16,
-        "name": "GP de España (Madrid)",
+        "name": "GP de España",
         "circuit": "MADRING Circuit",
         "date": "2026-09-13",
         "flag": "🇪🇸",
@@ -240,6 +240,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
