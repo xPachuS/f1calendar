@@ -86,7 +86,7 @@
         "circuit": "Red Bull Ring",
         "date": "2026-06-28",
         "flag": "🇦🇹",
-        "bg_image": "https://images.unsplash.com/photo-1516550893923-42d28e560341?q=80&w=1470&auto=format&fit=crop",
+        "bg_image": "https://tr2storage.blob.core.windows.net/imagenes/FSKMHeo0hvdeezenYjQp3yEQ.jpg?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
@@ -104,7 +104,7 @@
         "circuit": "Circuit de Spa-Francorchamps",
         "date": "2026-07-19",
         "flag": "🇧🇪",
-        "bg_image": "https://images.unsplash.com/photo-1637506534751-3085454c317d?q=80&w=1470&auto=format&fit=crop",
+        "bg_image": "https://traveltomorrow.com/wp-content/uploads/2021/07/Spa-Belgium.png?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
@@ -216,6 +216,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
