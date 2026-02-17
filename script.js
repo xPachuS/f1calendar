@@ -80,7 +80,7 @@ function renderRaces(filter) {
             <div class="card-header" style="background-image: ${backgroundStyle}">
                 <div class="header-top">
                     <span class="round-num">Ronda ${race.round}</span>
-                    ${race.is_sprint ? '<span style="background:var(--f1-red); padding:2px 8px; border-radius:4px; font-size:0.7em; font-weight:700;">SPRINT</span>' : ''}
+                    ${race.is_sprint ? '<span style="background:var(--f1-red); padding:2px 8px; border-radius:4px; font-size:0.9em; font-weight:700;">SPRINT</span>' : ''}
                 </div>
                 <img src="https://flagcdn.com/w80/${isoCode}.png" class="flag-img" alt="Flag">
             </div>
@@ -154,3 +154,4 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
