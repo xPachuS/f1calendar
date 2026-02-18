@@ -5,145 +5,26 @@
     --text-light: #f1f1f1;
     --text-dim: #a0a0a0;
     --accent: #38383f;
-    --glass: rgba(255, 255, 255, 0.05);
 }
 
+/* ... (Estilos base de body, header y hero se mantienen igual) ... */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Titillium Web', sans-serif; background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ... Hero y Header styles (mantener los previos) ... */
+.hero-countdown { text-align: center; padding: 3rem 1rem; background-color: #0b0b10; border-bottom: 1px solid var(--accent); }
+.hero-countdown h2 { font-size: 1rem; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px; }
+#next-race-name { font-size: 1.8rem; font-weight: 600; margin: 10px 0; display: flex; align-items: center; justify-content: center; gap: 15px; }
+.hero-flag { width: 60px; height: 40px; object-fit: cover; border-radius: 4px; }
+.timer { font-size: 3.5rem; font-weight: 700; color: var(--f1-red); font-variant-numeric: tabular-nums; margin-top: 10px; text-shadow: 0 0 20px rgba(225, 6, 0, 0.4); }
 
+.controls { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 2.5rem 0; padding: 0 1rem; }
+.filter-btn { background: transparent; border: 1px solid var(--text-dim); color: var(--text-light); padding: 10px 24px; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; font-family: inherit; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; }
+.filter-btn:hover { border-color: var(--f1-red); background: rgba(225, 6, 0, 0.1); }
+.filter-btn.active { background: var(--f1-red); border-color: var(--f1-red); color: white; box-shadow: 0 0 15px rgba(225, 6, 0, 0.4); }
 
-body {
-    font-family: 'Titillium Web', sans-serif;
-    background-color: var(--dark-bg);
-    color: var(--text-light);
-    line-height: 1.6;
-    overflow-x: hidden;
-}
+/* --- 3D FLIP CARD LOGIC --- */
 
-
-/* --- HEADER --- */
-header {
-    background: linear-gradient(135deg, #000 0%, var(--f1-red) 120%);
-    padding: 2rem 1rem;
-    text-align: center;
-    border-bottom: 4px solid white;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-}
-
-
-.f1-red { 
-    color: var(--f1-red); 
-    background: white; 
-    padding: 0 8px; 
-    border-radius: 4px;
-    margin-right: 5px;
-    display: inline-block;
-}
-
-
-.header-content h1 {
-    font-weight: 700;
-    font-size: 2.5rem;
-    letter-spacing: 1px;
-    margin-bottom: 5px;
-}
-
-
-/* --- HERO COUNTDOWN --- */
-.hero-countdown {
-    text-align: center;
-    padding: 3rem 1rem;
-    background-color: #0b0b10;
-    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23222' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
-    border-bottom: 1px solid var(--accent);
-}
-
-
-.hero-countdown h2 {
-    font-size: 1rem;
-    letter-spacing: 2px;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-
-
-/* Contenedor del nombre y bandera en el Hero */
-#next-race-name {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-}
-
-
-/* NUEVO: Clase específica para la bandera del Hero (uniformidad) */
-.hero-flag {
-    width: 60px;        /* Ancho fijo */
-    height: 40px;       /* Alto fijo (Ratio 3:2) */
-    object-fit: cover;  /* Recorta la imagen para llenar el espacio sin deformar */
-    border-radius: 4px;
-}
-
-
-.timer {
-    font-size: 3.5rem;
-    font-weight: 700;
-    color: var(--f1-red);
-    font-variant-numeric: tabular-nums;
-    margin-top: 10px;
-    text-shadow: 0 0 20px rgba(225, 6, 0, 0.4);
-}
-
-
-/* --- CONTROLES --- */
-.controls {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin: 2.5rem 0;
-    padding: 0 1rem;
-}
-
-
-.filter-btn {
-    background: transparent;
-    border: 1px solid var(--text-dim);
-    color: var(--text-light);
-    padding: 10px 24px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: inherit;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-}
-
-
-.filter-btn:hover {
-    border-color: var(--f1-red);
-    background: rgba(225, 6, 0, 0.1);
-}
-
-
-.filter-btn.active {
-    background: var(--f1-red);
-    border-color: var(--f1-red);
-    color: white;
-    box-shadow: 0 0 15px rgba(225, 6, 0, 0.4);
-}
-
-
-/* --- GRID LAYOUT --- */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -153,111 +34,91 @@ header {
     padding: 0 20px 80px;
 }
 
+/* Escena que contiene la perspectiva */
+.race-card-scene {
+    perspective: 1000px;
+    height: 480px; /* Altura fija necesaria para que el absolute positioning funcione bien */
+}
 
-/* --- RACE CARD --- */
+/* El objeto que gira */
 .race-card {
-    background-color: var(--card-bg);
-    border-radius: 16px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-top: 4px solid transparent;
+    width: 100%;
+    height: 100%;
     position: relative;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    border-radius: 16px;
+    /* Movemos el borde/sombra al contenedor giratorio */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.race-card.is-flipped {
+    transform: rotateY(180deg);
+}
+
+/* Caras de la tarjeta */
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Oculta la cara trasera al girar */
+    -webkit-backface-visibility: hidden;
+    border-radius: 16px;
+    background-color: var(--card-bg);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
-
-.race-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-    border-top: 4px solid var(--f1-red);
+/* CARA FRONTAL (Estilos previos adaptados) */
+.card-front {
+    z-index: 2;
 }
 
-
-.next-race-highlight {
-    border: 2px solid var(--f1-red);
-    box-shadow: 0 0 20px rgba(225, 6, 0, 0.2);
-    animation: pulseBorder 3s infinite;
+/* CARA TRASERA */
+.card-back {
+    transform: rotateY(180deg);
+    background-color: #1a1a24;
+    border: 1px solid var(--accent);
 }
 
-
-@keyframes pulseBorder {
-    0% { box-shadow: 0 0 10px rgba(225, 6, 0, 0.2); }
-    50% { box-shadow: 0 0 20px rgba(225, 6, 0, 0.5); }
-    100% { box-shadow: 0 0 10px rgba(225, 6, 0, 0.2); }
-}
-
-
+/* --- ESTILOS INTERNOS DE LA TARJETA --- */
 
 .card-header {
-    padding: 1.5rem; /* Un poco más alto para lucir la imagen */
+    padding: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* PROPIEDADES PARA LA IMAGEN DE FONDO */
-    background-color: var(--card-bg); /* Color de respaldo */
-    background-size: cover;           /* La imagen cubre todo el header */
-    background-position: center;      /* Centrada */
-    background-repeat: no-repeat;
-    /* Eliminamos el borde inferior para que se integre con la imagen */
-    border-bottom: none; 
-    /* Sombra en el texto para mejorar legibilidad sobre imágenes claras */
+    background-size: cover;
+    background-position: center;
     text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+    height: 140px; /* Altura fija para el header */
+    flex-shrink: 0;
 }
 
-
-.round-num {
-
-    font-size: 0.9rem;
-    /* Cambiamos el color a blanco para contraste sobre fondo oscuro */
-    color: white; 
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    /* Añadimos un resplandor rojo para mantener la identidad F1 */
-    text-shadow: 0 0 10px var(--f1-red), 0 2px 5px rgba(0,0,0,0.8);
-}
-
-
-/* MODIFICADO: Bandera en las tarjetas (Tamaño uniforme) */
-.flag-img {
-    width: 54px;        /* Ancho fijo exacto */
-    height: 36px;       /* Alto fijo exacto (Ratio 3:2) */
-    object-fit: cover;  /* IMPORTANTE: Mantiene la proporción recortando sobrante */
+.sprint-badge {
+    background: var(--f1-red);
+    padding: 2px 8px;
+    margin-left: 3px;
     border-radius: 4px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    background-color: #000; /* Fondo por si tarda en cargar la imagen */
+    font-size: 0.9em;
+    font-weight: 700;
 }
 
+.round-num { font-size: 0.9rem; color: white; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 0 10px var(--f1-red); }
+.flag-img { width: 54px; height: 36px; object-fit: cover; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.5); background-color: #000; }
 
 .card-body {
     padding: 1.5rem;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-
-.card-body h3 {
-    font-size: 1.3rem;
-    margin-bottom: 5px;
-    line-height: 1.3;
-}
-
-
-.circuit-name {
-    color: var(--text-dim);
-    font-size: 0.9rem;
-    margin-bottom: 12px;
-    display: block;
-}
-
-
-.circuit-name i, .date-badge i {
-    margin-right: 6px;
-    color: var(--f1-red);
-    width: 15px;
-    text-align: center;
-}
-
+.card-body h3 { font-size: 1.3rem; margin-bottom: 5px; line-height: 1.3; }
+.circuit-name { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 12px; display: block; }
+.circuit-name i, .date-badge i { margin-right: 6px; color: var(--f1-red); width: 15px; text-align: center; }
 
 .date-badge {
     display: inline-block;
@@ -267,58 +128,83 @@ header {
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-light);
-    margin-bottom: 20px;
+    margin-bottom: auto; /* Empuja el resto hacia abajo */
 }
-
 
 .sessions-list {
     list-style: none;
-    margin-top: auto;
+    margin-top: 15px;
     border-top: 1px solid var(--accent);
     padding-top: 15px;
 }
 
+.session-item { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px; color: var(--text-dim); }
+.session-item.main-race { color: var(--text-light); font-weight: 700; font-size: 0.95rem; margin-top: 8px; padding-top: 5px; border-top: 1px dashed rgba(255,255,255,0.1); }
+.session-item.main-race span:last-child { color: var(--f1-red); }
 
-.session-item {
+/* --- ESTILOS PARA LA CARA TRASERA (TV) --- */
+.back-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #111, #222);
+    border-bottom: 2px solid var(--f1-red);
+    text-align: center;
+}
+.back-header h3 { color: white; font-size: 1.2rem; }
+.back-header p { font-size: 0.8rem; color: var(--text-dim); }
+
+.tv-list {
+    list-style: none;
+    overflow-y: auto; /* Scroll si la lista es larga */
+    flex-grow: 1;
+    padding: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--f1-red) var(--dark-bg);
+}
+
+/* Scrollbar styling webkit */
+.tv-list::-webkit-scrollbar { width: 6px; }
+.tv-list::-webkit-scrollbar-track { background: var(--dark-bg); }
+.tv-list::-webkit-scrollbar-thumb { background-color: var(--f1-red); border-radius: 10px; }
+
+.tv-item {
     display: flex;
     justify-content: space-between;
-    font-size: 0.85rem;
-    margin-bottom: 8px;
-    color: var(--text-dim);
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.9rem;
 }
 
+.tv-country { color: var(--text-light); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.tv-name { color: var(--f1-red); text-align: right; font-size: 0.85rem; }
 
-.session-item.main-race {
-    color: var(--text-light);
-    font-weight: 700;
-    font-size: 0.95rem;
-    margin-top: 12px;
-    padding-top: 8px;
-    border-top: 1px dashed rgba(255,255,255,0.1);
-}
-
-
-.session-item.main-race span:last-child {
-    color: var(--f1-red);
-}
-
-
-
-footer {
+/* Indicador visual para girar */
+.tap-hint {
     text-align: center;
-    padding: 3rem 1rem;
+    font-size: 0.75rem;
     color: var(--text-dim);
-    font-size: 0.8rem;
-    border-top: 1px solid var(--accent);
-    background-color: #0b0b10;
+    margin-top: 10px;
+    opacity: 0.7;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
 
+.next-race-highlight {
+    border: 2px solid var(--f1-red);
+    box-shadow: 0 0 20px rgba(225, 6, 0, 0.2);
+    animation: pulseBorder 3s infinite;
+}
 
+@keyframes pulseBorder {
+    0% { box-shadow: 0 0 10px rgba(225, 6, 0, 0.2); }
+    50% { box-shadow: 0 0 20px rgba(225, 6, 0, 0.5); }
+    100% { box-shadow: 0 0 10px rgba(225, 6, 0, 0.2); }
+}
+
+footer { text-align: center; padding: 3rem 1rem; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--accent); background-color: #0b0b10; }
 
 @media (max-width: 600px) {
     .header-content h1 { font-size: 1.8rem; }
     .timer { font-size: 2.5rem; }
     .grid-container { grid-template-columns: 1fr; }
 }
-
-
