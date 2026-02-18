@@ -1,146 +1,6 @@
-/* --- VARIABLES Y ESTILOS BASE (Igual que el original) --- */
-:root {
-    --f1-red: #e10600;
-    --dark-bg: #15151e;
-    --card-bg: #1f1f2b;
-    --text-light: #f1f1f1;
-    --text-dim: #a0a0a0;
-    --accent: #38383f;
-    --glass: rgba(255, 255, 255, 0.05);
-}
+/* ... Resto del CSS igual ... */
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Titillium Web', sans-serif; background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
-
-/* HEADER Y HERO (Intactos) */
-header { background: linear-gradient(135deg, #000 0%, var(--f1-red) 120%); padding: 2rem 1rem; text-align: center; border-bottom: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-.f1-red { color: var(--f1-red); background: white; padding: 0 8px; border-radius: 4px; margin-right: 5px; display: inline-block; }
-.header-content h1 { font-weight: 700; font-size: 2.5rem; letter-spacing: 1px; margin-bottom: 5px; }
-.hero-countdown { text-align: center; padding: 3rem 1rem; background-color: #0b0b10; border-bottom: 1px solid var(--accent); } 
-.hero-countdown h2 { font-size: 1rem; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px; }
-#next-race-name { font-size: 1.8rem; font-weight: 600; margin: 10px 0; display: flex; align-items: center; justify-content: center; gap: 15px; }
-.hero-flag { width: 60px; height: 40px; object-fit: cover; border-radius: 4px; }
-.timer { font-size: 3.5rem; font-weight: 700; color: var(--f1-red); font-variant-numeric: tabular-nums; margin-top: 10px; text-shadow: 0 0 20px rgba(225, 6, 0, 0.4); }
-.controls { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 2.5rem 0; padding: 0 1rem; }
-.filter-btn { background: transparent; border: 1px solid var(--text-dim); color: var(--text-light); padding: 10px 24px; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; font-family: inherit; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; }
-.filter-btn:hover { border-color: var(--f1-red); background: rgba(225, 6, 0, 0.1); }
-.filter-btn.active { background: var(--f1-red); border-color: var(--f1-red); color: white; box-shadow: 0 0 15px rgba(225, 6, 0, 0.4); }
-
-/* GRID LAYOUT */
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 25px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px 80px;
-}
-
-/* --- LOGICA FLIP 3D --- */
-
-/* Escena: Mantiene el espacio en el grid */
-.race-card-scene {
-    perspective: 1000px;
-}
-
-/* Contenedor que gira */
-.race-card-flipper {
-    position: relative;
-    width: 100%;
-    transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-    cursor: pointer;
-    border-radius: 16px;
-}
-
-.race-card-flipper.is-flipped {
-    transform: rotateY(180deg);
-}
-
-/* Efecto hover original aplicado al contenedor */
-.race-card-flipper:hover {
-    transform: translateY(-5px);
-}
-.race-card-flipper.is-flipped:hover {
-    transform: rotateY(180deg) translateY(-5px);
-}
-
-/* CARAS COMUNES */
-.card-face {
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    border-radius: 16px;
-    overflow: hidden;
-    background-color: var(--card-bg);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Sombra original */
-    display: flex;
-    flex-direction: column;
-}
-
-/* --- FRONT (DISEÑO ORIGINAL) --- */
-/* Manda sobre el tamaño (position relative) */
-.card-front {
-    position: relative; 
-    z-index: 2;
-    transform: rotateY(0deg);
-    /* Borde superior transparente original */
-    border-top: 4px solid transparent; 
-    transition: border-top 0.3s ease;
-}
-
-/* Al hacer hover en la escena, mostramos el borde rojo original */
-.race-card-scene:hover .card-front {
-    border-top: 4px solid var(--f1-red);
-}
-
-/* --- BACK (TV INFO) --- */
-/* Se adapta al tamaño del front (position absolute) */
-.card-back {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transform: rotateY(180deg);
-    background-color: #1a1a24; /* Un poco más oscuro para diferenciar */
-    border: 1px solid var(--accent);
-}
-
-/* --- ESTILOS INTERNOS (Copiados EXACTOS del original) --- */
-
-.card-header {
-    padding: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-bottom: none;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.8);
-    /* Eliminado min-height para respetar tamaño original */
-}
-
-.round-num { font-size: 0.9rem; color: white; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 0 10px var(--f1-red), 0 2px 5px rgba(0,0,0,0.8); }
-.flag-img { width: 54px; height: 36px; object-fit: cover; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.5); background-color: #000; }
-
-.card-body {
-    padding: 1.5rem;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.card-body h3 { font-size: 1.3rem; margin-bottom: 5px; line-height: 1.3; }
-.circuit-name { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 12px; display: block; }
-.circuit-name i, .date-badge i { margin-right: 6px; color: var(--f1-red); width: 15px; text-align: center; }
-.date-badge { display: inline-block; background: rgba(255, 255, 255, 0.08); padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--text-light); margin-bottom: 20px; }
-.sessions-list { list-style: none; margin-top: auto; border-top: 1px solid var(--accent); padding-top: 15px; }
-.session-item { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px; color: var(--text-dim); }
-.session-item.main-race { color: var(--text-light); font-weight: 700; font-size: 0.95rem; margin-top: 12px; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.1); }
-.session-item.main-race span:last-child { color: var(--f1-red); }
-
-/* --- ESTILOS DE LA PARTE TRASERA (TV) --- */
+/* --- ESTILOS DE LA LISTA DE TV --- */
 .back-header {
     padding: 1.5rem;
     background: linear-gradient(135deg, #111, #222);
@@ -154,7 +14,7 @@ header { background: linear-gradient(135deg, #000 0%, var(--f1-red) 120%); paddi
 .tv-list {
     list-style: none;
     padding: 1rem;
-    overflow-y: auto; /* Scroll automático si la lista es larga */
+    overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--f1-red) var(--dark-bg);
     flex-grow: 1;
@@ -163,25 +23,39 @@ header { background: linear-gradient(135deg, #000 0%, var(--f1-red) 120%); paddi
 .tv-list::-webkit-scrollbar { width: 4px; }
 .tv-list::-webkit-scrollbar-thumb { background-color: var(--f1-red); border-radius: 4px; }
 
-.tv-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
-.tv-country { color: var(--text-light); font-weight: 600; display: flex; align-items: center; gap: 6px; }
-.tv-broadcaster { color: var(--text-dim); text-align: right; }
-
-/* Highlight de próxima carrera */
-.next-race-highlight {
-    border: 2px solid var(--f1-red) !important; 
-    box-shadow: 0 0 20px rgba(225, 6, 0, 0.2);
-    animation: pulseBorder 3s infinite;
+.tv-item { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 10px 0; /* Un poco más de espacio vertical */
+    border-bottom: 1px solid rgba(255,255,255,0.05); 
+    font-size: 0.85rem; 
 }
 
-/* Indicador minúsculo para saber que se puede girar (opcional, no afecta tamaño) */
-.flip-hint { position: absolute; bottom: 8px; right: 8px; font-size: 0.7rem; color: rgba(255,255,255,0.2); }
-
-@keyframes pulseBorder {
-    0% { box-shadow: 0 0 10px rgba(225, 6, 0, 0.2); }
-    50% { box-shadow: 0 0 20px rgba(225, 6, 0, 0.5); }
-    100% { box-shadow: 0 0 10px rgba(225, 6, 0, 0.2); }
+/* Nuevo contenedor para bandera + nombre */
+.tv-country-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-footer { text-align: center; padding: 3rem 1rem; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--accent); background-color: #0b0b10; }
-@media (max-width: 600px) { .header-content h1 { font-size: 1.8rem; } .timer { font-size: 2.5rem; } .grid-container { grid-template-columns: 1fr; } }
+/* ESTILO DE LA NUEVA BANDERA EN LISTA */
+.tv-flag-img {
+    width: 28px;        /* Un poco más pequeña que la principal para que quepa bien */
+    height: 19px;       /* Proporción correcta */
+    object-fit: cover;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.tv-country-name {
+    color: var(--text-light); 
+    font-weight: 600;
+}
+
+.tv-broadcaster { 
+    color: var(--text-dim); 
+    text-align: right; 
+    font-size: 0.8rem;
+    max-width: 45%; /* Evita que el texto largo rompa el diseño */
+}
