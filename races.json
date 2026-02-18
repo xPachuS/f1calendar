@@ -186,7 +186,7 @@
         "date": "2026-10-25",
         "flag": "🇺🇸",
         "is_sprint": false,
-        "bg_image": "https://images.unsplash.com/photo-1534270804882-6b5048b1c1fc?q=80&w=1470&auto=format&fit=crop",
+        "bg_image": "https://www.directenergy.com/content/dam/de-shared/web/en/multimedia/learn/weather-center/texas_city_d.jpg?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 19:30", "fp2": "Vie 23:00", "fp3": "Sáb 19:30", "quali": "Sáb 23:00", "race": "Dom 21:00" }
     },
     {
@@ -240,6 +240,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
