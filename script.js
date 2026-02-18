@@ -10,12 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
 let db_races = []; 
 let db_tv = []; 
 
+// DICCIONARIO: TRADUCTOR DE EMOJI A CÓDIGO ISO
+// He añadido algunos extra (fr, de, ar) por si pones canales de esos países
 const emojiToIso = {
     "🇦🇺": "au", "🇨🇳": "cn", "🇯🇵": "jp", "🇧🇭": "bh", "🇸🇦": "sa",
     "🇺🇸": "us", "🇨🇦": "ca", "🇲🇨": "mc", "🇪🇸": "es", "🇦🇹": "at",
     "🇬🇧": "gb", "🇧🇪": "be", "🇭🇺": "hu", "🇳🇱": "nl", "🇮🇹": "it",
     "🇦🇿": "az", "🇸🇬": "sg", "🇲🇽": "mx", "🇧🇷": "br", "🇶🇦": "qa",
-    "🇦🇪": "ae"
+    "🇦🇪": "ae", "🇫🇷": "fr", "🇩🇪": "de", "🇦🇷": "ar", "🇫🇮": "fi"
 };
 
 const sessionLabels = {
@@ -59,16 +61,22 @@ function renderRaces(filter) {
         filtered = db_races.filter(r => new Date(r.date + "T23:59:59") < now);
     }
 
-    // Preparamos la lista de TV (Generada una sola vez para eficiencia)
-    const tvListHTML = db_tv.map(tv => `
+    // --- MODIFICACIÓN AQUÍ: Generar IMAGEN en vez de EMOJI ---
+    const tvListHTML = db_tv.map(tv => {
+        // Buscamos el código ISO, si no existe ponemos 'xx' (bandera desconocida)
+        const iso = emojiToIso[tv.flag] || 'xx';
+        return `
         <li class="tv-item">
-            <span class="tv-country">${tv.flag} ${tv.country}</span>
+            <div class="tv-country-wrapper">
+                <img src="https://flagcdn.com/w40/${iso}.png" class="tv-flag-img" alt="${tv.country}">
+                <span class="tv-country-name">${tv.country}</span>
+            </div>
             <span class="tv-broadcaster">${tv.broadcaster}</span>
         </li>
-    `).join('');
+        `;
+    }).join('');
 
     filtered.forEach(race => {
-        // Escena contenedora
         const scene = document.createElement('div');
         scene.className = 'race-card-scene';
 
@@ -83,8 +91,6 @@ function renderRaces(filter) {
             </li>
         `).join('');
 
-        // HTML INTERNO
-        // La parte "card-front" es idéntica a tu diseño original
         scene.innerHTML = `
             <div class="race-card-flipper" onclick="this.classList.toggle('is-flipped')">
                 
@@ -129,7 +135,7 @@ function isImmediateNext(race) {
     return diffDays > 0 && diffDays < 14;
 }
 
-// --- 3. COUNTDOWN Y FILTROS (Sin cambios) ---
+// --- 3. COUNTDOWN (Igual que antes) ---
 function initCountdown() {
     const timer = document.getElementById('countdown');
     const name = document.getElementById('next-race-name');
