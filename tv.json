@@ -1,24 +1,25 @@
 [
     { "country": "Australia", "flag": "🇦🇺", "broadcaster": "Fox Sports / Kayo" },
-    { "country": "Austria", "flag": "🇦🇹", "broadcaster": "ORF / ServusTV" },
-    { "country": "Azerbaiyán", "flag": "🇦🇿", "broadcaster": "Idman TV" },
-    { "country": "Bélgica", "flag": "🇧🇪", "broadcaster": "RTBF / Telenet" },
-    { "country": "Brasil", "flag": "🇧🇷", "broadcaster": "Band TV" },
+    { "country": "Austria", "flag": "🇦🇹", "broadcaster": "Sky Sport F1" },
+    { "country": "Azerbaiyán", "flag": "🇦🇿", "broadcaster": "Idman TV / Setanta Sports" },
+    { "country": "Bélgica", "flag": "🇧🇪", "broadcaster": "Play Sports" },
+    { "country": "Brasil", "flag": "🇧🇷", "broadcaster": "Sportv / GloboPlay" },
     { "country": "Canadá", "flag": "🇨🇦", "broadcaster": "TSN / RDS" },
     { "country": "China", "flag": "🇨🇳", "broadcaster": "CCTV / Tencent" },
-    { "country": "España", "flag": "🇪🇸", "broadcaster": "DAZN / Movistar+" },
-    { "country": "Estados Unidos", "flag": "🇺🇸", "broadcaster": "ESPN / ABC" },
+    { "country": "España", "flag": "🇪🇸", "broadcaster": "DAZN" },
+    { "country": "Estados Unidos", "flag": "🇺🇸", "broadcaster": "Apple TV" },
     { "country": "Francia", "flag": "🇫🇷", "broadcaster": "Canal+" },
     { "country": "Hungría", "flag": "🇭🇺", "broadcaster": "M4 Sport" },
-    { "country": "Italia", "flag": "🇮🇹", "broadcaster": "Sky Italia / TV8" },
-    { "country": "Japón", "flag": "🇯🇵", "broadcaster": "DAZN / Fuji TV" },
-    { "country": "México", "flag": "🇲🇽", "broadcaster": "Fox Sports / F1TV" },
+    { "country": "Italia", "flag": "🇮🇹", "broadcaster": "Sky Sport F1" },
+    { "country": "Japón", "flag": "🇯🇵", "broadcaster": "Fuji TV" },
+    { "country": "México", "flag": "🇲🇽", "broadcaster": "Fox Sports" },
     { "country": "Mónaco", "flag": "🇲🇨", "broadcaster": "Canal+" },
-    { "country": "Oriente Medio", "flag": "🇦🇪", "broadcaster": "SSC / MBC Action" },
-    { "country": "Países Bajos", "flag": "🇳🇱", "broadcaster": "Viaplay / NOS" },
+    { "country": "Oriente Medio", "flag": "🇦🇪", "broadcaster": "beIN Sports" },
+    { "country": "Países Bajos", "flag": "🇳🇱", "broadcaster": "Viaplay" },
     { "country": "Reino Unido", "flag": "🇬🇧", "broadcaster": "Sky Sports F1" },
     { "country": "Singapur", "flag": "🇸🇬", "broadcaster": "beIN Sports" }
 ]
+
 
 
 
