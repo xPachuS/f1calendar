@@ -8,16 +8,18 @@
     { "country": "China", "flag": "🇨🇳", "broadcaster": "CCTV / Tencent" },
     { "country": "España", "flag": "🇪🇸", "broadcaster": "DAZN / Movistar+" },
     { "country": "Estados Unidos", "flag": "🇺🇸", "broadcaster": "ESPN / ABC" },
-    { "country": "Francia/Mónaco", "flag": "🇲🇨", "broadcaster": "Canal+" },
+    { "country": "Francia", "flag": "🇫🇷", "broadcaster": "Canal+" },
     { "country": "Hungría", "flag": "🇭🇺", "broadcaster": "M4 Sport" },
     { "country": "Italia", "flag": "🇮🇹", "broadcaster": "Sky Italia / TV8" },
     { "country": "Japón", "flag": "🇯🇵", "broadcaster": "DAZN / Fuji TV" },
     { "country": "México", "flag": "🇲🇽", "broadcaster": "Fox Sports / F1TV" },
+    { "country": "Mónaco", "flag": "🇲🇨", "broadcaster": "Canal+" },
     { "country": "Oriente Medio", "flag": "🇦🇪", "broadcaster": "SSC / MBC Action" },
     { "country": "Países Bajos", "flag": "🇳🇱", "broadcaster": "Viaplay / NOS" },
     { "country": "Reino Unido", "flag": "🇬🇧", "broadcaster": "Sky Sports F1" },
     { "country": "Singapur", "flag": "🇸🇬", "broadcaster": "beIN Sports" }
 ]
+
 
 
 
