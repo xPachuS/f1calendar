@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
 let db_races = []; 
 let db_tv = []; 
 
-// DICCIONARIO: TRADUCTOR DE EMOJI A CÓDIGO ISO
-// He añadido algunos extra (fr, de, ar) por si pones canales de esos países
+// DICCIONARIO: TRADUCTOR DE EMOJI A CÓDIGO ISO (FlagCDN)
+// Se usan para generar las imágenes de las banderas
 const emojiToIso = {
     "🇦🇺": "au", "🇨🇳": "cn", "🇯🇵": "jp", "🇧🇭": "bh", "🇸🇦": "sa",
     "🇺🇸": "us", "🇨🇦": "ca", "🇲🇨": "mc", "🇪🇸": "es", "🇦🇹": "at",
@@ -21,15 +21,20 @@ const emojiToIso = {
 };
 
 const sessionLabels = {
-    "fp1": "Libres 1", "fp2": "Libres 2", "fp3": "Libres 3",
-    "sprint_quali": "Clasif. Sprint", "sprint_race": "Carrera Sprint",
-    "quali": "Clasificación", "race": "CARRERA"
+    "fp1": "Libres 1",
+    "fp2": "Libres 2",
+    "fp3": "Libres 3",
+    "sprint_quali": "Clasif. Sprint",
+    "sprint_race": "Carrera Sprint",
+    "quali": "Clasificación",
+    "race": "CARRERA"
 };
 
 // --- 1. CARGA DE DATOS ---
 async function loadData() {
     const grid = document.getElementById('races-grid');
     try {
+        // Cargamos ambos archivos JSON en paralelo
         const [racesRes, tvRes] = await Promise.all([
             fetch('races.json'),
             fetch('tv.json')
@@ -44,7 +49,7 @@ async function loadData() {
         initCountdown();    
     } catch (error) {
         console.error("Error:", error);
-        grid.innerHTML = `<div class="error-msg" style="color:white; text-align:center; grid-column:1/-1;">⚠️ Error cargando datos.</div>`;
+        grid.innerHTML = `<div class="error-msg" style="color:white; text-align:center; grid-column:1/-1;">⚠️ Error cargando datos. Asegúrate de ejecutar en un servidor local (Live Server).</div>`;
     }
 }
 
@@ -54,6 +59,7 @@ function renderRaces(filter) {
     grid.innerHTML = ''; 
     const now = new Date();
     
+    // Filtrado de carreras
     let filtered = db_races;
     if (filter === 'upcoming') {
         filtered = db_races.filter(r => new Date(r.date + "T23:59:59") >= now);
@@ -61,10 +67,10 @@ function renderRaces(filter) {
         filtered = db_races.filter(r => new Date(r.date + "T23:59:59") < now);
     }
 
-    // --- MODIFICACIÓN AQUÍ: Generar IMAGEN en vez de EMOJI ---
+    // Generamos el HTML de la lista de TV (con banderas HD)
+    // Se genera una sola vez y se reutiliza en todas las tarjetas
     const tvListHTML = db_tv.map(tv => {
-        // Buscamos el código ISO, si no existe ponemos 'xx' (bandera desconocida)
-        const iso = emojiToIso[tv.flag] || 'xx';
+        const iso = emojiToIso[tv.flag] || 'xx'; // 'xx' es el placeholder de FlagCDN si no encuentra el código
         return `
         <li class="tv-item">
             <div class="tv-country-wrapper">
@@ -76,14 +82,17 @@ function renderRaces(filter) {
         `;
     }).join('');
 
+    // Iteramos sobre las carreras filtradas
     filtered.forEach(race => {
         const scene = document.createElement('div');
         scene.className = 'race-card-scene';
 
+        // Formatos de fecha y bandera
         const humanDate = new Date(race.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
         const isoCode = emojiToIso[race.flag] || 'xx'; 
         const backgroundStyle = `linear-gradient(rgba(20, 20, 30, 0.75), rgba(20, 20, 30, 0.95)), url('${race.bg_image}')`;
 
+        // Generación de lista de sesiones
         const sessionsHTML = Object.entries(race.sessions).map(([key, value]) => `
             <li class="session-item ${key === 'race' ? 'main-race' : ''}">
                 <span>${sessionLabels[key] || key}</span>
@@ -91,6 +100,7 @@ function renderRaces(filter) {
             </li>
         `).join('');
 
+        // Construcción del HTML de la tarjeta (Flipper -> Front + Back)
         scene.innerHTML = `
             <div class="race-card-flipper" onclick="this.classList.toggle('is-flipped')">
                 
@@ -123,11 +133,14 @@ function renderRaces(filter) {
             </div>
         `;
         
+        // Si es la próxima carrera inmediata, añadimos el borde rojo brillante
         if(isImmediateNext(race)) scene.querySelector('.card-front').classList.add('next-race-highlight');
+        
         grid.appendChild(scene);
     });
 }
 
+// Función auxiliar para calcular si es la carrera inminente (entre hoy y 14 días)
 function isImmediateNext(race) {
     const now = new Date();
     const raceDate = new Date(`${race.date}T${race.sessions.race.split(' ')[1]}:00`);
@@ -135,42 +148,52 @@ function isImmediateNext(race) {
     return diffDays > 0 && diffDays < 14;
 }
 
-// --- 3. COUNTDOWN (Igual que antes) ---
+// --- 3. LÓGICA DEL COUNTDOWN ---
 function initCountdown() {
     const timer = document.getElementById('countdown');
     const name = document.getElementById('next-race-name');
+
     const update = () => {
         const now = new Date();
+        // Buscar la primera carrera cuya hora de fin (inicio + 2h) sea mayor a ahora
         const next = db_races.find(r => {
             const rTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
             rTime.setHours(rTime.getHours() + 2); 
             return rTime > now;
         });
+
         if (!next) {
             name.innerText = "Temporada 2026 Finalizada";
             timer.innerText = "00d 00h 00m 00s";
             return;
         }
+
         const iso = emojiToIso[next.flag];
         name.innerHTML = `<img src="https://flagcdn.com/w80/${iso}.png" class="hero-flag" style="width:60px; height:40px; object-fit:cover; border-radius:4px;"> <span>${next.name}</span>`;
+
         const target = new Date(`${next.date}T${next.sessions.race.split(' ')[1]}:00`);
         const dist = target - now;
+
         if (dist < 0) {
             timer.innerText = "¡EN VIVO!";
             timer.style.color = "#44ff44";
             return;
         }
+
         const d = Math.floor(dist / 86400000).toString().padStart(2, '0');
         const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
         const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
         const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
+
         timer.innerText = `${d}d ${h}h ${m}m ${s}s`;
         timer.style.color = "var(--f1-red)";
     };
+
     update();
     setInterval(update, 1000);
 }
 
+// Función global para los botones de filtro en el HTML
 window.filterRaces = (type) => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     if (event) event.target.classList.add('active');
