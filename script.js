@@ -37,6 +37,7 @@ async function loadData() {
 
         db_races = await racesRes.json();
         db_tv = await tvRes.json();
+
         renderRaces('all'); 
         initCountdown();    
     } catch (error) {
@@ -45,7 +46,7 @@ async function loadData() {
     }
 }
 
-// --- 2. RENDERIZADO (DISEÑO ORIGINAL + FLIP) ---
+// --- 2. RENDERIZADO DE TARJETAS ---
 function renderRaces(filter) {
     const grid = document.getElementById('races-grid');
     grid.innerHTML = ''; 
@@ -58,11 +59,7 @@ function renderRaces(filter) {
         filtered = db_races.filter(r => new Date(r.date + "T23:59:59") < now);
     }
 
-    // Preparamos la lista de TV general para usarla en el reverso
-    // (Filtramos si quieres solo la TV del país de la carrera, o mostramos todas.
-    //  Tu petición decía "mostrar en qué canal retransmiten", asumo la lista general o la específica del país si existe en el JSON).
-    //  Para este ejemplo, mostraré la lista completa de broadcasters en el reverso para que sea útil.
-    
+    // Preparamos la lista de TV (Generada una sola vez para eficiencia)
     const tvListHTML = db_tv.map(tv => `
         <li class="tv-item">
             <span class="tv-country">${tv.flag} ${tv.country}</span>
@@ -71,7 +68,7 @@ function renderRaces(filter) {
     `).join('');
 
     filtered.forEach(race => {
-        // Creamos el contenedor de escena (mantiene el espacio)
+        // Escena contenedora
         const scene = document.createElement('div');
         scene.className = 'race-card-scene';
 
@@ -86,7 +83,8 @@ function renderRaces(filter) {
             </li>
         `).join('');
 
-        // ESTRUCTURA: Scene -> Flipper -> Front (Original) + Back (TV)
+        // HTML INTERNO
+        // La parte "card-front" es idéntica a tu diseño original
         scene.innerHTML = `
             <div class="race-card-flipper" onclick="this.classList.toggle('is-flipped')">
                 
@@ -104,7 +102,7 @@ function renderRaces(filter) {
                         <div class="date-badge"><i class="far fa-calendar-alt"></i> ${humanDate}</div>
                         <ul class="sessions-list">${sessionsHTML}</ul>
                     </div>
-                    <div class="flip-indicator"><i class="fas fa-tv"></i></div>
+                    <div class="flip-hint"><i class="fas fa-sync"></i></div>
                 </div>
 
                 <div class="card-face card-back">
@@ -119,9 +117,7 @@ function renderRaces(filter) {
             </div>
         `;
         
-        // Aplicamos el highlight a la escena para que el borde se vea bien
         if(isImmediateNext(race)) scene.querySelector('.card-front').classList.add('next-race-highlight');
-        
         grid.appendChild(scene);
     });
 }
