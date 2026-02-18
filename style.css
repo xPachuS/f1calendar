@@ -90,8 +90,6 @@ header {
     height: 40px;       /* Alto fijo (Ratio 3:2) */
     object-fit: cover;  /* Recorta la imagen para llenar el espacio sin deformar */
     border-radius: 4px;
-    /*box-shadow: 0 0 10px rgba(225, 6, 0, 0.4);
-    border: 1px solid rgba(255,255,255,0.1);*/
 }
 
 
@@ -322,4 +320,5 @@ footer {
     .timer { font-size: 2.5rem; }
     .grid-container { grid-template-columns: 1fr; }
 }
+
 
