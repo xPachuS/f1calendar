@@ -1,5 +1,5 @@
 [
-    { "country": "España", "flag": "es", "broadcaster": "DAZN / Movistar+" },
+    { "country": "España", "flag": "🇪🇸", "broadcaster": "DAZN / Movistar+" },
     { "country": "México", "flag": "🇲🇽", "broadcaster": "Fox Sports / F1TV" },
     { "country": "Reino Unido", "flag": "🇬🇧", "broadcaster": "Sky Sports F1" },
     { "country": "Estados Unidos", "flag": "🇺🇸", "broadcaster": "ESPN / ABC" },
@@ -19,4 +19,5 @@
     { "country": "Hungría", "flag": "🇭🇺", "broadcaster": "M4 Sport" }
 
 ]
+
 
