@@ -27,7 +27,7 @@
         "flag": "🇯🇵",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1471&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 04:30", "fp2": "Vie 08:00", "fp3": "Sáb 04:30", "quali": "Sáb 08:00", "race": "Dom 07:00" }
+        "sessions": { "fp1": "Vie 03:30", "fp2": "Vie 07:00", "fp3": "Sáb 03:30", "quali": "Sáb 07:00", "race": "Dom 07:00" }
     },
     {
         "round": 4,
@@ -37,7 +37,7 @@
         "flag": "🇧🇭",
         "is_sprint": false,
         "bg_image": "https://media.datacenterdynamics.com/media/images/ManamaBahrain.width-880.jpg?q=80&w=1470&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 13:30", "quali": "Sáb 17:00", "race": "Dom 17:00" }
+        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 14:30", "quali": "Sáb 18:00", "race": "Dom 17:00" }
     },
     {
         "round": 5,
@@ -67,7 +67,7 @@
         "flag": "🇨🇦",
         "is_sprint": true,
         "bg_image": "https://cdn.authentik.com/canada/uploads/images/orig/dec_montreal/1-centre-ville-montreal.jpg?q=80&w=1470&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 19:30", "fp2": "Vie 23:00", "fp3": "Sáb 18:30", "quali": "Sáb 22:00", "race": "Dom 20:00" }
+        "sessions": { "fp1": "Vie 18:30", "sprint_quali": "Vie 22:30", "sprint_race": "Sáb 18:00", "quali": "Sáb 22:00", "race": "Dom 22:00" }
     },
     {
         "round": 8,
@@ -97,7 +97,7 @@
         "flag": "🇦🇹",
         "is_sprint": false,
         "bg_image": "https://tr2storage.blob.core.windows.net/imagenes/FSKMHeo0hvdeezenYjQp3yEQ.jpg?q=80&w=1470&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 12:30", "sprint_quali": "Vie 16:30", "sprint_race": "Sáb 12:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
+        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 12:30", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
         "round": 11,
@@ -107,7 +107,7 @@
         "flag": "🇬🇧",
         "is_sprint": true,
         "bg_image": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=1470&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 12:30", "quali": "Sáb 16:00", "race": "Dom 16:00" }
+        "sessions": { "fp1": "Vie 13:30", "sprint_quali": "Vie 17:30", "sprint_race": "Sáb 13:00", "quali": "Sáb 17:00", "race": "Dom 16:00" }
     },
     {
         "round": 12,
@@ -117,7 +117,7 @@
         "flag": "🇧🇪",
         "is_sprint": false,
         "bg_image": "https://traveltomorrow.com/wp-content/uploads/2021/07/Spa-Belgium.png?q=80&w=1470&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 13:30", "sprint_quali": "Vie 17:30", "sprint_race": "Sáb 13:00", "quali": "Sáb 17:00", "race": "Dom 15:00" }
+        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 12:30", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
         "round": 13,
@@ -137,7 +137,7 @@
         "flag": "🇳🇱",
         "is_sprint": true,
         "bg_image": "https://cdn.sanity.io/images/nxpteyfv/goguides/2a049d02cea169825831a1987fa795fe2fae3fee-1600x1066.jpg?q=80&w=1471&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 12:30", "fp2": "Vie 16:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 15:00" }
+        "sessions": { "fp1": "Vie 12:30", "sprint_quali": "Vie 16:30", "sprint_race": "Sáb 12:00", "quali": "Sáb 16:00", "race": "Dom 17:00" }
     },
     {
         "round": 15,
@@ -147,7 +147,7 @@
         "flag": "🇮🇹",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1286&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 12:30", "quali": "Sáb 16:00", "race": "Dom 15:00" }
+        "sessions": { "fp1": "Vie 12:30", "fp2": "Vie 16:00", "fp3": "Sáb 12:30", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
     {
         "round": 16,
@@ -167,7 +167,7 @@
         "flag": "🇦🇿",
         "is_sprint": false,
         "bg_image": "https://keystoneacademic-res.cloudinary.com/image/upload/v1696411259/articles/educationscom/article-hero-image-2991.jpg?q=80&w=1470&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 11:30", "fp2": "Vie 15:00", "fp3": "Sáb 10:30", "quali": "Sáb 14:00", "race": "Dom 13:00" }
+        "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "fp3": "Sáb 10:30", "quali": "Sáb 14:00", "race": "Dom 13:00" }
     },
     {
         "round": 18,
@@ -177,7 +177,7 @@
         "flag": "🇸🇬",
         "is_sprint": true,
         "bg_image": "https://www.viajarsingapur.com/img/que-visitar.jpg?q=80&w=1470&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 11:30", "fp2": "Vie 15:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
+        "sessions": { "fp1": "Vie 10:30", "sprint_quali": "Vie 14:30", "sprint_race": "Sáb 11:00", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     },
     {
         "round": 19,
@@ -187,7 +187,7 @@
         "flag": "🇺🇸",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1534270804882-6b5048b1c1fc?q=80&w=1470&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 19:30", "sprint_quali": "Vie 23:30", "sprint_race": "Sáb 20:00", "quali": "Sáb 23:59", "race": "Dom 21:00" }
+        "sessions": { "fp1": "Vie 19:30", "fp2": "Vie 23:00", "fp3": "Sáb 19:30", "quali": "Sáb 23:00", "race": "Dom 21:00" }
     },
     {
         "round": 20,
@@ -197,7 +197,7 @@
         "flag": "🇲🇽",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?q=80&w=1470&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 20:30", "fp2": "Sáb 00:00", "fp3": "Sáb 19:30", "quali": "Sáb 23:00", "race": "Dom 21:00" }
+        "sessions": { "fp1": "Vie 19:30", "fp2": "Vie 23:00", "fp3": "Sáb 18:30", "quali": "Sáb 22:00", "race": "Dom 21:00" }
     },
     {
         "round": 21,
@@ -207,17 +207,17 @@
         "flag": "🇧🇷",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?q=80&w=1470&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 15:30", "sprint_quali": "Vie 19:30", "sprint_race": "Sáb 15:00", "quali": "Sáb 19:00", "race": "Dom 18:00" }
+        "sessions": { "fp1": "Vie 16:30", "fp2": "Vie 20:00", "fp3": "Sáb 15:30", "quali": "Sáb 19:00", "race": "Dom 18:00" }
     },
     {
         "round": 22,
         "name": "GP de Las Vegas",
         "circuit": "Las Vegas Strip",
-        "date": "2026-11-21",
+        "date": "2026-11-22",
         "flag": "🇺🇸",
         "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1605833556294-ea5c7a74f57d?q=80&w=1474&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 03:30", "fp2": "Vie 07:00", "fp3": "Sáb 03:30", "quali": "Sáb 07:00", "race": "Dom 07:00" }
+        "sessions": { "fp1": "Vie 01:30", "fp2": "Vie 05:00", "fp3": "Sáb 01:30", "quali": "Sáb 05:00", "race": "Dom 05:00" }
     },
     {
         "round": 23,
@@ -227,7 +227,7 @@
         "flag": "🇶🇦",
         "is_sprint": false,
         "bg_image": "https://images.trvl-media.com/place/6361053/b3f7cfde-2031-4df4-8afc-4db6d101ae6b.jpg?q=80&w=1429&auto=format&fit=crop",
-        "sessions": { "fp1": "Vie 12:30", "sprint_quali": "Vie 16:30", "sprint_race": "Sáb 13:00", "quali": "Sáb 17:00", "race": "Dom 17:00" }
+        "sessions": { "fp1": "Vie 14:30", "fp2": "Vie 18:00", "fp3": "Sáb 15:30", "quali": "Sáb 19:00", "race": "Dom 15:00" }
     },
     {
         "round": 24,
@@ -240,6 +240,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
