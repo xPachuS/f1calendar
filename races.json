@@ -65,7 +65,7 @@
         "circuit": "Gilles-Villeneuve",
         "date": "2026-05-24",
         "flag": "🇨🇦",
-        "is_sprint": false,
+        "is_sprint": true,
         "bg_image": "https://cdn.authentik.com/canada/uploads/images/orig/dec_montreal/1-centre-ville-montreal.jpg?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 19:30", "fp2": "Vie 23:00", "fp3": "Sáb 18:30", "quali": "Sáb 22:00", "race": "Dom 20:00" }
     },
@@ -95,7 +95,7 @@
         "circuit": "Red Bull Ring",
         "date": "2026-06-28",
         "flag": "🇦🇹",
-        "is_sprint": true,
+        "is_sprint": false,
         "bg_image": "https://tr2storage.blob.core.windows.net/imagenes/FSKMHeo0hvdeezenYjQp3yEQ.jpg?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 12:30", "sprint_quali": "Vie 16:30", "sprint_race": "Sáb 12:00", "quali": "Sáb 16:00", "race": "Dom 15:00" }
     },
@@ -105,7 +105,7 @@
         "circuit": "Silverstone Circuit",
         "date": "2026-07-05",
         "flag": "🇬🇧",
-        "is_sprint": false,
+        "is_sprint": true,
         "bg_image": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 12:30", "quali": "Sáb 16:00", "race": "Dom 16:00" }
     },
@@ -115,7 +115,7 @@
         "circuit": "Spa-Francorchamps",
         "date": "2026-07-19",
         "flag": "🇧🇪",
-        "is_sprint": true,
+        "is_sprint": false,
         "bg_image": "https://traveltomorrow.com/wp-content/uploads/2021/07/Spa-Belgium.png?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "sprint_quali": "Vie 17:30", "sprint_race": "Sáb 13:00", "quali": "Sáb 17:00", "race": "Dom 15:00" }
     },
@@ -135,7 +135,7 @@
         "circuit": "Circuit Zandvoort",
         "date": "2026-08-23",
         "flag": "🇳🇱",
-        "is_sprint": false,
+        "is_sprint": true,
         "bg_image": "https://cdn.sanity.io/images/nxpteyfv/goguides/2a049d02cea169825831a1987fa795fe2fae3fee-1600x1066.jpg?q=80&w=1471&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 12:30", "fp2": "Vie 16:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 15:00" }
     },
@@ -175,7 +175,7 @@
         "circuit": "Marina Bay Street",
         "date": "2026-10-11",
         "flag": "🇸🇬",
-        "is_sprint": false,
+        "is_sprint": true,
         "bg_image": "https://www.viajarsingapur.com/img/que-visitar.jpg?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 11:30", "fp2": "Vie 15:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     },
@@ -185,7 +185,7 @@
         "circuit": "COTA Austin",
         "date": "2026-10-25",
         "flag": "🇺🇸",
-        "is_sprint": true,
+        "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1534270804882-6b5048b1c1fc?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 19:30", "sprint_quali": "Vie 23:30", "sprint_race": "Sáb 20:00", "quali": "Sáb 23:59", "race": "Dom 21:00" }
     },
@@ -205,7 +205,7 @@
         "circuit": "Interlagos",
         "date": "2026-11-08",
         "flag": "🇧🇷",
-        "is_sprint": true,
+        "is_sprint": false,
         "bg_image": "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 15:30", "sprint_quali": "Vie 19:30", "sprint_race": "Sáb 15:00", "quali": "Sáb 19:00", "race": "Dom 18:00" }
     },
@@ -225,7 +225,7 @@
         "circuit": "Lusail Circuit",
         "date": "2026-11-29",
         "flag": "🇶🇦",
-        "is_sprint": true,
+        "is_sprint": false,
         "bg_image": "https://images.trvl-media.com/place/6361053/b3f7cfde-2031-4df4-8afc-4db6d101ae6b.jpg?q=80&w=1429&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 12:30", "sprint_quali": "Vie 16:30", "sprint_race": "Sáb 13:00", "quali": "Sáb 17:00", "race": "Dom 17:00" }
     },
@@ -240,6 +240,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
