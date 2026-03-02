@@ -140,12 +140,12 @@ function renderRaces(filter) {
     });
 }
 
-// Función auxiliar para calcular si es la carrera inminente (entre hoy y 14 días)
+// Función auxiliar para calcular si es la carrera inminente (entre hoy y 7 días)
 function isImmediateNext(race) {
     const now = new Date();
     const raceDate = new Date(`${race.date}T${race.sessions.race.split(' ')[1]}:00`);
     const diffDays = (raceDate - now) / (1000 * 60 * 60 * 24);
-    return diffDays > 0 && diffDays < 14;
+    return diffDays > 0 && diffDays < 7;
 }
 
 // --- 3. LÓGICA DEL COUNTDOWN ---
@@ -199,3 +199,4 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
