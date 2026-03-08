@@ -11,7 +11,6 @@ let db_races = [];
 let db_tv = []; 
 
 // DICCIONARIO: TRADUCTOR DE EMOJI A CÓDIGO ISO (FlagCDN)
-// Se usan para generar las imágenes de las banderas
 const emojiToIso = {
     "🇦🇺": "au", "🇨🇳": "cn", "🇯🇵": "jp", "🇧🇭": "bh", "🇸🇦": "sa",
     "🇺🇸": "us", "🇨🇦": "ca", "🇲🇨": "mc", "🇪🇸": "es", "🇦🇹": "at",
@@ -34,7 +33,6 @@ const sessionLabels = {
 async function loadData() {
     const grid = document.getElementById('races-grid');
     try {
-        // Cargamos ambos archivos JSON en paralelo
         const [racesRes, tvRes] = await Promise.all([
             fetch('races.json'),
             fetch('tv.json')
@@ -59,6 +57,14 @@ function renderRaces(filter) {
     grid.innerHTML = ''; 
     const now = new Date();
     
+    // Identificamos cuál es la próxima carrera activa globalmente
+    // Será la primera cuya hora de fin (+3h) sea mayor a ahora
+    const nextActiveRace = db_races.find(r => {
+        const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
+        raceEndTime.setHours(raceEndTime.getHours() + 3);
+        return raceEndTime >= now;
+    });
+
     // Filtrado de carreras (3 horas de duración)
     let filtered = db_races;
     if (filter === 'upcoming') {
@@ -75,10 +81,9 @@ function renderRaces(filter) {
         });
     }
 
-    // Generamos el HTML de la lista de TV (con banderas HD)
-    // Se genera una sola vez y se reutiliza en todas las tarjetas
+    // Generamos el HTML de la lista de TV
     const tvListHTML = db_tv.map(tv => {
-        const iso = emojiToIso[tv.flag] || 'xx'; // 'xx' es el placeholder de FlagCDN si no encuentra el código
+        const iso = emojiToIso[tv.flag] || 'xx'; 
         return `
         <li class="tv-item">
             <div class="tv-country-wrapper">
@@ -95,17 +100,14 @@ function renderRaces(filter) {
         const scene = document.createElement('div');
         scene.className = 'race-card-scene';
 
-        // Formato de bandera
         const isoCode = emojiToIso[race.flag] || 'xx'; 
         const backgroundStyle = `linear-gradient(rgba(20, 20, 30, 0.75), rgba(20, 20, 30, 0.95)), url('${race.bg_image}')`;
 
-        // --- LÓGICA DE FINALIZADO ---
-        // Calculamos si la carrera ya terminó (inicio + 3 horas)
+        // Lógica para saber si la carrera iterada ya terminó
         const raceEndTime = new Date(`${race.date}T${race.sessions.race.split(' ')[1]}:00`);
         raceEndTime.setHours(raceEndTime.getHours() + 3);
         const isFinished = raceEndTime < now;
 
-        // Decidimos qué mostrar en la etiqueta (Fecha o FINALIZADO)
         let badgeHTML = '';
         if (isFinished) {
             badgeHTML = `<div class="date-badge" style="background: rgba(255, 255, 255, 0.05); color: #777;"><i class="fas fa-flag-checkered" style="color: #777;"></i> FINALIZADO</div>`;
@@ -114,7 +116,6 @@ function renderRaces(filter) {
             badgeHTML = `<div class="date-badge"><i class="far fa-calendar-alt"></i> ${humanDate}</div>`;
         }
 
-        // Generación de lista de sesiones
         const sessionsHTML = Object.entries(race.sessions).map(([key, value]) => `
             <li class="session-item ${key === 'race' ? 'main-race' : ''}">
                 <span>${sessionLabels[key] || key}</span>
@@ -122,10 +123,8 @@ function renderRaces(filter) {
             </li>
         `).join('');
 
-        // Construcción del HTML de la tarjeta (Flipper -> Front + Back)
         scene.innerHTML = `
             <div class="race-card-flipper" onclick="this.classList.toggle('is-flipped')">
-                
                 <div class="card-face card-front">
                     <div class="card-header" style="background-image: ${backgroundStyle}">
                         <div class="header-top">
@@ -155,19 +154,13 @@ function renderRaces(filter) {
             </div>
         `;
         
-        // Si es la próxima carrera inmediata, añadimos el borde rojo brillante
-        if(isImmediateNext(race)) scene.querySelector('.card-front').classList.add('next-race-highlight');
+        // Si esta tarjeta corresponde a la próxima carrera activa, la iluminamos
+        if(nextActiveRace && race.round === nextActiveRace.round) {
+            scene.querySelector('.card-front').classList.add('next-race-highlight');
+        }
         
         grid.appendChild(scene);
     });
-}
-
-// Función auxiliar para calcular si es la carrera inminente (entre hoy y 7 días)
-function isImmediateNext(race) {
-    const now = new Date();
-    const raceDate = new Date(`${race.date}T${race.sessions.race.split(' ')[1]}:00`);
-    const diffDays = (raceDate - now) / (1000 * 60 * 60 * 24);
-    return diffDays > 0 && diffDays < 7;
 }
 
 // --- 3. LÓGICA DEL COUNTDOWN ---
@@ -177,7 +170,6 @@ function initCountdown() {
 
     const update = () => {
         const now = new Date();
-        // Buscar la primera carrera cuya hora de fin (inicio + 3h) sea mayor a ahora
         const next = db_races.find(r => {
             const rTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
             rTime.setHours(rTime.getHours() + 3); 
@@ -215,7 +207,7 @@ function initCountdown() {
     setInterval(update, 1000);
 }
 
-// Función global para los botones de filtro en el HTML
+// Función global para los botones de filtro
 window.filterRaces = (type) => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     if (event) event.target.classList.add('active');
