@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
 let db_races = []; 
 let db_tv = []; 
 
-// DICCIONARIO: EMOJI -> ISO
 const emojiToIso = {
     "🇦🇺": "au", "🇨🇳": "cn", "🇯🇵": "jp", "🇧🇭": "bh", "🇸🇦": "sa",
     "🇺🇸": "us", "🇨🇦": "ca", "🇲🇨": "mc", "🇪🇸": "es", "🇦🇹": "at",
@@ -25,7 +24,6 @@ const sessionLabels = {
     "quali": "Clasificación", "race": "CARRERA"
 };
 
-// COLORES OFICIALES
 const teamColors = {
     "red bull": "#3671C6", "ferrari": "#E8002D", "mercedes": "#00D2BE",
     "mclaren": "#FF8000", "aston martin": "#229971", "alpine": "#0090FF",
@@ -41,29 +39,32 @@ function getTeamColor(teamName) {
     return "var(--text-dim)";
 }
 
-// FORMATEADOR DE TIEMPO (ms -> 0:00:00.000)
+// Formatea milisegundos a formato de carrera (H:MM:SS.mmm)
 function formatTime(ms) {
-    if (!ms) return "";
-    const date = new Date(ms);
-    const h = Math.floor(ms / 3600000);
-    const m = date.getUTCMinutes();
-    const s = date.getUTCSeconds();
-    const mls = date.getUTCMilliseconds().toString().padStart(3, '0');
-    return h > 0 ? `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}.${mls}` 
-                 : `${m}:${s.toString().padStart(2, '0')}.${mls}`;
+    if (!ms || isNaN(ms)) return "";
+    const totalSeconds = ms / 1000;
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = Math.floor(totalSeconds % 60);
+    const mls = Math.round((totalSeconds % 1) * 1000).toString().padStart(3, '0');
+    
+    if (h > 0) {
+        return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}.${mls}`;
+    }
+    return `${m}:${s.toString().padStart(2, '0')}.${mls}`;
 }
 
 function translateStatus(status) {
     if (!status) return "";
-    if (status.includes("Lap")) return status.replace("Laps", "Vueltas").replace("Lap", "Vuelta");
+    if (status.includes("Lap")) return status.replace("Laps", "Vts").replace("Lap", "Vt");
     const translations = {
         "Retired": "Retirado", "Collision": "Colisión", "Engine": "Motor",
-        "Accident": "Accidente", "Finished": "Finalizado", "Power Unit": "Motor"
+        "Accident": "Accidente", "Finished": "Finalizado", "Power Unit": "Motor",
+        "D.N.F": "DNF", "Spun off": "Trompo"
     };
     return translations[status] || status; 
 }
 
-// --- 1. CARGA DE DATOS ---
 async function loadData() {
     try {
         const [racesRes, tvRes] = await Promise.all([fetch('races.json'), fetch('tv.json')]);
@@ -71,76 +72,82 @@ async function loadData() {
         db_tv = await tvRes.json();
         renderRaces('all'); 
         initCountdown();    
-    } catch (e) { console.error("Error cargando JSON:", e); }
+    } catch (e) { console.error("Error al cargar JSON locales:", e); }
 }
 
-// --- 2. LÓGICA DE OPENF1 (TIEMPOS Y GAPS) ---
+// --- CONEXIÓN MEJORADA A OPENF1 ---
 async function loadResultsForRace(round) {
     const race = db_races.find(r => r.round === round);
     if (!race || race.results) return;
 
+    const container = document.getElementById(`results-list-${round}`);
+    const yearToFetch = 2024; // Mantenemos 2024 para pruebas, cambia a 2026 en temporada
+
     try {
-        const yearToFetch = 2024; // Cambiar a 2026 en temporada
-        const container = document.getElementById(`results-list-${round}`);
-        
+        // 1. Obtener la sesión de carrera correcta
         const sessionsReq = await fetch(`https://api.openf1.org/v1/sessions?year=${yearToFetch}&session_name=Race`);
         const sessionsData = await sessionsReq.json();
-        sessionsData.sort((a, b) => new Date(a.date_start) - new Date(b.date_start));
         
-        const targetSession = sessionsData[round - 1]; 
+        // Ordenar por fecha para asegurar que la ronda coincida
+        sessionsData.sort((a, b) => new Date(a.date_start) - new Date(b.date_start));
+        const targetSession = sessionsData[round - 1];
+
         if (!targetSession) {
-            container.innerHTML = `<li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top:20px;">No disponible</li>`;
+            container.innerHTML = `<li class="tv-item" style="justify-content:center; border:none;">Pendiente de datos</li>`;
             return;
         }
 
-        const [resultReq, driversReq] = await Promise.all([
+        // 2. Cargar resultados y pilotos
+        const [resReq, driReq] = await Promise.all([
             fetch(`https://api.openf1.org/v1/session_result?session_key=${targetSession.session_key}`),
             fetch(`https://api.openf1.org/v1/drivers?session_key=${targetSession.session_key}`)
         ]);
 
-        const resultData = await resultReq.json();
-        const driversData = await driversReq.json();
+        const results = await resReq.json();
+        const drivers = await driReq.json();
 
-        if (resultData && resultData.length > 0) {
-            // Ordenar por posición
-            resultData.sort((a, b) => a.position - b.position);
-            const winnerTime = resultData[0].time; // Tiempo del 1º en ms
+        if (results && results.length > 0) {
+            results.sort((a, b) => a.position - b.position);
+            const winnerTime = results[0].time; // Tiempo base del ganador
 
-            race.results = resultData.map(r => {
-                const dInfo = driversData.find(d => d.driver_number === r.driver_number) || {};
-                let displayTime = "";
+            race.results = results.map(r => {
+                const dInfo = drivers.find(d => d.driver_number === r.driver_number) || {};
+                let timeLabel = "";
 
-                if (r.position === 1) {
-                    displayTime = formatTime(r.time);
+                if (r.position === 1 && r.time) {
+                    timeLabel = formatTime(r.time);
                 } else if (r.time && winnerTime) {
                     const gap = ((r.time - winnerTime) / 1000).toFixed(3);
-                    displayTime = `+${gap}s`;
+                    timeLabel = `+${gap}s`;
                 } else {
-                    displayTime = translateStatus(r.status);
+                    timeLabel = translateStatus(r.status);
                 }
 
                 return {
                     pos: r.position,
                     driver: dInfo.name_acronym || r.driver_number,
                     team: dInfo.team_name || "F1 Team",
-                    time: displayTime,
-                    teamColor: getTeamColor(dInfo.team_name)
+                    time: timeLabel,
+                    color: getTeamColor(dInfo.team_name)
                 };
             });
 
+            // Inyectar en el HTML
             container.innerHTML = race.results.map(r => `
                 <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
-                    <span style="font-weight: 700; width: 20px; color: var(--text-dim); text-align: right;">${r.pos}</span>
-                    <span style="font-weight: 700; color: var(--text-light); width: 40px;">${r.driver}</span>
-                    <span style="color: ${r.teamColor}; font-weight: 600; font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${r.team}</span>
-                    <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-light); text-align: right;">${r.time}</span>
+                    <span style="font-weight:700; width:20px; color:var(--text-dim); text-align:right;">${r.pos}</span>
+                    <span style="font-weight:700; color:var(--text-light); width:40px;">${r.driver}</span>
+                    <span style="color:${r.color}; font-weight:600; font-size:0.85rem; flex-grow:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${r.team}</span>
+                    <span style="font-family:monospace; font-size:0.85rem; color:var(--text-light); text-align:right;">${r.time}</span>
                 </li>
             `).join('');
         }
-    } catch (e) { console.error("Error OpenF1:", e); }
+    } catch (e) {
+        console.error("Error en OpenF1:", e);
+        container.innerHTML = `<li class="tv-item" style="justify-content:center; color:var(--f1-red); border:none;">Error de red</li>`;
+    }
 }
 
-// --- 3. RENDERIZADO ---
 function renderRaces(filter) {
     const grid = document.getElementById('races-grid');
     grid.innerHTML = ''; 
@@ -196,7 +203,7 @@ function renderRaces(filter) {
             <div class="race-card-flipper" onclick="this.classList.toggle('is-flipped')">
                 <div class="card-face card-front">
                     <div class="card-header" style="background-image: linear-gradient(rgba(20,20,30,0.75), rgba(20,20,30,0.95)), url('${race.bg_image}')">
-                        <div class="header-top"><span class="round-num">Ronda ${race.round}</span>${race.is_sprint ? '<span class="sprint-label" style="background:var(--f1-red); padding:2px 8px; border-radius:4px; font-size:0.9em; font-weight:700; margin-left:5px;">SPRINT</span>' : ''}</div>
+                        <div class="header-top"><span class="round-num">Ronda ${race.round}</span>${race.is_sprint ? '<span style="background:var(--f1-red); padding:2px 8px; border-radius:4px; font-size:0.9em; font-weight:700; margin-left:5px;">SPRINT</span>' : ''}</div>
                         <img src="https://flagcdn.com/w80/${isoCode}.png" class="flag-img">
                     </div>
                     <div class="card-body">
@@ -212,11 +219,10 @@ function renderRaces(filter) {
         
         if(nextActiveRace && race.round === nextActiveRace.round) scene.querySelector('.card-front').classList.add('next-race-highlight');
         grid.appendChild(scene);
-        if (isFinished && (!race.results)) loadResultsForRace(race.round);
+        if (isFinished && !race.results) loadResultsForRace(race.round);
     });
 }
 
-// --- 4. COUNTDOWN ---
 function initCountdown() {
     const timer = document.getElementById('countdown');
     const name = document.getElementById('next-race-name');
