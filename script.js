@@ -54,9 +54,9 @@ function getTeamColor(teamName) {
 
 // Función auxiliar para obtener el color de la posición (Podio)
 function getPosColor(pos) {
-    if (pos === "1") return "#FFD700"; // Oro
-    if (pos === "2") return "#C0C0C0"; // Plata
-    if (pos === "3") return "#CD7F32"; // Bronce
+    if (pos === "1" || pos === 1) return "#FFD700"; // Oro
+    if (pos === "2" || pos === 2) return "#C0C0C0"; // Plata
+    if (pos === "3" || pos === 3) return "#CD7F32"; // Bronce
     return "var(--text-dim)";           // Gris para el resto
 }
 
@@ -303,7 +303,7 @@ function initCountdown() {
         const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
         const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
 
-        timer.innerText = `${d}d ${h}h ${m}s ${s}s`;
+        timer.innerText = `${d}d ${h}h ${m}m ${s}s`; // Corregido 'm' en los minutos del contador
         timer.style.color = "var(--f1-red)";
     };
 
@@ -346,11 +346,14 @@ async function showStandings(type) {
             </thead>
             <tbody>`;
 
-        list.forEach(item => {
+        // Añadimos 'index' para generar la posición de forma segura
+        list.forEach((item, index) => {
+            const posicionReal = index + 1; // El índice empieza en 0, así que sumamos 1
+
             if (type === 'drivers') {
                 html += `
                 <tr>
-                    <td class="pos-cell">${item.position}</td>
+                    <td class="pos-cell">${posicionReal}</td>
                     <td style="font-weight:700">${item.Driver.givenName} ${item.Driver.familyName}</td>
                     <td style="color:${getTeamColor(item.Constructors[0].name)}">${item.Constructors[0].name}</td>
                     <td class="points-cell">${item.points}</td>
@@ -358,7 +361,7 @@ async function showStandings(type) {
             } else {
                 html += `
                 <tr>
-                    <td class="pos-cell">${item.position}</td>
+                    <td class="pos-cell">${posicionReal}</td>
                     <td style="font-weight:700; color:${getTeamColor(item.Constructor.name)}">${item.Constructor.name}</td>
                     <td class="points-cell">${item.points}</td>
                 </tr>`;
