@@ -38,9 +38,9 @@ const teamColors = {
     "aston martin": "#229971",
     "alpine": "#0090FF",
     "williams": "#005AFF",
-    "rb": "#6692FF",       // Visa Cash App RB
-    "sauber": "#52E252",   // Kick Sauber
-    "haas": "#FFFFFF"      // Blanco para destacar en el fondo oscuro
+    "rb": "#6692FF",       
+    "sauber": "#52E252",   
+    "haas": "#FFFFFF"      
 };
 
 // Función para obtener el color del equipo de forma dinámica
@@ -49,7 +49,40 @@ function getTeamColor(teamName) {
     for (const [key, color] of Object.entries(teamColors)) {
         if (nameLower.includes(key)) return color;
     }
-    return "var(--text-dim)"; // Color gris por defecto si hay un equipo nuevo
+    return "var(--text-dim)";
+}
+
+// Función para traducir los estados de la API al español
+function translateStatus(status) {
+    if (!status) return "";
+    
+    // Traducción dinámica de vueltas (ej: "+1 Lap" -> "+1 Vuelta")
+    if (status.includes("Lap")) {
+        return status.replace("Laps", "Vueltas").replace("Lap", "Vuelta");
+    }
+
+    // Traducción de abandonos y estados comunes
+    const translations = {
+        "Retired": "Retirado",
+        "Collision": "Colisión",
+        "Engine": "Motor",
+        "Gearbox": "Caja de cambios",
+        "Accident": "Accidente",
+        "Spun off": "Salida de pista",
+        "Suspension": "Suspensión",
+        "Brakes": "Frenos",
+        "Hydraulics": "Hidráulica",
+        "Electrical": "Eléctrico",
+        "Puncture": "Pinchazo",
+        "Power Unit": "Unidad de Potencia",
+        "Clutch": "Embrague",
+        "Transmission": "Transmisión",
+        "Disqualified": "Descalificado",
+        "Did not qualify": "No clasificado",
+        "Finished": "Finalizado"
+    };
+
+    return translations[status] || status; // Devuelve la traducción, o el original si no está en la lista
 }
 
 // --- 1. CARGA DE DATOS ---
@@ -77,29 +110,26 @@ async function loadData() {
 // --- 2. CONEXIÓN A LA API DE F1 PARA RESULTADOS ---
 async function loadResultsForRace(round) {
     const race = db_races.find(r => r.round === round);
-    if (!race || race.results) return; // Si ya tiene resultados, no hacemos nada
+    if (!race || race.results) return;
 
     try {
-        // Hacemos la petición a la API pública de F1 (Jolpi Ergast Fork)
+        // Petición a la API (Jolpi Ergast Fork)
         const response = await fetch(`https://api.jolpi.ca/ergast/f1/2026/${round}/results.json`);
         const data = await response.json();
         const raceData = data.MRData.RaceTable.Races[0];
 
         const container = document.getElementById(`results-list-${round}`);
-        if (!container) return; // Por si el usuario cambió de pestaña muy rápido
+        if (!container) return; 
 
         if (raceData && raceData.Results && raceData.Results.length > 0) {
-            // Transformamos los datos complejos de la API a nuestro formato simple
             race.results = raceData.Results.map(r => ({
                 pos: r.position,
-                // Usamos la abreviatura (ej. VER), o las 3 primeras letras del apellido si no existe
                 driver: r.Driver.code || r.Driver.familyName.substring(0, 3).toUpperCase(),
                 team: r.Constructor.name,
-                // Si terminó tiene tiempo, si fue doblado o se retiró, mostramos el "status"
-                time: r.Time ? r.Time.time : r.status 
+                // Aplicamos la traducción aquí en caso de no tener "r.Time"
+                time: r.Time ? r.Time.time : translateStatus(r.status) 
             }));
 
-            // Imprimimos los resultados en la tarjeta CON COLORES DE EQUIPO
             container.innerHTML = race.results.map(r => `
                 <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
                     <span style="font-weight: 700; width: 20px; color: var(--text-dim); text-align: right; flex-shrink: 0;">${r.pos}</span>
@@ -109,7 +139,6 @@ async function loadResultsForRace(round) {
                 </li>
             `).join('');
         } else {
-            // La API funciona, pero aún no han subido los datos
             container.innerHTML = `<li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">Resultados no disponibles aún</li>`;
         }
     } catch (e) {
@@ -187,13 +216,11 @@ function renderRaces(filter) {
             </li>
         `).join('');
 
-        // --- LÓGICA DEL REVERSO AUTOMATIZADO ---
         let backFaceHTML = '';
         if (isFinished) {
             let resultsContent = '';
             
             if (race.results && race.results.length > 0) {
-                // Si los datos ya se descargaron antes y están en la memoria
                 resultsContent = race.results.map(r => `
                     <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
                         <span style="font-weight: 700; width: 20px; color: var(--text-dim); text-align: right; flex-shrink: 0;">${r.pos}</span>
@@ -203,7 +230,6 @@ function renderRaces(filter) {
                     </li>
                 `).join('');
             } else {
-                // Spinner mientras se descarga
                 resultsContent = `
                     <li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">
                         <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Obteniendo tiempos oficiales...
