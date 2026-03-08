@@ -1,6 +1,6 @@
 /**
  * Lógica principal para F1 Calendario 2026
- * DATOS OFICIALES EXTRAÍDOS DE FORMULA1.COM + TV INFO + API DE RESULTADOS
+ * DATOS OFICIALES: FORMULA1.COM + TV INFO + JOLPI/ERGAST API
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -38,18 +38,36 @@ const teamColors = {
     "aston martin": "#229971",
     "alpine": "#0090FF",
     "williams": "#005AFF",
-    "rb": "#6692FF",       // Visa Cash App RB
-    "sauber": "#52E252",   // Kick Sauber
-    "haas": "#FFFFFF"      // Blanco para destacar en el fondo oscuro
+    "rb": "#6692FF",       
+    "sauber": "#52E252",   
+    "haas": "#FFFFFF"      
 };
 
-// Función para obtener el color del equipo de forma dinámica
 function getTeamColor(teamName) {
+    if(!teamName) return "var(--text-dim)";
     const nameLower = teamName.toLowerCase();
     for (const [key, color] of Object.entries(teamColors)) {
         if (nameLower.includes(key)) return color;
     }
-    return "var(--text-dim)"; // Color gris por defecto si hay un equipo nuevo
+    return "var(--text-dim)";
+}
+
+// Función para traducir los estados de la API (Retirados, vueltas perdidas, etc.)
+function translateStatus(status) {
+    if (!status) return "";
+    if (status.includes("Lap")) return status.replace("Laps", "Vts").replace("Lap", "Vt");
+    
+    const translations = {
+        "Finished": "Finalizado",
+        "Retired": "Retirado",
+        "Collision": "Colisión",
+        "Engine": "Motor",
+        "Accident": "Accidente",
+        "Power Unit": "Motor",
+        "Spun off": "Trompo",
+        "Transmission": "Caja"
+    };
+    return translations[status] || status;
 }
 
 // --- 1. CARGA DE DATOS ---
@@ -70,54 +88,58 @@ async function loadData() {
         initCountdown();    
     } catch (error) {
         console.error("Error:", error);
-        grid.innerHTML = `<div class="error-msg" style="color:white; text-align:center; grid-column:1/-1;">⚠️ Error cargando datos. Asegúrate de ejecutar en un servidor local.</div>`;
+        grid.innerHTML = `<div class="error-msg" style="color:white; text-align:center; grid-column:1/-1;">⚠️ Error cargando datos locales.</div>`;
     }
 }
 
-// --- 2. CONEXIÓN A LA API DE F1 PARA RESULTADOS ---
+// --- 2. CONEXIÓN A LA API DE F1 PARA RESULTADOS 2026 ---
 async function loadResultsForRace(round) {
     const race = db_races.find(r => r.round === round);
-    if (!race || race.results) return; // Si ya tiene resultados, no hacemos nada
+    if (!race || race.results) return;
 
     try {
-        // Hacemos la petición a la API pública de F1 (Jolpi Ergast Fork)
-        const response = await fetch(`https://api.jolpi.ca/ergast/f1/2024/${round}/results.json`);
+        const response = await fetch(`https://api.jolpi.ca/ergast/f1/2026/${round}/results.json`);
         const data = await response.json();
         const raceData = data.MRData.RaceTable.Races[0];
 
         const container = document.getElementById(`results-list-${round}`);
-        if (!container) return; // Por si el usuario cambió de pestaña muy rápido
+        if (!container) return;
 
         if (raceData && raceData.Results && raceData.Results.length > 0) {
-            // Transformamos los datos complejos de la API a nuestro formato simple
-            race.results = raceData.Results.map(r => ({
-                pos: r.position,
-                // Usamos la abreviatura (ej. VER), o las 3 primeras letras del apellido si no existe
-                driver: r.Driver.code || r.Driver.familyName.substring(0, 3).toUpperCase(),
-                team: r.Constructor.name,
-                // Si terminó tiene tiempo, si fue doblado o se retiró, mostramos el "status"
-                time: r.Time ? r.Time.time : r.status 
-            }));
+            race.results = raceData.Results.map(r => {
+                let timeLabel = "";
 
-            // Imprimimos los resultados en la tarjeta CON COLORES DE EQUIPO
+                // Si hay tiempo (Ganador o Gap), lo usamos. Si no, usamos el status traducido.
+                if (r.Time && r.Time.time) {
+                    timeLabel = r.Time.time;
+                } else {
+                    timeLabel = translateStatus(r.status);
+                }
+
+                return {
+                    pos: r.position,
+                    driver: r.Driver.code || r.Driver.familyName.substring(0, 3).toUpperCase(),
+                    team: r.Constructor.name,
+                    time: timeLabel
+                };
+            });
+
+            // Renderizado con formato de torre de tiempos profesional
             container.innerHTML = race.results.map(r => `
-                <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
-                    <span style="font-weight: 700; width: 20px; color: var(--text-dim); text-align: right; flex-shrink: 0;">${r.pos}</span>
-                    <span style="font-weight: 700; color: var(--text-light); width: 40px; flex-shrink: 0;">${r.driver}</span>
-                    <span style="color: ${getTeamColor(r.team)}; font-weight: 600; font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 3px rgba(0,0,0,0.5);">${r.team}</span>
-                    <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-light); text-align: right; flex-shrink: 0;">${r.time}</span>
+                <li class="tv-item" style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;">
+                        <span style="font-weight: 700; width: 22px; color: var(--text-dim); text-align: right; flex-shrink: 0;">${r.pos}</span>
+                        <span style="font-weight: 700; color: var(--text-light); width: 38px; flex-shrink: 0;">${r.driver}</span>
+                        <span style="color: ${getTeamColor(r.team)}; font-weight: 600; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${r.team}</span>
+                    </div>
+                    <span style="font-family: 'Courier New', monospace; font-size: 0.85rem; color: var(--text-light); text-align: right; min-width: 85px; flex-shrink: 0;">${r.time}</span>
                 </li>
             `).join('');
         } else {
-            // La API funciona, pero aún no han subido los datos
             container.innerHTML = `<li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">Resultados no disponibles aún</li>`;
         }
     } catch (e) {
         console.error(`Error cargando los resultados de la ronda ${round}:`, e);
-        const container = document.getElementById(`results-list-${round}`);
-        if (container) {
-            container.innerHTML = `<li class="tv-item" style="justify-content: center; color: var(--f1-red); border:none; margin-top: 20px;">Error de conexión</li>`;
-        }
     }
 }
 
@@ -150,15 +172,13 @@ function renderRaces(filter) {
 
     const tvListHTML = db_tv.map(tv => {
         const iso = emojiToIso[tv.flag] || 'xx'; 
-        return `
-        <li class="tv-item">
+        return `<li class="tv-item">
             <div class="tv-country-wrapper">
                 <img src="https://flagcdn.com/w40/${iso}.png" class="tv-flag-img" alt="${tv.country}">
                 <span class="tv-country-name">${tv.country}</span>
             </div>
             <span class="tv-broadcaster">${tv.broadcaster}</span>
-        </li>
-        `;
+        </li>`;
     }).join('');
 
     filtered.forEach(race => {
@@ -172,66 +192,15 @@ function renderRaces(filter) {
         raceEndTime.setHours(raceEndTime.getHours() + 3);
         const isFinished = raceEndTime < now;
 
-        let badgeHTML = '';
-        if (isFinished) {
-            badgeHTML = `<div class="date-badge" style="background: rgba(255, 255, 255, 0.05); color: #777;"><i class="fas fa-flag-checkered" style="color: #777;"></i> FINALIZADO</div>`;
-        } else {
-            const humanDate = new Date(race.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
-            badgeHTML = `<div class="date-badge"><i class="far fa-calendar-alt"></i> ${humanDate}</div>`;
-        }
+        let badgeHTML = isFinished 
+            ? `<div class="date-badge" style="background: rgba(255, 255, 255, 0.05); color: #777;"><i class="fas fa-flag-checkered" style="color: #777;"></i> FINALIZADO</div>`
+            : `<div class="date-badge"><i class="far fa-calendar-alt"></i> ${new Date(race.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' })}</div>`;
 
         const sessionsHTML = Object.entries(race.sessions).map(([key, value]) => `
             <li class="session-item ${key === 'race' ? 'main-race' : ''}">
                 <span>${sessionLabels[key] || key}</span>
                 <span>${value}</span>
-            </li>
-        `).join('');
-
-        // --- LÓGICA DEL REVERSO AUTOMATIZADO ---
-        let backFaceHTML = '';
-        if (isFinished) {
-            let resultsContent = '';
-            
-            if (race.results && race.results.length > 0) {
-                // Si los datos ya se descargaron antes y están en la memoria
-                resultsContent = race.results.map(r => `
-                    <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
-                        <span style="font-weight: 700; width: 20px; color: var(--text-dim); text-align: right; flex-shrink: 0;">${r.pos}</span>
-                        <span style="font-weight: 700; color: var(--text-light); width: 40px; flex-shrink: 0;">${r.driver}</span>
-                        <span style="color: ${getTeamColor(r.team)}; font-weight: 600; font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 3px rgba(0,0,0,0.5);">${r.team}</span>
-                        <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-light); text-align: right; flex-shrink: 0;">${r.time}</span>
-                    </li>
-                `).join('');
-            } else {
-                // Spinner mientras se descarga
-                resultsContent = `
-                    <li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">
-                        <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Obteniendo tiempos oficiales...
-                    </li>
-                `;
-                loadResultsForRace(race.round);
-            }
-
-            backFaceHTML = `
-                <div class="back-header">
-                    <h3>🏁 Clasificación</h3>
-                    <p>Podio y Tiempos Oficiales</p>
-                </div>
-                <ul class="tv-list" id="results-list-${race.round}">
-                    ${resultsContent}
-                </ul>
-            `;
-        } else {
-            backFaceHTML = `
-                <div class="back-header">
-                    <h3>📺 Dónde ver</h3>
-                    <p>Broadcasters Oficiales</p>
-                </div>
-                <ul class="tv-list">
-                    ${tvListHTML}
-                </ul>
-            `;
-        }
+            </li>`).join('');
 
         scene.innerHTML = `
             <div class="race-card-flipper" onclick="this.classList.toggle('is-flipped')">
@@ -239,7 +208,7 @@ function renderRaces(filter) {
                     <div class="card-header" style="background-image: ${backgroundStyle}">
                         <div class="header-top">
                             <span class="round-num">Ronda ${race.round}</span>
-                            ${race.is_sprint ? '<span style="background:var(--f1-red); padding:2px 8px; margin-left:3px; border-radius:4px; font-size:0.9em; font-weight:700;">SPRINT</span>' : ''}
+                            ${race.is_sprint ? '<span style="background:var(--f1-red); padding:2px 8px; border-radius:4px; font-size:0.9em; font-weight:700; margin-left:5px;">SPRINT</span>' : ''}
                         </div>
                         <img src="https://flagcdn.com/w80/${isoCode}.png" class="flag-img" alt="Flag">
                     </div>
@@ -253,16 +222,25 @@ function renderRaces(filter) {
                 </div>
 
                 <div class="card-face card-back">
-                    ${backFaceHTML}
+                    <div class="back-header">
+                        <h3>${isFinished ? '🏁 Clasificación' : '📺 Dónde ver'}</h3>
+                        <p>${isFinished ? 'Tiempos Oficiales 2026' : 'Broadcasters Oficiales'}</p>
+                    </div>
+                    <ul class="tv-list" id="results-list-${race.round}">
+                        ${isFinished ? '<li class="tv-item" style="justify-content: center; border:none; margin-top:20px;"><i class="fas fa-spinner fa-spin"></i> Cargando clasificación...</li>' : tvListHTML}
+                    </ul>
                 </div>
-            </div>
-        `;
+            </div>`;
         
         if(nextActiveRace && race.round === nextActiveRace.round) {
             scene.querySelector('.card-front').classList.add('next-race-highlight');
         }
         
         grid.appendChild(scene);
+        // Si la carrera ha terminado, pedimos los resultados a la API
+        if (isFinished && !race.results) {
+            loadResultsForRace(race.round);
+        }
     });
 }
 
@@ -303,7 +281,6 @@ function initCountdown() {
         const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
 
         timer.innerText = `${d}d ${h}h ${m}m ${s}s`;
-        timer.style.color = "var(--f1-red)";
     };
 
     update();
@@ -316,4 +293,3 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
-
