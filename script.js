@@ -1,6 +1,6 @@
 /**
  * Lógica principal para F1 Calendario 2026
- * DATOS OFICIALES: FORMULA1.COM + TV INFO + OPENF1 (FIX NC/DNF)
+ * DATOS OFICIALES: FORMULA1.COM + TV INFO + OPENF1 (FIX TIEMPOS Y GAPS)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -40,7 +40,7 @@ function getTeamColor(teamName) {
 }
 
 function formatTime(ms) {
-    if (!ms || isNaN(ms)) return "";
+    if (!ms || isNaN(ms)) return null;
     const totalSeconds = ms / 1000;
     const h = Math.floor(totalSeconds / 3600);
     const m = Math.floor((totalSeconds % 3600) / 60);
@@ -51,22 +51,12 @@ function formatTime(ms) {
 }
 
 function translateStatus(status) {
-    // Si el status es null o undefined, devolvemos DNF directamente
-    if (status === null || status === undefined || status === "") return "DNF";
-    
+    if (!status) return "NC";
     if (status.includes("Lap")) return status.replace("Laps", "Vts").replace("Lap", "Vt");
-    
     const translations = {
-        "Retired": "Retirado", 
-        "Collision": "Colisión", 
-        "Engine": "Motor",
-        "Accident": "Accidente", 
-        "Finished": "Finalizado", 
-        "Power Unit": "Motor",
-        "D.N.F": "DNF", 
-        "Spun off": "Trompo",
-        "Transmission": "Caja",
-        "Mechanical": "Mecánico"
+        "Finished": "Finalizado", "Retired": "Retirado", "Collision": "Colisión", 
+        "Engine": "Motor", "Accident": "Accidente", "Power Unit": "Motor",
+        "D.N.F": "DNF", "Spun off": "Trompo", "Transmission": "Caja"
     };
     return translations[status] || status; 
 }
@@ -78,7 +68,7 @@ async function loadData() {
         db_tv = await tvRes.json();
         renderRaces('all'); 
         initCountdown();    
-    } catch (e) { console.error("Error al cargar JSON locales:", e); }
+    } catch (e) { console.error("Error al cargar JSON:", e); }
 }
 
 async function loadResultsForRace(round) {
@@ -86,7 +76,7 @@ async function loadResultsForRace(round) {
     if (!race || race.results) return;
 
     const container = document.getElementById(`results-list-${round}`);
-    const yearToFetch = 2026; 
+    const yearToFetch = 2026; // Cambiar a 2026 en temporada
 
     try {
         const sessionsReq = await fetch(`https://api.openf1.org/v1/sessions?year=${yearToFetch}&session_name=Race`);
@@ -108,7 +98,7 @@ async function loadResultsForRace(round) {
         const drivers = await driReq.json();
 
         if (results && results.length > 0) {
-            // ORDENACIÓN: Posiciones numéricas primero, nulos (NC) al final
+            // Ordenamos: numéricos primero, NC al final
             results.sort((a, b) => (a.position || 999) - (b.position || 999));
             
             const winner = results.find(r => r.position === 1);
@@ -118,17 +108,19 @@ async function loadResultsForRace(round) {
                 const dInfo = drivers.find(d => d.driver_number === r.driver_number) || {};
                 let timeLabel = "";
 
+                // LÓGICA DE TIEMPOS MEJORADA
                 if (r.position === 1 && r.time) {
                     timeLabel = formatTime(r.time);
                 } else if (r.time && winnerTime) {
                     const gap = ((r.time - winnerTime) / 1000).toFixed(3);
                     timeLabel = `+${gap}s`;
                 } else {
+                    // Si no hay tiempo, traducir status (Finished -> Finalizado, etc)
                     timeLabel = translateStatus(r.status);
                 }
 
                 return {
-                    pos: (r.position === null || r.position === undefined) ? "NC" : r.position,
+                    pos: r.position || "NC",
                     driver: dInfo.name_acronym || r.driver_number,
                     team: dInfo.team_name || "F1 Team",
                     time: timeLabel,
@@ -147,10 +139,11 @@ async function loadResultsForRace(round) {
         }
     } catch (e) {
         console.error("Error OpenF1:", e);
-        container.innerHTML = `<li class="tv-item" style="justify-content:center; color:var(--f1-red); border:none;">Error de red</li>`;
+        container.innerHTML = `<li class="tv-item" style="justify-content:center; color:var(--f1-red); border:none;">Error API</li>`;
     }
 }
 
+// El resto de funciones (renderRaces, initCountdown) se mantienen igual que en tu versión funcional
 function renderRaces(filter) {
     const grid = document.getElementById('races-grid');
     grid.innerHTML = ''; 
@@ -245,7 +238,7 @@ function initCountdown() {
         const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
         const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
         const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
-        timer.innerText = `${d}d ${h}h ${m}s ${s}s`;
+        timer.innerText = `${d}d ${h}h ${m}m ${s}s`;
     }, 1000);
 }
 
