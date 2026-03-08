@@ -52,6 +52,14 @@ function getTeamColor(teamName) {
     return "var(--text-dim)"; // Color gris por defecto si hay un equipo nuevo
 }
 
+// Función auxiliar para obtener el color de la posición (Podio)
+function getPosColor(pos) {
+    if (pos === "1") return "#FFD700"; // Oro
+    if (pos === "2") return "#C0C0C0"; // Plata
+    if (pos === "3") return "#CD7F32"; // Bronce
+    return "var(--text-dim)";           // Gris para el resto
+}
+
 // --- 1. CARGA DE DATOS ---
 async function loadData() {
     const grid = document.getElementById('races-grid');
@@ -77,47 +85,38 @@ async function loadData() {
 // --- 2. CONEXIÓN A LA API DE F1 PARA RESULTADOS ---
 async function loadResultsForRace(round) {
     const race = db_races.find(r => r.round === round);
-    if (!race || race.results) return; // Si ya tiene resultados, no hacemos nada
+    if (!race || race.results) return; 
 
     try {
-        // Hacemos la petición a la API pública de F1 (Jolpi Ergast Fork)
         const response = await fetch(`https://api.jolpi.ca/ergast/f1/2026/${round}/results.json`);
         const data = await response.json();
         const raceData = data.MRData.RaceTable.Races[0];
 
         const container = document.getElementById(`results-list-${round}`);
-        if (!container) return; // Por si el usuario cambió de pestaña muy rápido
+        if (!container) return; 
 
         if (raceData && raceData.Results && raceData.Results.length > 0) {
-            // Transformamos los datos complejos de la API a nuestro formato simple
             race.results = raceData.Results.map(r => ({
                 pos: r.position,
-                // Usamos la abreviatura (ej. VER), o las 3 primeras letras del apellido si no existe
                 driver: r.Driver.code || r.Driver.familyName.substring(0, 3).toUpperCase(),
                 team: r.Constructor.name,
-                // Si terminó tiene tiempo, si fue doblado o se retiró, mostramos el "status"
                 time: r.Time ? r.Time.time : r.status 
             }));
 
-            // Imprimimos los resultados en la tarjeta CON COLORES DE EQUIPO
+            // Imprimimos los resultados con colores de podio
             container.innerHTML = race.results.map(r => `
                 <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
-                    <span style="font-weight: 700; width: 20px; color: var(--text-dim); text-align: right; flex-shrink: 0;">${r.pos}</span>
+                    <span style="font-weight: 800; width: 20px; color: ${getPosColor(r.pos)}; text-align: right; flex-shrink: 0;">${r.pos}</span>
                     <span style="font-weight: 700; color: var(--text-light); width: 40px; flex-shrink: 0;">${r.driver}</span>
                     <span style="color: ${getTeamColor(r.team)}; font-weight: 600; font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 3px rgba(0,0,0,0.5);">${r.team}</span>
                     <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-light); text-align: right; flex-shrink: 0;">${r.time}</span>
                 </li>
             `).join('');
         } else {
-            // La API funciona, pero aún no han subido los datos
             container.innerHTML = `<li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">Resultados no disponibles aún</li>`;
         }
     } catch (e) {
         console.error(`Error cargando los resultados de la ronda ${round}:`, e);
-        const container = document.getElementById(`results-list-${round}`);
-        if (container) {
-            container.innerHTML = `<li class="tv-item" style="justify-content: center; color: var(--f1-red); border:none; margin-top: 20px;">Error de conexión</li>`;
-        }
     }
 }
 
@@ -193,17 +192,15 @@ function renderRaces(filter) {
             let resultsContent = '';
             
             if (race.results && race.results.length > 0) {
-                // Si los datos ya se descargaron antes y están en la memoria
                 resultsContent = race.results.map(r => `
                     <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
-                        <span style="font-weight: 700; width: 20px; color: var(--text-dim); text-align: right; flex-shrink: 0;">${r.pos}</span>
+                        <span style="font-weight: 800; width: 20px; color: ${getPosColor(r.pos)}; text-align: right; flex-shrink: 0;">${r.pos}</span>
                         <span style="font-weight: 700; color: var(--text-light); width: 40px; flex-shrink: 0;">${r.driver}</span>
                         <span style="color: ${getTeamColor(r.team)}; font-weight: 600; font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 3px rgba(0,0,0,0.5);">${r.team}</span>
                         <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-light); text-align: right; flex-shrink: 0;">${r.time}</span>
                     </li>
                 `).join('');
             } else {
-                // Spinner mientras se descarga
                 resultsContent = `
                     <li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">
                         <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Obteniendo tiempos oficiales...
