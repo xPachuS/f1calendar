@@ -38,9 +38,23 @@ const teamColors = {
     "aston martin": "#229971",
     "alpine": "#0090FF",
     "williams": "#005AFF",
-    "rb": "#6692FF",       // Visa Cash App RB
-    "sauber": "#52E252",   // Kick Sauber
-    "haas": "#FFFFFF"      // Blanco para destacar en el fondo oscuro
+    "rb": "#6692FF",       
+    "sauber": "#52E252",   
+    "haas": "#FFFFFF"      
+};
+
+// DICCIONARIO: LOGOS DE LAS ESCUDERÍAS (URLs de Wikimedia/Wikipedia)
+const teamLogos = {
+    "red bull": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f6/Oracle_Red_Bull_Racing_logo.svg/320px-Oracle_Red_Bull_Racing_logo.svg.png",
+    "ferrari": "https://upload.wikimedia.org/wikipedia/en/thumb/c/c0/Scuderia_Ferrari_Logo.svg/320px-Scuderia_Ferrari_Logo.svg.png",
+    "mercedes": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Mercedes_AMG_Petronas_F1_Logo.svg/320px-Mercedes_AMG_Petronas_F1_Logo.svg.png",
+    "mclaren": "https://upload.wikimedia.org/wikipedia/en/thumb/6/66/McLaren_Racing_logo.svg/320px-McLaren_Racing_logo.svg.png",
+    "aston martin": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Aston_Martin_Aramco_Cognizant_F1_Team_Logo.svg/320px-Aston_Martin_Aramco_Cognizant_F1_Team_Logo.svg.png",
+    "alpine": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Alpine_F1_Team_Logo.svg/320px-Alpine_F1_Team_Logo.svg.png",
+    "williams": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Williams_Racing_2024_logo.svg/320px-Williams_Racing_2024_logo.svg.png",
+    "rb": "https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Visa_Cash_App_RB_F1_Team_logo.svg/320px-Visa_Cash_App_RB_F1_Team_logo.svg.png",
+    "sauber": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Kick_Sauber_logo.svg/320px-Kick_Sauber_logo.svg.png",
+    "haas": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Haas_F1_Team_logo.svg/320px-Haas_F1_Team_logo.svg.png"
 };
 
 // Función para obtener el color del equipo de forma dinámica
@@ -49,15 +63,24 @@ function getTeamColor(teamName) {
     for (const [key, color] of Object.entries(teamColors)) {
         if (nameLower.includes(key)) return color;
     }
-    return "var(--text-dim)"; // Color gris por defecto si hay un equipo nuevo
+    return "var(--text-dim)";
+}
+
+// Función para obtener el logo del equipo
+function getTeamLogo(teamName) {
+    const nameLower = teamName.toLowerCase();
+    for (const [key, url] of Object.entries(teamLogos)) {
+        if (nameLower.includes(key)) return url;
+    }
+    return ""; // Devuelve vacío si no encuentra el equipo
 }
 
 // Función auxiliar para obtener el color de la posición (Podio)
 function getPosColor(pos) {
-    if (pos === "1" || pos === 1) return "#FFD700"; // Oro
-    if (pos === "2" || pos === 2) return "#C0C0C0"; // Plata
-    if (pos === "3" || pos === 3) return "#CD7F32"; // Bronce
-    return "var(--text-dim)";           // Gris para el resto
+    if (pos === "1" || pos === 1) return "#FFD700"; 
+    if (pos === "2" || pos === 2) return "#C0C0C0"; 
+    if (pos === "3" || pos === 3) return "#CD7F32"; 
+    return "var(--text-dim)";           
 }
 
 // --- 1. CARGA DE DATOS ---
@@ -103,7 +126,6 @@ async function loadResultsForRace(round) {
                 time: r.Time ? r.Time.time : r.status 
             }));
 
-            // Imprimimos los resultados con colores de podio
             container.innerHTML = race.results.map(r => `
                 <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
                     <span style="font-weight: 800; width: 20px; color: ${getPosColor(r.pos)}; text-align: right; flex-shrink: 0;">${r.pos}</span>
@@ -122,7 +144,6 @@ async function loadResultsForRace(round) {
 
 // --- 3. RENDERIZADO DE TARJETAS ---
 function renderRaces(filter) {
-    // Asegurar que la vista de grid sea visible y la de standings esté oculta
     document.getElementById('races-grid').style.display = 'grid';
     document.getElementById('standings-container').style.display = 'none';
 
@@ -190,7 +211,6 @@ function renderRaces(filter) {
             </li>
         `).join('');
 
-        // --- LÓGICA DEL REVERSO AUTOMATIZADO ---
         let backFaceHTML = '';
         if (isFinished) {
             let resultsContent = '';
@@ -303,7 +323,7 @@ function initCountdown() {
         const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
         const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
 
-        timer.innerText = `${d}d ${h}h ${m}m ${s}s`; // Corregido 'm' en los minutos del contador
+        timer.innerText = `${d}d ${h}h ${m}m ${s}s`;
         timer.style.color = "var(--f1-red)";
     };
 
@@ -313,7 +333,6 @@ function initCountdown() {
 
 // --- 5. LÓGICA DE CLASIFICACIONES (MUNDIAL) ---
 async function showStandings(type) {
-    // UI: Gestionar botones activos y visibilidad
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     if (event) event.target.classList.add('active');
     
@@ -346,23 +365,36 @@ async function showStandings(type) {
             </thead>
             <tbody>`;
 
-        // Añadimos 'index' para generar la posición de forma segura
         list.forEach((item, index) => {
-            const posicionReal = index + 1; // El índice empieza en 0, así que sumamos 1
+            const posicionReal = index + 1; 
 
             if (type === 'drivers') {
+                const teamName = item.Constructors[0].name;
+                const logoUrl = getTeamLogo(teamName);
+                const logoHtml = logoUrl ? `<img src="${logoUrl}" class="team-logo" alt="Logo">` : '';
+
                 html += `
                 <tr>
                     <td class="pos-cell">${posicionReal}</td>
                     <td style="font-weight:700">${item.Driver.givenName} ${item.Driver.familyName}</td>
-                    <td style="color:${getTeamColor(item.Constructors[0].name)}">${item.Constructors[0].name}</td>
+                    <td style="color:${getTeamColor(teamName)}">
+                        ${logoHtml}
+                        ${teamName}
+                    </td>
                     <td class="points-cell">${item.points}</td>
                 </tr>`;
             } else {
+                const teamName = item.Constructor.name;
+                const logoUrl = getTeamLogo(teamName);
+                const logoHtml = logoUrl ? `<img src="${logoUrl}" class="team-logo" alt="Logo">` : '';
+
                 html += `
                 <tr>
                     <td class="pos-cell">${posicionReal}</td>
-                    <td style="font-weight:700; color:${getTeamColor(item.Constructor.name)}">${item.Constructor.name}</td>
+                    <td style="font-weight:700; color:${getTeamColor(teamName)}">
+                        ${logoHtml}
+                        ${teamName}
+                    </td>
                     <td class="points-cell">${item.points}</td>
                 </tr>`;
             }
@@ -377,7 +409,7 @@ async function showStandings(type) {
     }
 }
 
-// Función global para los botones de filtro (Modificada para resetear vistas)
+// Función global para los botones de filtro
 window.filterRaces = (type) => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     if (event) event.target.classList.add('active');
