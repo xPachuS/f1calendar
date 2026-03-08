@@ -47,18 +47,17 @@ const teamColors = {
 
 // DICCIONARIO: LOGOS DE LAS ESCUDERÍAS (URLs directas SVG)
 const teamLogos = {
-    "red bull": "https://static.wikia.nocookie.net/logopedia/images/5/54/Red_Bull_Racing_2005.svg",
+    "red bull": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/redbullracing/2026redbullracinglogowhite.webp",
     "ferrari": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/ferrari/2026ferrarilogowhite.webp",
     "mercedes": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/mercedes/2026mercedeslogowhite.webp",
     "mclaren": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/mclaren/2026mclarenlogowhite.webp",
-    "aston martin": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Aston_Martin_Aramco_Cognizant_F1_Team_Logo.svg",
-    "alpine": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Alpine_F1_Team_Logo.svg",
-    "williams": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Williams_Racing_2024_logo.svg",
-    "rb": "https://upload.wikimedia.org/wikipedia/en/a/ae/Visa_Cash_App_RB_F1_Team_logo.svg",
-    "audi": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Audi_logo.svg",
-    "sauber": "https://upload.wikimedia.org/wikipedia/commons/0/07/Kick_Sauber_logo.svg",
-    "haas": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Haas_F1_Team_logo.svg",
-    "cadillac": "https://upload.wikimedia.org/wikipedia/commons/3/30/Cadillac_logo.svg"
+    "aston martin": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/astonmartin/2026astonmartinlogowhite.webp",
+    "alpine": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/alpine/2026alpinelogowhite.webp",
+    "williams": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/williams/2026williamslogowhite.webp",
+    "rb": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/racingbulls/2026racingbullslogowhite.webp",
+    "audi": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/audi/2026audilogowhite.webp",
+    "haas": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/haasf1team/2026haasf1teamlogowhite.webp",
+    "cadillac": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/cadillac/2026cadillaclogowhite.webp"
 };
 
 // Función para obtener el color del equipo de forma dinámica
@@ -418,6 +417,7 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
 
 
 
