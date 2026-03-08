@@ -1,6 +1,6 @@
 /**
  * Lógica principal para F1 Calendario 2026
- * DATOS OFICIALES: FORMULA1.COM + TV INFO + OPENF1 (TIEMPOS Y GAPS)
+ * DATOS OFICIALES: FORMULA1.COM + TV INFO + OPENF1 (FIX TIEMPOS Y GAPS)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -39,7 +39,6 @@ function getTeamColor(teamName) {
     return "var(--text-dim)";
 }
 
-// Formatea milisegundos a formato de carrera (H:MM:SS.mmm)
 function formatTime(ms) {
     if (!ms || isNaN(ms)) return null;
     const totalSeconds = ms / 1000;
@@ -55,12 +54,12 @@ function formatTime(ms) {
 }
 
 function translateStatus(status) {
-    if (!status) return "NC";
+    if (!status || status === "Finished") return ""; 
     if (status.includes("Lap")) return status.replace("Laps", "Vts").replace("Lap", "Vt");
     const translations = {
-        "Finished": "Finalizado", "Retired": "Retirado", "Collision": "Colisión", 
-        "Engine": "Motor", "Accident": "Accidente", "Power Unit": "Motor",
-        "D.N.F": "DNF", "Spun off": "Trompo", "Transmission": "Caja"
+        "Retired": "Retirado", "Collision": "Colisión", "Engine": "Motor",
+        "Accident": "Accidente", "Power Unit": "Motor", "D.N.F": "DNF",
+        "Spun off": "Trompo"
     };
     return translations[status] || status; 
 }
@@ -80,7 +79,7 @@ async function loadResultsForRace(round) {
     if (!race || race.results) return;
 
     const container = document.getElementById(`results-list-${round}`);
-    const yearToFetch = 2024; // Cambiar a 2026 en temporada real
+    const yearToFetch = 2026; // Mantenemos 2024 para las pruebas
 
     try {
         const sessionsReq = await fetch(`https://api.openf1.org/v1/sessions?year=${yearToFetch}&session_name=Race`);
@@ -102,7 +101,6 @@ async function loadResultsForRace(round) {
         const drivers = await driReq.json();
 
         if (results && results.length > 0) {
-            // Ordenamos: numéricos primero (1, 2, 3...), NC/DNF al final (999)
             results.sort((a, b) => (a.position || 999) - (b.position || 999));
             
             const winner = results.find(r => r.position === 1);
@@ -112,12 +110,14 @@ async function loadResultsForRace(round) {
                 const dInfo = drivers.find(d => d.driver_number === r.driver_number) || {};
                 let timeLabel = "";
 
+                // --- LÓGICA DE TIEMPOS REPARADA ---
                 if (r.position === 1 && r.time) {
                     timeLabel = formatTime(r.time);
-                } else if (r.time && winnerTime && r.position !== null) {
+                } else if (r.time && winnerTime) {
                     const gap = ((r.time - winnerTime) / 1000).toFixed(3);
                     timeLabel = `+${gap}s`;
-                } else {
+                } else if (r.status) {
+                    // Solo si NO hay tiempo numérico, usamos el status traducido
                     timeLabel = translateStatus(r.status);
                 }
 
@@ -125,13 +125,13 @@ async function loadResultsForRace(round) {
                     pos: r.position || "NC",
                     driver: dInfo.name_acronym || r.driver_number,
                     team: dInfo.team_name || "F1 Team",
-                    time: timeLabel,
+                    time: timeLabel, 
                     color: getTeamColor(dInfo.team_name)
                 };
             });
 
             container.innerHTML = race.results.map(r => `
-                <li class="tv-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); gap: 10px;">
+                <li class="tv-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; gap: 10px;">
                     <div style="display: flex; align-items: center; gap: 10px; flex-grow: 1; overflow: hidden;">
                         <span style="font-weight:700; width:25px; color:var(--text-dim); text-align:right; flex-shrink: 0;">${r.pos}</span>
                         <span style="font-weight:700; color:var(--text-light); width:40px; flex-shrink: 0;">${r.driver}</span>
@@ -146,8 +146,6 @@ async function loadResultsForRace(round) {
         container.innerHTML = `<li class="tv-item" style="justify-content:center; color:var(--f1-red); border:none;">Error API</li>`;
     }
 }
-
-
 
 function renderRaces(filter) {
     const grid = document.getElementById('races-grid');
