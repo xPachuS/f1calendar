@@ -81,7 +81,7 @@ async function loadResultsForRace(round) {
 
     try {
         // Hacemos la petición a la API pública de F1 (Jolpi Ergast Fork)
-        const response = await fetch(`https://api.jolpi.ca/ergast/f1/2026/${round}/results.json`);
+        const response = await fetch(`https://api.jolpi.ca/ergast/f1/2024/${round}/results.json`);
         const data = await response.json();
         const raceData = data.MRData.RaceTable.Races[0];
 
@@ -316,3 +316,4 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
