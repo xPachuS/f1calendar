@@ -94,8 +94,7 @@ async function loadResultsForRace(round) {
     if (!race || race.results) return;
 
     try {
-        // AÑO DE PRUEBA: Cambiar a 2026 cuando arranque la temporada oficial
-        const yearToFetch = 2024; 
+        const yearToFetch = 2026; 
         
         const container = document.getElementById(`results-list-${round}`);
         if (!container) return; 
@@ -356,3 +355,4 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
