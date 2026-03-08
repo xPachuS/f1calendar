@@ -122,6 +122,10 @@ async function loadResultsForRace(round) {
 
 // --- 3. RENDERIZADO DE TARJETAS ---
 function renderRaces(filter) {
+    // Asegurar que la vista de grid sea visible y la de standings esté oculta
+    document.getElementById('races-grid').style.display = 'grid';
+    document.getElementById('standings-container').style.display = 'none';
+
     const grid = document.getElementById('races-grid');
     grid.innerHTML = ''; 
     const now = new Date();
@@ -299,7 +303,7 @@ function initCountdown() {
         const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
         const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
 
-        timer.innerText = `${d}d ${h}h ${m}m ${s}s`;
+        timer.innerText = `${d}d ${h}h ${m}s ${s}s`;
         timer.style.color = "var(--f1-red)";
     };
 
@@ -307,7 +311,70 @@ function initCountdown() {
     setInterval(update, 1000);
 }
 
-// Función global para los botones de filtro
+// --- 5. LÓGICA DE CLASIFICACIONES (MUNDIAL) ---
+async function showStandings(type) {
+    // UI: Gestionar botones activos y visibilidad
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (event) event.target.classList.add('active');
+    
+    const raceGrid = document.getElementById('races-grid');
+    const standingsContainer = document.getElementById('standings-container');
+    const standingsContent = document.getElementById('standings-content');
+    
+    raceGrid.style.display = 'none';
+    standingsContainer.style.display = 'block';
+    standingsContent.innerHTML = `<div style="text-align:center; padding:40px;"><i class="fas fa-spinner fa-spin"></i> Cargando clasificación oficial 2026...</div>`;
+
+    try {
+        const endpoint = type === 'drivers' ? 'driverStandings' : 'constructorStandings';
+        const response = await fetch(`https://api.jolpi.ca/ergast/f1/2026/${endpoint}.json`);
+        const data = await response.json();
+        
+        const list = type === 'drivers' 
+            ? data.MRData.StandingsTable.StandingsLists[0].DriverStandings 
+            : data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings;
+
+        let html = `<h3>${type === 'drivers' ? 'Mundial de Pilotos' : 'Campeonato de Escuderías'}</h3>`;
+        html += `<table class="standings-table">
+            <thead>
+                <tr>
+                    <th>Pos</th>
+                    <th>${type === 'drivers' ? 'Piloto' : 'Escudería'}</th>
+                    ${type === 'drivers' ? '<th>Equipo</th>' : ''}
+                    <th style="text-align:right">Pts</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+        list.forEach(item => {
+            if (type === 'drivers') {
+                html += `
+                <tr>
+                    <td class="pos-cell">${item.position}</td>
+                    <td style="font-weight:700">${item.Driver.givenName} ${item.Driver.familyName}</td>
+                    <td style="color:${getTeamColor(item.Constructors[0].name)}">${item.Constructors[0].name}</td>
+                    <td class="points-cell">${item.points}</td>
+                </tr>`;
+            } else {
+                html += `
+                <tr>
+                    <td class="pos-cell">${item.position}</td>
+                    <td style="font-weight:700; color:${getTeamColor(item.Constructor.name)}">${item.Constructor.name}</td>
+                    <td class="points-cell">${item.points}</td>
+                </tr>`;
+            }
+        });
+
+        html += `</tbody></table>`;
+        standingsContent.innerHTML = html;
+
+    } catch (error) {
+        console.error("Error cargando standings:", error);
+        standingsContent.innerHTML = `<p style="color:red; text-align:center;">Error al conectar con la API de resultados.</p>`;
+    }
+}
+
+// Función global para los botones de filtro (Modificada para resetear vistas)
 window.filterRaces = (type) => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     if (event) event.target.classList.add('active');
