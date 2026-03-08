@@ -11,6 +11,7 @@ let db_races = [];
 let db_tv = []; 
 
 // DICCIONARIO: TRADUCTOR DE EMOJI A CÓDIGO ISO (FlagCDN)
+// Se usan para generar las imágenes de las banderas
 const emojiToIso = {
     "🇦🇺": "au", "🇨🇳": "cn", "🇯🇵": "jp", "🇧🇭": "bh", "🇸🇦": "sa",
     "🇺🇸": "us", "🇨🇦": "ca", "🇲🇨": "mc", "🇪🇸": "es", "🇦🇹": "at",
@@ -81,7 +82,7 @@ function renderRaces(filter) {
         });
     }
 
-    // Generamos el HTML de la lista de TV
+    // Generamos el HTML de la lista de TV (con banderas HD)
     const tvListHTML = db_tv.map(tv => {
         const iso = emojiToIso[tv.flag] || 'xx'; 
         return `
@@ -100,14 +101,17 @@ function renderRaces(filter) {
         const scene = document.createElement('div');
         scene.className = 'race-card-scene';
 
+        // Formatos de fecha y bandera
         const isoCode = emojiToIso[race.flag] || 'xx'; 
         const backgroundStyle = `linear-gradient(rgba(20, 20, 30, 0.75), rgba(20, 20, 30, 0.95)), url('${race.bg_image}')`;
 
-        // Lógica para saber si la carrera iterada ya terminó
+        // --- LÓGICA DE FINALIZADO ---
+        // Calculamos si la carrera ya terminó (inicio + 3 horas)
         const raceEndTime = new Date(`${race.date}T${race.sessions.race.split(' ')[1]}:00`);
         raceEndTime.setHours(raceEndTime.getHours() + 3);
         const isFinished = raceEndTime < now;
 
+        // Decidimos qué mostrar en la etiqueta (Fecha o FINALIZADO)
         let badgeHTML = '';
         if (isFinished) {
             badgeHTML = `<div class="date-badge" style="background: rgba(255, 255, 255, 0.05); color: #777;"><i class="fas fa-flag-checkered" style="color: #777;"></i> FINALIZADO</div>`;
@@ -116,6 +120,7 @@ function renderRaces(filter) {
             badgeHTML = `<div class="date-badge"><i class="far fa-calendar-alt"></i> ${humanDate}</div>`;
         }
 
+        // Generación de lista de sesiones
         const sessionsHTML = Object.entries(race.sessions).map(([key, value]) => `
             <li class="session-item ${key === 'race' ? 'main-race' : ''}">
                 <span>${sessionLabels[key] || key}</span>
@@ -123,8 +128,50 @@ function renderRaces(filter) {
             </li>
         `).join('');
 
+        // --- LÓGICA DEL REVERSO (TV vs RESULTADOS) ---
+        let backFaceHTML = '';
+        if (isFinished) {
+            let resultsContent = '';
+            // Si la carrera tiene resultados guardados en el JSON
+            if (race.results && race.results.length > 0) {
+                resultsContent = race.results.map(r => `
+                    <li class="tv-item" style="justify-content: flex-start; gap: 15px;">
+                        <span style="font-weight: 700; width: 20px; color: var(--f1-red); text-align: right;">${r.pos}</span>
+                        <span style="font-weight: 600; color: var(--text-light); width: 45px;">${r.driver}</span>
+                        <span style="color: var(--text-dim); font-size: 0.85rem;">${r.team}</span>
+                    </li>
+                `).join('');
+            } else {
+                // Si ya terminó pero aún no has actualizado el JSON
+                resultsContent = `<li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">Resultados no disponibles aún</li>`;
+            }
+
+            backFaceHTML = `
+                <div class="back-header">
+                    <h3>🏁 Clasificación</h3>
+                    <p>Podio y Puntos</p>
+                </div>
+                <ul class="tv-list">
+                    ${resultsContent}
+                </ul>
+            `;
+        } else {
+            // Si no ha terminado, mostramos los horarios de TV
+            backFaceHTML = `
+                <div class="back-header">
+                    <h3>📺 Dónde ver</h3>
+                    <p>Broadcasters Oficiales</p>
+                </div>
+                <ul class="tv-list">
+                    ${tvListHTML}
+                </ul>
+            `;
+        }
+
+        // Construcción del HTML de la tarjeta (Flipper -> Front + Back)
         scene.innerHTML = `
             <div class="race-card-flipper" onclick="this.classList.toggle('is-flipped')">
+                
                 <div class="card-face card-front">
                     <div class="card-header" style="background-image: ${backgroundStyle}">
                         <div class="header-top">
@@ -143,13 +190,7 @@ function renderRaces(filter) {
                 </div>
 
                 <div class="card-face card-back">
-                    <div class="back-header">
-                        <h3>📺 Dónde ver</h3>
-                        <p>Broadcasters Oficiales</p>
-                    </div>
-                    <ul class="tv-list">
-                        ${tvListHTML}
-                    </ul>
+                    ${backFaceHTML}
                 </div>
             </div>
         `;
@@ -170,6 +211,7 @@ function initCountdown() {
 
     const update = () => {
         const now = new Date();
+        // Buscar la primera carrera cuya hora de fin (inicio + 3h) sea mayor a ahora
         const next = db_races.find(r => {
             const rTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
             rTime.setHours(rTime.getHours() + 3); 
@@ -207,7 +249,7 @@ function initCountdown() {
     setInterval(update, 1000);
 }
 
-// Función global para los botones de filtro
+// Función global para los botones de filtro en el HTML
 window.filterRaces = (type) => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     if (event) event.target.classList.add('active');
