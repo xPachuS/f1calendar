@@ -39,11 +39,13 @@ const teamColors = {
     "alpine": "#0090FF",
     "williams": "#005AFF",
     "rb": "#6692FF",       
-    "sauber": "#52E252",   
-    "haas": "#FFFFFF"      
+    "audi": "#F20000",       // Audi
+    "sauber": "#52E252",     // Mantenemos de respaldo
+    "haas": "#FFFFFF",      
+    "cadillac": "#FFB81C"    // Cadillac
 };
 
-// DICCIONARIO: LOGOS DE LAS ESCUDERÍAS (URLs de Wikimedia/Wikipedia)
+// DICCIONARIO: LOGOS DE LAS ESCUDERÍAS (URLs directas SVG)
 const teamLogos = {
     "red bull": "https://upload.wikimedia.org/wikipedia/en/f/f6/Oracle_Red_Bull_Racing_logo.svg",
     "ferrari": "https://upload.wikimedia.org/wikipedia/en/c/c0/Scuderia_Ferrari_Logo.svg",
@@ -372,15 +374,13 @@ async function showStandings(type) {
 
             if (type === 'drivers') {
                 const teamName = item.Constructors[0].name;
-                const logoUrl = getTeamLogo(teamName);
-                const logoHtml = logoUrl ? `<img src="${logoUrl}" class="team-logo" alt="Logo">` : '';
-
+                
+                // NO se inserta logo aquí
                 html += `
                 <tr>
                     <td class="pos-cell">${posicionReal}</td>
                     <td style="font-weight:700">${item.Driver.givenName} ${item.Driver.familyName}</td>
                     <td style="color:${getTeamColor(teamName)}">
-                        ${logoHtml}
                         ${teamName}
                     </td>
                     <td class="points-cell">${item.points}</td>
@@ -388,6 +388,7 @@ async function showStandings(type) {
             } else {
                 const teamName = item.Constructor.name;
                 const logoUrl = getTeamLogo(teamName);
+                // SÍ se inserta logo aquí
                 const logoHtml = logoUrl ? `<img src="${logoUrl}" class="team-logo" alt="Logo">` : '';
 
                 html += `
@@ -417,4 +418,3 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
-
