@@ -1,6 +1,6 @@
 /**
  * Lógica principal para F1 Calendario 2026
- * DATOS OFICIALES: FORMULA1.COM + TV INFO + OPENF1 (FIX TIEMPOS Y GAPS)
+ * DATOS OFICIALES: FORMULA1.COM + TV INFO + OPENF1 (FIX TIEMPOS API)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -50,13 +50,13 @@ function formatTime(ms) {
                  : `${m}:${s.toString().padStart(2, '0')}.${mls}`;
 }
 
+// Función de traducción simplificada para estados que no son tiempos
 function translateStatus(status) {
-    if (!status) return "NC";
+    if (!status || status === "Finished") return ""; // Si terminó normal pero no hay tiempo, dejamos vacío para no ensuciar
     if (status.includes("Lap")) return status.replace("Laps", "Vts").replace("Lap", "Vt");
     const translations = {
-        "Finished": "Finalizado", "Retired": "Retirado", "Collision": "Colisión", 
-        "Engine": "Motor", "Accident": "Accidente", "Power Unit": "Motor",
-        "D.N.F": "DNF", "Spun off": "Trompo", "Transmission": "Caja"
+        "Retired": "Retirado", "Collision": "Colisión", "Engine": "Motor",
+        "Accident": "Accidente", "Power Unit": "Motor", "D.N.F": "DNF"
     };
     return translations[status] || status; 
 }
@@ -76,7 +76,7 @@ async function loadResultsForRace(round) {
     if (!race || race.results) return;
 
     const container = document.getElementById(`results-list-${round}`);
-    const yearToFetch = 2026; // Cambiar a 2026 en temporada
+    const yearToFetch = 2026; // Mantenemos 2024 para pruebas
 
     try {
         const sessionsReq = await fetch(`https://api.openf1.org/v1/sessions?year=${yearToFetch}&session_name=Race`);
@@ -98,7 +98,7 @@ async function loadResultsForRace(round) {
         const drivers = await driReq.json();
 
         if (results && results.length > 0) {
-            // Ordenamos: numéricos primero, NC al final
+            // Ordenamos por posición (los nulos van al final)
             results.sort((a, b) => (a.position || 999) - (b.position || 999));
             
             const winner = results.find(r => r.position === 1);
@@ -108,32 +108,34 @@ async function loadResultsForRace(round) {
                 const dInfo = drivers.find(d => d.driver_number === r.driver_number) || {};
                 let timeLabel = "";
 
-                // LÓGICA DE TIEMPOS MEJORADA
+                // --- LÓGICA DE TIEMPOS CORREGIDA ---
                 if (r.position === 1 && r.time) {
                     timeLabel = formatTime(r.time);
                 } else if (r.time && winnerTime) {
+                    // Calculamos el GAP respecto al ganador
                     const gap = ((r.time - winnerTime) / 1000).toFixed(3);
                     timeLabel = `+${gap}s`;
                 } else {
-                    // Si no hay tiempo, traducir status (Finished -> Finalizado, etc)
+                    // Si no hay tiempo numérico, mostramos el estado traducido (pero NO NC)
                     timeLabel = translateStatus(r.status);
                 }
 
                 return {
-                    pos: r.position || "NC",
+                    // La posición a la izquierda sí puede ser NC si no clasificó
+                    pos: (r.position === null || r.position === undefined) ? "NC" : r.position,
                     driver: dInfo.name_acronym || r.driver_number,
                     team: dInfo.team_name || "F1 Team",
-                    time: timeLabel,
+                    time: timeLabel, // Aquí ya no habrá "NC"
                     color: getTeamColor(dInfo.team_name)
                 };
             });
 
             container.innerHTML = race.results.map(r => `
-                <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
-                    <span style="font-weight:700; width:25px; color:var(--text-dim); text-align:right;">${r.pos}</span>
-                    <span style="font-weight:700; color:var(--text-light); width:40px;">${r.driver}</span>
-                    <span style="color:${r.color}; font-weight:600; font-size:0.85rem; flex-grow:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${r.team}</span>
-                    <span style="font-family:monospace; font-size:0.85rem; color:var(--text-light); text-align:right;">${r.time}</span>
+                <li class="tv-item result-row">
+                    <span class="res-pos">${r.pos}</span>
+                    <span class="res-driver">${r.driver}</span>
+                    <span class="res-team" style="color:${r.color}">${r.team}</span>
+                    <span class="res-time">${r.time}</span>
                 </li>
             `).join('');
         }
@@ -143,7 +145,6 @@ async function loadResultsForRace(round) {
     }
 }
 
-// El resto de funciones (renderRaces, initCountdown) se mantienen igual que en tu versión funcional
 function renderRaces(filter) {
     const grid = document.getElementById('races-grid');
     grid.innerHTML = ''; 
