@@ -81,7 +81,7 @@ async function loadResultsForRace(round) {
     if (!race || race.results) return;
 
     const container = document.getElementById(`results-list-${round}`);
-    const yearToFetch = 2025; // Mantenemos 2024 para pruebas, cambia a 2026 en temporada
+    const yearToFetch = 2026; // Mantenemos 2024 para pruebas, cambia a 2026 en temporada
 
     try {
         // 1. Obtener la sesión de carrera correcta
@@ -251,4 +251,5 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
 
