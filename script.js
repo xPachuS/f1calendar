@@ -29,6 +29,29 @@ const sessionLabels = {
     "race": "CARRERA"
 };
 
+// DICCIONARIO: COLORES OFICIALES DE LAS ESCUDERÍAS
+const teamColors = {
+    "red bull": "#3671C6",
+    "ferrari": "#E8002D",
+    "mercedes": "#00D2BE",
+    "mclaren": "#FF8000",
+    "aston martin": "#229971",
+    "alpine": "#0090FF",
+    "williams": "#005AFF",
+    "rb": "#6692FF",       // Visa Cash App RB
+    "sauber": "#52E252",   // Kick Sauber
+    "haas": "#FFFFFF"      // Blanco para destacar en el fondo oscuro
+};
+
+// Función para obtener el color del equipo de forma dinámica
+function getTeamColor(teamName) {
+    const nameLower = teamName.toLowerCase();
+    for (const [key, color] of Object.entries(teamColors)) {
+        if (nameLower.includes(key)) return color;
+    }
+    return "var(--text-dim)"; // Color gris por defecto si hay un equipo nuevo
+}
+
 // --- 1. CARGA DE DATOS ---
 async function loadData() {
     const grid = document.getElementById('races-grid');
@@ -76,17 +99,17 @@ async function loadResultsForRace(round) {
                 time: r.Time ? r.Time.time : r.status 
             }));
 
-            // Imprimimos los resultados en la tarjeta
+            // Imprimimos los resultados en la tarjeta CON COLORES DE EQUIPO
             container.innerHTML = race.results.map(r => `
                 <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
-                    <span style="font-weight: 700; width: 20px; color: var(--f1-red); text-align: right; flex-shrink: 0;">${r.pos}</span>
-                    <span style="font-weight: 600; color: var(--text-light); width: 40px; flex-shrink: 0;">${r.driver}</span>
-                    <span style="color: var(--text-dim); font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${r.team}</span>
+                    <span style="font-weight: 700; width: 20px; color: var(--text-dim); text-align: right; flex-shrink: 0;">${r.pos}</span>
+                    <span style="font-weight: 700; color: var(--text-light); width: 40px; flex-shrink: 0;">${r.driver}</span>
+                    <span style="color: ${getTeamColor(r.team)}; font-weight: 600; font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 3px rgba(0,0,0,0.5);">${r.team}</span>
                     <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-light); text-align: right; flex-shrink: 0;">${r.time}</span>
                 </li>
             `).join('');
         } else {
-            // La API funciona, pero aún no han subido los datos de la carrera de hoy
+            // La API funciona, pero aún no han subido los datos
             container.innerHTML = `<li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">Resultados no disponibles aún</li>`;
         }
     } catch (e) {
@@ -173,20 +196,19 @@ function renderRaces(filter) {
                 // Si los datos ya se descargaron antes y están en la memoria
                 resultsContent = race.results.map(r => `
                     <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
-                        <span style="font-weight: 700; width: 20px; color: var(--f1-red); text-align: right; flex-shrink: 0;">${r.pos}</span>
-                        <span style="font-weight: 600; color: var(--text-light); width: 40px; flex-shrink: 0;">${r.driver}</span>
-                        <span style="color: var(--text-dim); font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${r.team}</span>
+                        <span style="font-weight: 700; width: 20px; color: var(--text-dim); text-align: right; flex-shrink: 0;">${r.pos}</span>
+                        <span style="font-weight: 700; color: var(--text-light); width: 40px; flex-shrink: 0;">${r.driver}</span>
+                        <span style="color: ${getTeamColor(r.team)}; font-weight: 600; font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 3px rgba(0,0,0,0.5);">${r.team}</span>
                         <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-light); text-align: right; flex-shrink: 0;">${r.time}</span>
                     </li>
                 `).join('');
             } else {
-                // Si no tenemos los datos, inyectamos el spinner de carga y llamamos a la API
+                // Spinner mientras se descarga
                 resultsContent = `
                     <li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">
                         <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Obteniendo tiempos oficiales...
                     </li>
                 `;
-                // Pedimos a la API que busque esta carrera sin bloquear el resto de la página
                 loadResultsForRace(race.round);
             }
 
