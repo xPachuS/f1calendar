@@ -78,7 +78,6 @@ header {
     gap: 15px;
 }
 
-/* Bandera en el Hero (Contador) */
 .hero-flag {
     width: 60px;
     height: 40px;
@@ -96,7 +95,7 @@ header {
 }
 
 /* =========================================
-   3. CONTROLES Y GRID
+   3. CONTROLES, SEPARADOR Y GRID
    ========================================= */
 .controls {
     display: flex;
@@ -105,6 +104,15 @@ header {
     gap: 15px;
     margin: 2.5rem 0;
     padding: 0 1rem;
+}
+
+/* Estilo para la separación '|' */
+.separator {
+    color: var(--accent);
+    font-size: 1.5rem;
+    align-self: center;
+    margin: 0 5px;
+    user-select: none;
 }
 
 .filter-btn {
@@ -145,14 +153,10 @@ header {
 /* =========================================
    4. TARJETAS CON EFECTO FLIP (3D)
    ========================================= */
-
-/* Escena: Mantiene el espacio en el grid */
 .race-card-scene {
     perspective: 1000px;
-    /* No tiene altura fija, se adapta al contenido */
 }
 
-/* Contenedor que gira */
 .race-card-flipper {
     position: relative;
     width: 100%;
@@ -162,55 +166,47 @@ header {
     border-radius: 16px;
 }
 
-/* Estado girado */
 .race-card-flipper.is-flipped {
     transform: rotateY(180deg);
 }
 
-/* Efecto hover original (levantamiento) aplicado al contenedor */
 .race-card-flipper:hover {
     transform: translateY(-5px);
 }
+
 .race-card-flipper.is-flipped:hover {
     transform: rotateY(180deg) translateY(-5px);
 }
 
-/* Estilos comunes para ambas caras */
 .card-face {
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     border-radius: 16px;
     overflow: hidden;
     background-color: var(--card-bg);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Sombra original */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     display: flex;
     flex-direction: column;
 }
 
-/* --- CARA FRONTAL (Diseño Original) --- */
-/* Esta cara define la altura de la tarjeta gracias a position: relative */
 .card-front {
     position: relative; 
     z-index: 2;
     transform: rotateY(0deg);
-    border-top: 4px solid transparent; /* Borde transparente para transición */
+    border-top: 4px solid transparent;
     transition: border-top 0.3s ease;
 }
 
-/* Hover: Borde rojo superior */
 .race-card-scene:hover .card-front {
     border-top: 4px solid var(--f1-red);
 }
 
-/* Highlight para próxima carrera */
 .next-race-highlight {
     border: 2px solid var(--f1-red) !important;
     box-shadow: 0 0 20px rgba(225, 6, 0, 0.2);
     animation: pulseBorder 3s infinite;
 }
 
-/* --- CARA TRASERA (TV Info) --- */
-/* Se adapta al tamaño de la frontal gracias a position: absolute */
 .card-back {
     position: absolute;
     top: 0;
@@ -218,11 +214,10 @@ header {
     width: 100%;
     height: 100%;
     transform: rotateY(180deg);
-    background-color: #1a1a24; /* Un poco más oscuro */
+    background-color: #1a1a24;
     border: 1px solid var(--accent);
 }
 
-/* TRUCO IMPORTANTE: Asegura que el reverso capture eventos del ratón (scroll) */
 .race-card-flipper.is-flipped .card-back {
     z-index: 10;
     pointer-events: auto;
@@ -231,7 +226,6 @@ header {
 /* =========================================
    5. ESTILOS INTERNOS DE LA TARJETA
    ========================================= */
-
 .card-header {
     padding: 1.5rem;
     display: flex;
@@ -253,7 +247,6 @@ header {
     text-shadow: 0 0 10px var(--f1-red), 0 2px 5px rgba(0,0,0,0.8);
 }
 
-/* Bandera principal de la carrera */
 .flag-img {
     width: 54px;
     height: 36px;
@@ -330,7 +323,6 @@ header {
     color: var(--f1-red);
 }
 
-/* Pequeño icono en la esquina para indicar que gira */
 .flip-hint {
     position: absolute;
     bottom: 8px;
@@ -340,9 +332,8 @@ header {
 }
 
 /* =========================================
-   6. ESTILOS DE LA LISTA DE TV (REVERSO)
+   6. ESTILOS DE LA LISTA DE TV Y RESULTADOS
    ========================================= */
-
 .back-header {
     padding: 1.5rem;
     background: linear-gradient(135deg, #111, #222);
@@ -358,18 +349,14 @@ header {
     list-style: none;
     padding: 1rem;
     overflow-y: auto; 
-    
-    /* FIX SCROLL */
-    min-height: 0;                  /* Obligatorio para flexbox scroll */
-    overscroll-behavior: contain;   /* Evita mover la página entera al hacer scroll */
-    touch-action: pan-y;            /* Mejora en móviles */
-    
+    min-height: 0;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
     scrollbar-width: thin;
     scrollbar-color: var(--f1-red) var(--dark-bg);
     flex-grow: 1;
 }
 
-/* Scrollbar personalizado */
 .tv-list::-webkit-scrollbar { width: 4px; }
 .tv-list::-webkit-scrollbar-track { background: var(--dark-bg); }
 .tv-list::-webkit-scrollbar-thumb { background-color: var(--f1-red); border-radius: 4px; }
@@ -389,7 +376,6 @@ header {
     gap: 10px;
 }
 
-/* Bandera pequeña en la lista de TV */
 .tv-flag-img {
     width: 28px;
     height: 19px;
@@ -411,9 +397,68 @@ header {
 }
 
 /* =========================================
-   7. FOOTER Y ANIMACIONES
+   7. ESTILOS DE LAS TABLAS DE CLASIFICACIÓN
    ========================================= */
+.standings-container {
+    max-width: 900px;
+    margin: 0 auto 50px;
+    padding: 20px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    border-left: 5px solid var(--f1-red);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
 
+.standings-container h3 {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 10px;
+}
+
+.standings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.standings-table th {
+    text-align: left;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--accent);
+}
+
+.standings-table td {
+    padding: 14px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.95rem;
+}
+
+.standings-table tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.pos-cell {
+    font-weight: 800;
+    width: 45px;
+    color: var(--text-light);
+}
+
+.points-cell {
+    font-weight: 700;
+    text-align: right;
+    color: var(--f1-red);
+    font-family: monospace;
+    font-size: 1.1rem;
+}
+
+/* =========================================
+   8. FOOTER Y ANIMACIONES
+   ========================================= */
 @keyframes pulseBorder {
     0% { box-shadow: 0 0 10px rgba(225, 6, 0, 0.2); }
     50% { box-shadow: 0 0 20px rgba(225, 6, 0, 0.5); }
@@ -433,4 +478,6 @@ footer {
     .header-content h1 { font-size: 1.8rem; }
     .timer { font-size: 2.5rem; }
     .grid-container { grid-template-columns: 1fr; }
+    .filter-btn { padding: 8px 16px; font-size: 0.8rem; }
+    .standings-table td, .standings-table th { padding: 10px 5px; font-size: 0.85rem; }
 }
