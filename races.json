@@ -9,11 +9,13 @@
         "bg_image": "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 02:30", "fp2": "Vie 06:00", "fp3": "Sáb 02:30", "quali": "Sáb 06:00", "race": "Dom 05:00" },
         "results": [
-            { "pos": 1, "driver": "VER", "team": "Red Bull Racing" },
-            { "pos": 2, "driver": "LEC", "team": "Ferrari" },
-            { "pos": 3, "driver": "NOR", "team": "McLaren" },
-            { "pos": 4, "driver": "SAI", "team": "Ferrari" },
-            { "pos": 5, "driver": "ALO", "team": "Aston Martin" }
+            { "pos": 1, "driver": "VER", "team": "Red Bull Racing", "time": "1:25:33.607" },
+            { "pos": 2, "driver": "LEC", "team": "Ferrari", "time": "+3.879s" },
+            { "pos": 3, "driver": "NOR", "team": "McLaren", "time": "+12.421s" },
+            { "pos": 4, "driver": "SAI", "team": "Ferrari", "time": "+15.680s" },
+            { "pos": 5, "driver": "ALO", "team": "Aston Martin", "time": "+34.502s" },
+            { "pos": 6, "driver": "HAM", "team": "Mercedes", "time": "+1 lap" },
+            { "pos": "NC", "driver": "RUS", "team": "Mercedes", "time": "DNF" }
         ]
     },
     {
@@ -247,6 +249,7 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
+
 
 
 
