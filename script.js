@@ -49,7 +49,7 @@ const teamColors = {
 const teamLogos = {
     "red bull": "https://static.wikia.nocookie.net/logopedia/images/5/54/Red_Bull_Racing_2005.svg",
     "ferrari": "https://upload.wikimedia.org/wikipedia/en/c/c0/Scuderia_Ferrari_Logo.svg",
-    "mercedes": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Mercedes_AMG_Petronas_F1_Logo.svg",
+    "mercedes": "https://upload.wikimedia.org/wikipedia/commons/9/90/Mercedes-Logo.svg",
     "mclaren": "https://upload.wikimedia.org/wikipedia/en/6/66/McLaren_Racing_logo.svg",
     "aston martin": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Aston_Martin_Aramco_Cognizant_F1_Team_Logo.svg",
     "alpine": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Alpine_F1_Team_Logo.svg",
@@ -418,4 +418,5 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
 
