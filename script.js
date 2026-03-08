@@ -45,16 +45,18 @@ const teamColors = {
 
 // DICCIONARIO: LOGOS DE LAS ESCUDERÍAS (URLs de Wikimedia/Wikipedia)
 const teamLogos = {
-    "red bull": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f6/Oracle_Red_Bull_Racing_logo.svg/320px-Oracle_Red_Bull_Racing_logo.svg.png",
-    "ferrari": "https://upload.wikimedia.org/wikipedia/en/thumb/c/c0/Scuderia_Ferrari_Logo.svg/320px-Scuderia_Ferrari_Logo.svg.png",
-    "mercedes": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Mercedes_AMG_Petronas_F1_Logo.svg/320px-Mercedes_AMG_Petronas_F1_Logo.svg.png",
-    "mclaren": "https://upload.wikimedia.org/wikipedia/en/thumb/6/66/McLaren_Racing_logo.svg/320px-McLaren_Racing_logo.svg.png",
-    "aston martin": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Aston_Martin_Aramco_Cognizant_F1_Team_Logo.svg/320px-Aston_Martin_Aramco_Cognizant_F1_Team_Logo.svg.png",
-    "alpine": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Alpine_F1_Team_Logo.svg/320px-Alpine_F1_Team_Logo.svg.png",
-    "williams": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Williams_Racing_2024_logo.svg/320px-Williams_Racing_2024_logo.svg.png",
-    "rb": "https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Visa_Cash_App_RB_F1_Team_logo.svg/320px-Visa_Cash_App_RB_F1_Team_logo.svg.png",
-    "sauber": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Kick_Sauber_logo.svg/320px-Kick_Sauber_logo.svg.png",
-    "haas": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Haas_F1_Team_logo.svg/320px-Haas_F1_Team_logo.svg.png"
+    "red bull": "https://upload.wikimedia.org/wikipedia/en/f/f6/Oracle_Red_Bull_Racing_logo.svg",
+    "ferrari": "https://upload.wikimedia.org/wikipedia/en/c/c0/Scuderia_Ferrari_Logo.svg",
+    "mercedes": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Mercedes_AMG_Petronas_F1_Logo.svg",
+    "mclaren": "https://upload.wikimedia.org/wikipedia/en/6/66/McLaren_Racing_logo.svg",
+    "aston martin": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Aston_Martin_Aramco_Cognizant_F1_Team_Logo.svg",
+    "alpine": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Alpine_F1_Team_Logo.svg",
+    "williams": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Williams_Racing_2024_logo.svg",
+    "rb": "https://upload.wikimedia.org/wikipedia/en/a/ae/Visa_Cash_App_RB_F1_Team_logo.svg",
+    "audi": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Audi_logo.svg",
+    "sauber": "https://upload.wikimedia.org/wikipedia/commons/0/07/Kick_Sauber_logo.svg",
+    "haas": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Haas_F1_Team_logo.svg",
+    "cadillac": "https://upload.wikimedia.org/wikipedia/commons/3/30/Cadillac_logo.svg"
 };
 
 // Función para obtener el color del equipo de forma dinámica
@@ -415,3 +417,4 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
