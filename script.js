@@ -48,8 +48,8 @@ const teamColors = {
 // DICCIONARIO: LOGOS DE LAS ESCUDERÍAS (URLs directas SVG)
 const teamLogos = {
     "red bull": "https://static.wikia.nocookie.net/logopedia/images/5/54/Red_Bull_Racing_2005.svg",
-    "ferrari": "https://upload.wikimedia.org/wikipedia/en/c/c0/Scuderia_Ferrari_Logo.svg",
-    "mercedes": "https://upload.wikimedia.org/wikipedia/commons/9/90/Mercedes-Logo.svg",
+    "ferrari": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/ferrari/2026ferrarilogowhite.webp",
+    "mercedes": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/mercedes/2026mercedeslogowhite.webp",
     "mclaren": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/mclaren/2026mclarenlogowhite.webp",
     "aston martin": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Aston_Martin_Aramco_Cognizant_F1_Team_Logo.svg",
     "alpine": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Alpine_F1_Team_Logo.svg",
@@ -418,6 +418,7 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
 
 
 
