@@ -244,7 +244,6 @@ function renderRaces(filter) {
                         <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Conectando a OpenF1...
                     </li>
                 `;
-                loadResultsForRace(race.round);
             }
 
             backFaceHTML = `
@@ -297,7 +296,13 @@ function renderRaces(filter) {
             scene.querySelector('.card-front').classList.add('next-race-highlight');
         }
         
+        // 1º Añadimos la tarjeta al DOM para que exista el contenedor del spinner
         grid.appendChild(scene);
+
+        // 2º Llamamos a la API AHORA para inyectar los datos en el contenedor
+        if (isFinished && (!race.results || race.results.length === 0)) {
+            loadResultsForRace(race.round);
+        }
     });
 }
 
