@@ -76,7 +76,7 @@ async function loadResultsForRace(round) {
     if (!race || race.results) return;
 
     const container = document.getElementById(`results-list-${round}`);
-    const yearToFetch = 2024; // Cambia a 2026 en temporada
+    const yearToFetch = 2026; // Cambia a 2026 en temporada
 
     try {
         const sessionsReq = await fetch(`https://api.openf1.org/v1/sessions?year=${yearToFetch}&session_name=Race`);
@@ -243,3 +243,4 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
