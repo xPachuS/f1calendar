@@ -59,12 +59,20 @@ function renderRaces(filter) {
     grid.innerHTML = ''; 
     const now = new Date();
     
-    // Filtrado de carreras
+    // Filtrado de carreras (3 horas de duración)
     let filtered = db_races;
     if (filter === 'upcoming') {
-        filtered = db_races.filter(r => new Date(r.date + "T23:59:59") >= now);
+        filtered = db_races.filter(r => {
+            const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
+            raceEndTime.setHours(raceEndTime.getHours() + 3);
+            return raceEndTime >= now;
+        });
     } else if (filter === 'completed') {
-        filtered = db_races.filter(r => new Date(r.date + "T23:59:59") < now);
+        filtered = db_races.filter(r => {
+            const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
+            raceEndTime.setHours(raceEndTime.getHours() + 3);
+            return raceEndTime < now;
+        });
     }
 
     // Generamos el HTML de la lista de TV (con banderas HD)
@@ -87,10 +95,24 @@ function renderRaces(filter) {
         const scene = document.createElement('div');
         scene.className = 'race-card-scene';
 
-        // Formatos de fecha y bandera
-        const humanDate = new Date(race.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+        // Formato de bandera
         const isoCode = emojiToIso[race.flag] || 'xx'; 
         const backgroundStyle = `linear-gradient(rgba(20, 20, 30, 0.75), rgba(20, 20, 30, 0.95)), url('${race.bg_image}')`;
+
+        // --- LÓGICA DE FINALIZADO ---
+        // Calculamos si la carrera ya terminó (inicio + 3 horas)
+        const raceEndTime = new Date(`${race.date}T${race.sessions.race.split(' ')[1]}:00`);
+        raceEndTime.setHours(raceEndTime.getHours() + 3);
+        const isFinished = raceEndTime < now;
+
+        // Decidimos qué mostrar en la etiqueta (Fecha o FINALIZADO)
+        let badgeHTML = '';
+        if (isFinished) {
+            badgeHTML = `<div class="date-badge" style="background: rgba(255, 255, 255, 0.05); color: #777;"><i class="fas fa-flag-checkered" style="color: #777;"></i> FINALIZADO</div>`;
+        } else {
+            const humanDate = new Date(race.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+            badgeHTML = `<div class="date-badge"><i class="far fa-calendar-alt"></i> ${humanDate}</div>`;
+        }
 
         // Generación de lista de sesiones
         const sessionsHTML = Object.entries(race.sessions).map(([key, value]) => `
@@ -115,7 +137,7 @@ function renderRaces(filter) {
                     <div class="card-body">
                         <h3>${race.name}</h3>
                         <span class="circuit-name"><i class="fas fa-road"></i> ${race.circuit}</span>
-                        <div class="date-badge"><i class="far fa-calendar-alt"></i> ${humanDate}</div>
+                        ${badgeHTML}
                         <ul class="sessions-list">${sessionsHTML}</ul>
                     </div>
                     <div class="flip-hint"><i class="fas fa-sync"></i></div>
@@ -155,10 +177,10 @@ function initCountdown() {
 
     const update = () => {
         const now = new Date();
-        // Buscar la primera carrera cuya hora de fin (inicio + 2h) sea mayor a ahora
+        // Buscar la primera carrera cuya hora de fin (inicio + 3h) sea mayor a ahora
         const next = db_races.find(r => {
             const rTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
-            rTime.setHours(rTime.getHours() + 2); 
+            rTime.setHours(rTime.getHours() + 3); 
             return rTime > now;
         });
 
@@ -199,4 +221,3 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
-
