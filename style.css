@@ -443,12 +443,14 @@ header {
 }
 
 .team-logo {
-    width: 35px; /* Tamaño del logo */
-    height: auto;
-    max-height: 25px;
-    vertical-align: middle; /* Alinea el logo con el texto */
-    margin-right: 12px; /* Separación entre el logo y el nombre */
+    width: 35px; 
+    height: 25px;
+    vertical-align: middle; 
+    margin-right: 12px; 
     object-fit: contain;
+    background-color: #ffffff; /* Fondo blanco para que destaquen en modo oscuro */
+    padding: 3px;
+    border-radius: 4px;
 }
 
 .pos-cell {
@@ -491,5 +493,6 @@ footer {
     .filter-btn { padding: 8px 16px; font-size: 0.8rem; }
     .standings-table td, .standings-table th { padding: 10px 5px; font-size: 0.85rem; }
 }
+
 
 
