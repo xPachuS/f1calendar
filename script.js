@@ -1,6 +1,6 @@
 /**
  * Lógica principal para F1 Calendario 2026
- * DATOS OFICIALES: FORMULA1.COM + TV INFO + OPENF1 (FIX TIEMPOS Y GAPS)
+ * DATOS OFICIALES: FORMULA1.COM + TV INFO + OPENF1 (FULL TIME & GAP)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -46,20 +46,17 @@ function formatTime(ms) {
     const m = Math.floor((totalSeconds % 3600) / 60);
     const s = Math.floor(totalSeconds % 60);
     const mls = Math.round((totalSeconds % 1) * 1000).toString().padStart(3, '0');
-    
-    if (h > 0) {
-        return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}.${mls}`;
-    }
-    return `${m}:${s.toString().padStart(2, '0')}.${mls}`;
+    return h > 0 ? `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}.${mls}` 
+                 : `${m}:${s.toString().padStart(2, '0')}.${mls}`;
 }
 
 function translateStatus(status) {
-    if (!status || status === "Finished") return ""; 
+    if (!status) return "";
+    if (status === "Finished") return ""; 
     if (status.includes("Lap")) return status.replace("Laps", "Vts").replace("Lap", "Vt");
     const translations = {
         "Retired": "Retirado", "Collision": "Colisión", "Engine": "Motor",
-        "Accident": "Accidente", "Power Unit": "Motor", "D.N.F": "DNF",
-        "Spun off": "Trompo"
+        "Accident": "Accidente", "Power Unit": "Motor", "D.N.F": "DNF"
     };
     return translations[status] || status; 
 }
@@ -79,7 +76,7 @@ async function loadResultsForRace(round) {
     if (!race || race.results) return;
 
     const container = document.getElementById(`results-list-${round}`);
-    const yearToFetch = 2024; // Mantenemos 2024 para las pruebas
+    const yearToFetch = 2024; // Cambia a 2026 en temporada
 
     try {
         const sessionsReq = await fetch(`https://api.openf1.org/v1/sessions?year=${yearToFetch}&session_name=Race`);
@@ -87,10 +84,7 @@ async function loadResultsForRace(round) {
         sessionsData.sort((a, b) => new Date(a.date_start) - new Date(b.date_start));
         const targetSession = sessionsData[round - 1];
 
-        if (!targetSession) {
-            container.innerHTML = `<li class="tv-item" style="justify-content:center; border:none;">Pendiente</li>`;
-            return;
-        }
+        if (!targetSession) return;
 
         const [resReq, driReq] = await Promise.all([
             fetch(`https://api.openf1.org/v1/session_result?session_key=${targetSession.session_key}`),
@@ -108,42 +102,41 @@ async function loadResultsForRace(round) {
 
             race.results = results.map(r => {
                 const dInfo = drivers.find(d => d.driver_number === r.driver_number) || {};
-                let timeLabel = "";
+                let timeValue = "";
 
-                // --- LÓGICA DE TIEMPOS REPARADA ---
+                // Prioridad absoluta al tiempo numérico para el ganador y gaps
                 if (r.position === 1 && r.time) {
-                    timeLabel = formatTime(r.time);
+                    timeValue = formatTime(r.time);
                 } else if (r.time && winnerTime) {
                     const gap = ((r.time - winnerTime) / 1000).toFixed(3);
-                    timeLabel = `+${gap}s`;
-                } else if (r.status) {
-                    // Solo si NO hay tiempo numérico, usamos el status traducido
-                    timeLabel = translateStatus(r.status);
+                    timeValue = `+${gap}s`;
+                } else {
+                    // Si no hay tiempo de carrera, mostramos el status (DNF, Vueltas, etc.)
+                    timeValue = translateStatus(r.status);
                 }
 
                 return {
                     pos: r.position || "NC",
                     driver: dInfo.name_acronym || r.driver_number,
                     team: dInfo.team_name || "F1 Team",
-                    time: timeLabel, 
+                    time: timeValue,
                     color: getTeamColor(dInfo.team_name)
                 };
             });
 
             container.innerHTML = race.results.map(r => `
-                <li class="tv-item" style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; gap: 10px;">
-                    <div style="display: flex; align-items: center; gap: 10px; flex-grow: 1; overflow: hidden;">
-                        <span style="font-weight:700; width:25px; color:var(--text-dim); text-align:right; flex-shrink: 0;">${r.pos}</span>
-                        <span style="font-weight:700; color:var(--text-light); width:40px; flex-shrink: 0;">${r.driver}</span>
-                        <span style="color:${r.color}; font-weight:600; font-size:0.85rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${r.team}</span>
+                <li class="tv-item" style="display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
+                        <span style="font-weight:700; width:22px; color:var(--text-dim); text-align:right;">${r.pos}</span>
+                        <span style="font-weight:700; color:var(--text-light); width:35px;">${r.driver}</span>
+                        <span style="color:${r.color}; font-weight:600; font-size:0.8rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${r.team}</span>
                     </div>
-                    <span style="font-family:monospace; font-size:0.85rem; color:var(--text-light); text-align:right; flex-shrink: 0; margin-left: auto;">${r.time}</span>
+                    <span style="font-family:monospace; font-size:0.85rem; color:var(--text-light); text-align:right; min-width: 85px;">${r.time}</span>
                 </li>
             `).join('');
         }
     } catch (e) {
         console.error("Error OpenF1:", e);
-        container.innerHTML = `<li class="tv-item" style="justify-content:center; color:var(--f1-red); border:none;">Error API</li>`;
     }
 }
 
@@ -212,7 +205,7 @@ function renderRaces(filter) {
                 </div>
                 <div class="card-face card-back">
                     <div class="back-header"><h3>${isFinished ? '🏁 Clasificación' : '📺 Dónde ver'}</h3><p>${isFinished ? 'Tiempos Oficiales' : 'Broadcasters Oficiales'}</p></div>
-                    <ul class="tv-list" id="results-list-${race.round}">${isFinished ? '<li class="tv-item" style="justify-content:center; border:none; margin-top:20px;"><i class="fas fa-spinner fa-spin"></i> Cargando clasificación...</li>' : tvListHTML}</ul>
+                    <ul class="tv-list" id="results-list-${race.round}">${isFinished ? '<li class="tv-item" style="justify-content:center; border:none; margin-top:20px;"><i class="fas fa-spinner fa-spin"></i> Cargando...</li>' : tvListHTML}</ul>
                 </div>
             </div>`;
         
@@ -250,4 +243,3 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
-
