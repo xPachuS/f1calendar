@@ -47,7 +47,7 @@ const teamColors = {
 
 // DICCIONARIO: LOGOS DE LAS ESCUDERÍAS (URLs directas SVG)
 const teamLogos = {
-    "red bull": "https://upload.wikimedia.org/wikipedia/en/f/f6/Oracle_Red_Bull_Racing_logo.svg",
+    "red bull": "https://static.wikia.nocookie.net/logopedia/images/5/54/Red_Bull_Racing_2005.svg",
     "ferrari": "https://upload.wikimedia.org/wikipedia/en/c/c0/Scuderia_Ferrari_Logo.svg",
     "mercedes": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Mercedes_AMG_Petronas_F1_Logo.svg",
     "mclaren": "https://upload.wikimedia.org/wikipedia/en/6/66/McLaren_Racing_logo.svg",
@@ -418,3 +418,4 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
