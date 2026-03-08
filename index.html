@@ -10,7 +10,6 @@
 </head>
 <body>
 
-
     <div class="hero-countdown">
         <h2>PRÓXIMA CARRERA</h2>
         <div id="next-race-name">Cargando...</div>
@@ -22,7 +21,16 @@
             <button class="filter-btn active" onclick="filterRaces('all')">Todo</button>
             <button class="filter-btn" onclick="filterRaces('upcoming')">Próximas</button>
             <button class="filter-btn" onclick="filterRaces('completed')">Completadas</button>
+            
+            <span class="separator">|</span>
+
+            <button class="filter-btn" onclick="showStandings('drivers')">Clasificación Pilotos</button>
+            <button class="filter-btn" onclick="showStandings('constructors')">Clasificación Escuderías</button>
         </div>
+
+        <section id="standings-container" class="standings-container" style="display: none;">
+            <div id="standings-content"></div>
+        </section>
 
         <section id="races-grid" class="grid-container">
             </section>
@@ -34,8 +42,4 @@
 
     <script src="script.js"></script>
 </body>
-
 </html>
-
-
-
