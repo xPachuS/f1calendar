@@ -400,7 +400,7 @@ header {
    7. ESTILOS DE LAS TABLAS DE CLASIFICACIÓN
    ========================================= */
 .standings-container {
-    max-width: 900px;
+    max-width: 600px; /* ¡AQUÍ ESTÁ EL CAMBIO! Antes era 900px */
     margin: 0 auto 50px;
     padding: 20px;
     background: var(--card-bg);
