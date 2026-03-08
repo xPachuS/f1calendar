@@ -1,6 +1,6 @@
 /**
  * Lógica principal para F1 Calendario 2026
- * DATOS OFICIALES EXTRAÍDOS DE FORMULA1.COM + TV INFO + API DE RESULTADOS
+ * DATOS OFICIALES EXTRAÍDOS DE FORMULA1.COM + TV INFO + API DE OPENF1
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -38,18 +38,33 @@ const teamColors = {
     "aston martin": "#229971",
     "alpine": "#0090FF",
     "williams": "#005AFF",
-    "rb": "#6692FF",       // Visa Cash App RB
-    "sauber": "#52E252",   // Kick Sauber
-    "haas": "#FFFFFF"      // Blanco para destacar en el fondo oscuro
+    "rb": "#6692FF",       
+    "sauber": "#52E252",   
+    "haas": "#FFFFFF"      
 };
 
-// Función para obtener el color del equipo de forma dinámica
 function getTeamColor(teamName) {
+    if(!teamName) return "var(--text-dim)";
     const nameLower = teamName.toLowerCase();
     for (const [key, color] of Object.entries(teamColors)) {
         if (nameLower.includes(key)) return color;
     }
-    return "var(--text-dim)"; // Color gris por defecto si hay un equipo nuevo
+    return "var(--text-dim)";
+}
+
+function translateStatus(status) {
+    if (!status) return "";
+    if (status.includes("Lap")) return status.replace("Laps", "Vueltas").replace("Lap", "Vuelta");
+
+    const translations = {
+        "Retired": "Retirado", "Collision": "Colisión", "Engine": "Motor",
+        "Gearbox": "Caja", "Accident": "Accidente", "Spun off": "Salida pista",
+        "Suspension": "Suspensión", "Brakes": "Frenos", "Hydraulics": "Hidráulica",
+        "Electrical": "Eléctrico", "Puncture": "Pinchazo", "Power Unit": "Motor",
+        "Clutch": "Embrague", "Transmission": "Transmisión", "Disqualified": "DSQ",
+        "Did not qualify": "No clasif.", "Finished": "Finalizado"
+    };
+    return translations[status] || status; 
 }
 
 // --- 1. CARGA DE DATOS ---
@@ -60,7 +75,6 @@ async function loadData() {
             fetch('races.json'),
             fetch('tv.json')
         ]);
-
         if (!racesRes.ok || !tvRes.ok) throw new Error("Error cargando archivos JSON");
 
         db_races = await racesRes.json();
@@ -70,36 +84,61 @@ async function loadData() {
         initCountdown();    
     } catch (error) {
         console.error("Error:", error);
-        grid.innerHTML = `<div class="error-msg" style="color:white; text-align:center; grid-column:1/-1;">⚠️ Error cargando datos. Asegúrate de ejecutar en un servidor local.</div>`;
+        grid.innerHTML = `<div class="error-msg" style="color:white; text-align:center; grid-column:1/-1;">⚠️ Error cargando datos locales.</div>`;
     }
 }
 
-// --- 2. CONEXIÓN A LA API DE F1 PARA RESULTADOS ---
+// --- 2. CONEXIÓN A OPENF1 API ---
 async function loadResultsForRace(round) {
     const race = db_races.find(r => r.round === round);
-    if (!race || race.results) return; // Si ya tiene resultados, no hacemos nada
+    if (!race || race.results) return;
 
     try {
-        // Hacemos la petición a la API pública de F1 (Jolpi Ergast Fork)
-        const response = await fetch(`https://api.jolpi.ca/ergast/f1/2026/${round}/results.json`);
-        const data = await response.json();
-        const raceData = data.MRData.RaceTable.Races[0];
-
+        // AÑO DE PRUEBA: Cambiar a 2026 cuando arranque la temporada oficial
+        const yearToFetch = 2024; 
+        
         const container = document.getElementById(`results-list-${round}`);
-        if (!container) return; // Por si el usuario cambió de pestaña muy rápido
+        if (!container) return; 
 
-        if (raceData && raceData.Results && raceData.Results.length > 0) {
-            // Transformamos los datos complejos de la API a nuestro formato simple
-            race.results = raceData.Results.map(r => ({
-                pos: r.position,
-                // Usamos la abreviatura (ej. VER), o las 3 primeras letras del apellido si no existe
-                driver: r.Driver.code || r.Driver.familyName.substring(0, 3).toUpperCase(),
-                team: r.Constructor.name,
-                // Si terminó tiene tiempo, si fue doblado o se retiró, mostramos el "status"
-                time: r.Time ? r.Time.time : r.status 
-            }));
+        // 1. Buscamos todas las carreras del año para encontrar nuestro "session_key"
+        const sessionsReq = await fetch(`https://api.openf1.org/v1/sessions?year=${yearToFetch}&session_name=Race`);
+        const sessionsData = await sessionsReq.json();
+        
+        // OpenF1 no siempre ordena bien, así que ordenamos por fecha
+        sessionsData.sort((a, b) => new Date(a.date_start) - new Date(b.date_start));
+        
+        const targetSession = sessionsData[round - 1]; 
+        if (!targetSession) {
+            container.innerHTML = `<li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">Sesión aún no registrada en OpenF1</li>`;
+            return;
+        }
 
-            // Imprimimos los resultados en la tarjeta CON COLORES DE EQUIPO
+        const sessionKey = targetSession.session_key;
+
+        // 2. Pedimos los resultados y la info de los pilotos en paralelo
+        const [resultReq, driversReq] = await Promise.all([
+            fetch(`https://api.openf1.org/v1/session_result?session_key=${sessionKey}`),
+            fetch(`https://api.openf1.org/v1/drivers?session_key=${sessionKey}`)
+        ]);
+
+        const resultData = await resultReq.json();
+        const driversData = await driversReq.json();
+
+        if (resultData && resultData.length > 0) {
+            
+            // 3. Mezclamos posiciones con nombres y ordenamos la parrilla
+            race.results = resultData.map(r => {
+                const driverInfo = driversData.find(d => d.driver_number === r.driver_number) || {};
+                return {
+                    pos: r.position,
+                    driver: driverInfo.name_acronym || driverInfo.last_name?.substring(0,3).toUpperCase() || r.driver_number,
+                    team: driverInfo.team_name || "Desconocido",
+                    // OpenF1 guarda los tiempos/estado diferente según el coche
+                    time: r.time ? r.time : translateStatus(r.status) 
+                };
+            }).sort((a, b) => a.pos - b.pos);
+
+            // Dibujamos el HTML
             container.innerHTML = race.results.map(r => `
                 <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
                     <span style="font-weight: 700; width: 20px; color: var(--text-dim); text-align: right; flex-shrink: 0;">${r.pos}</span>
@@ -109,14 +148,13 @@ async function loadResultsForRace(round) {
                 </li>
             `).join('');
         } else {
-            // La API funciona, pero aún no han subido los datos
             container.innerHTML = `<li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">Resultados no disponibles aún</li>`;
         }
     } catch (e) {
-        console.error(`Error cargando los resultados de la ronda ${round}:`, e);
+        console.error(`Error cargando OpenF1 en la ronda ${round}:`, e);
         const container = document.getElementById(`results-list-${round}`);
         if (container) {
-            container.innerHTML = `<li class="tv-item" style="justify-content: center; color: var(--f1-red); border:none; margin-top: 20px;">Error de conexión</li>`;
+            container.innerHTML = `<li class="tv-item" style="justify-content: center; color: var(--f1-red); border:none; margin-top: 20px;">Error de conexión con OpenF1</li>`;
         }
     }
 }
@@ -187,13 +225,11 @@ function renderRaces(filter) {
             </li>
         `).join('');
 
-        // --- LÓGICA DEL REVERSO AUTOMATIZADO ---
         let backFaceHTML = '';
         if (isFinished) {
             let resultsContent = '';
             
             if (race.results && race.results.length > 0) {
-                // Si los datos ya se descargaron antes y están en la memoria
                 resultsContent = race.results.map(r => `
                     <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
                         <span style="font-weight: 700; width: 20px; color: var(--text-dim); text-align: right; flex-shrink: 0;">${r.pos}</span>
@@ -203,10 +239,9 @@ function renderRaces(filter) {
                     </li>
                 `).join('');
             } else {
-                // Spinner mientras se descarga
                 resultsContent = `
                     <li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">
-                        <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Obteniendo tiempos oficiales...
+                        <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Conectando a OpenF1...
                     </li>
                 `;
                 loadResultsForRace(race.round);
@@ -215,7 +250,7 @@ function renderRaces(filter) {
             backFaceHTML = `
                 <div class="back-header">
                     <h3>🏁 Clasificación</h3>
-                    <p>Podio y Tiempos Oficiales</p>
+                    <p>Tiempos Oficiales OpenF1</p>
                 </div>
                 <ul class="tv-list" id="results-list-${race.round}">
                     ${resultsContent}
@@ -280,7 +315,7 @@ function initCountdown() {
         });
 
         if (!next) {
-            name.innerText = "Temporada 2026 Finalizada";
+            name.innerText = "Temporada Finalizada";
             timer.innerText = "00d 00h 00m 00s";
             return;
         }
