@@ -51,13 +51,13 @@ const teamLogos = {
     "ferrari": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/ferrari.png",
     "mercedes": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/mercedes.png",
     "mclaren": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/mclaren.png",
-    "aston martin": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/astonmartin/2026astonmartinlogowhite.webp",
-    "alpine": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/alpine/2026alpinelogowhite.webp",
-    "williams": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/williams/2026williamslogowhite.webp",
-    "rb": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/racingbulls/2026racingbullslogowhite.webp",
-    "audi": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/audi/2026audilogowhite.webp",
-    "haas": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/haasf1team/2026haasf1teamlogowhite.webp",
-    "cadillac": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/cadillac/2026cadillaclogowhite.webp"
+    "aston martin": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/racing_point.png",
+    "alpine": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/lotus.png",
+    "williams": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/williams.png",
+    "rb": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/rb.png",
+    "audi": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/audi.png",
+    "haas": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/haas_f1_team.png",
+    "cadillac": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/cadillac.png"
 };
 
 // Función para obtener el color del equipo de forma dinámica
@@ -417,6 +417,7 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
 
 
 
