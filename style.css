@@ -497,7 +497,7 @@ footer {
    ========================================= */
 .driver-flag-stripe {
     width: 10px;  /* Más ancha para distinguir los colores y escudos */
-    height: 26px; /* Un poco más alta para alinearse mejor con el texto */
+    height: 28px; /* Un poco más alta para alinearse mejor con el texto */
     object-fit: cover; 
     object-position: center; 
     border-radius: 3px; /* Borde un pelín más suave */
@@ -510,4 +510,5 @@ footer {
     display: flex;
     align-items: center;
 }
+
 
