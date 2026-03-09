@@ -49,7 +49,7 @@ const teamColors = {
 const teamLogos = {
     "red bull": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/redbullracing/2026redbullracinglogowhite.webp",
     "ferrari": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/ferrari/2026ferrarilogowhite.webp",
-    "mercedes": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/mercedes/2026mercedeslogowhite.webp",
+    "mercedes": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/mercedes.png",
     "mclaren": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/mclaren/2026mclarenlogowhite.webp",
     "aston martin": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/astonmartin/2026astonmartinlogowhite.webp",
     "alpine": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/alpine/2026alpinelogowhite.webp",
@@ -417,6 +417,7 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
 
 
 
