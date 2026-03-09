@@ -509,7 +509,7 @@ footer {
 }
 
 .flag-window img {
-    width: 18px;  /* Encoge la bandera a lo ancho para que entren los tres colores */
+    width: 20px;  /* Encoge la bandera a lo ancho para que entren los tres colores */
     height: 27px; /* Mantiene el alto suficiente para tapar las esquinas al rotar */
     object-fit: cover;
     transform: rotate(-40deg);
@@ -519,4 +519,5 @@ footer {
     display: flex;
     align-items: center;
 }
+
 
