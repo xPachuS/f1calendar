@@ -19,6 +19,15 @@ const emojiToIso = {
     "🇦🇪": "ae", "🇫🇷": "fr", "🇩🇪": "de", "🇦🇷": "ar", "🇫🇮": "fi"
 };
 
+// DICCIONARIO: TRADUCTOR DE NACIONALIDAD A CÓDIGO ISO
+const nationalityToIso = {
+    "Spanish": "es", "British": "gb", "Dutch": "nl", "Monegasque": "mc",
+    "French": "fr", "Australian": "au", "Japanese": "jp", "Canadian": "ca",
+    "American": "us", "Thai": "th", "Chinese": "cn", "German": "de",
+    "Finnish": "fi", "Mexican": "mx", "Brazilian": "br", "Italian": "it",
+    "Argentine": "ar", "New Zealander": "nz", "Danish": "dk"
+};
+
 const sessionLabels = {
     "fp1": "Libres 1",
     "fp2": "Libres 2",
@@ -373,12 +382,18 @@ async function showStandings(type) {
 
             if (type === 'drivers') {
                 const teamName = item.Constructors[0].name;
+                const nat = item.Driver.nationality;
+                const iso = nationalityToIso[nat] || 'xx'; 
                 
-                // NO se inserta logo aquí
                 html += `
                 <tr>
                     <td class="pos-cell">${posicionReal}</td>
-                    <td style="font-weight:700">${item.Driver.givenName} ${item.Driver.familyName}</td>
+                    <td>
+                        <div class="driver-name-wrapper">
+                            <img src="https://flagcdn.com/w40/${iso}.png" class="driver-flag-stripe" alt="${nat}">
+                            <span style="font-weight:700">${item.Driver.givenName} ${item.Driver.familyName}</span>
+                        </div>
+                    </td>
                     <td style="color:${getTeamColor(teamName)}">
                         ${teamName}
                     </td>
@@ -387,7 +402,6 @@ async function showStandings(type) {
             } else {
                 const teamName = item.Constructor.name;
                 const logoUrl = getTeamLogo(teamName);
-                // SÍ se inserta logo aquí
                 const logoHtml = logoUrl ? `<img src="${logoUrl}" class="team-logo" alt="Logo">` : '';
 
                 html += `
@@ -417,11 +431,3 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
-
-
-
-
-
-
-
-
