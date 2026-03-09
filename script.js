@@ -390,7 +390,9 @@ async function showStandings(type) {
                     <td class="pos-cell">${posicionReal}</td>
                     <td>
                         <div class="driver-name-wrapper">
-                            <img src="https://flagcdn.com/w40/${iso}.png" class="driver-flag-stripe" alt="${nat}">
+                            <div class="flag-window">
+                                <img src="https://flagcdn.com/w40/${iso}.png" alt="${nat}">
+                            </div>
                             <span style="font-weight:700">${item.Driver.givenName} ${item.Driver.familyName}</span>
                         </div>
                     </td>
