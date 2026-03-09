@@ -496,7 +496,7 @@ footer {
    9. BANDERAS (FRANJA RECTA, BANDERA GIRADA)
    ========================================= */
 .flag-window {
-    width: 12px;
+    width: 11px;
     height: 30px;
     overflow: hidden; /* Aquí está la magia: recorta todo lo que sobresalga */
     border-radius: 3px;
@@ -510,7 +510,7 @@ footer {
 
 .flag-window img {
     width: 25px;  /* Encoge la bandera a lo ancho para que entren los tres colores */
-    height: 28px; /* Mantiene el alto suficiente para tapar las esquinas al rotar */
+    height: 29px; /* Mantiene el alto suficiente para tapar las esquinas al rotar */
     object-fit: cover;
     transform: rotate(-40deg);
 }
@@ -519,5 +519,3 @@ footer {
     display: flex;
     align-items: center;
 }
-
-
