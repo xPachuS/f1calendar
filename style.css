@@ -495,17 +495,11 @@ footer {
 /* =========================================
    9. BANDERAS (FRANJA RECTA, BANDERA GIRADA)
    ========================================= */
-.flag-window {
-    width: 12px;
-    height: 26px;
-    overflow: hidden; /* Aquí está la magia: recorta todo lo que sobresalga */
-    border-radius: 3px;
-    margin-right: 12px;
-    flex-shrink: 0;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.flag-window img {
+    width: 22px;
+    height: 22px;
+    object-fit: cover;
+    transform: rotate(45deg);
 }
 
 .flag-window img {
@@ -519,3 +513,4 @@ footer {
     display: flex;
     align-items: center;
 }
+
