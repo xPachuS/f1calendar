@@ -509,13 +509,14 @@ footer {
 }
 
 .flag-window img {
-    width: 40px;  /* La hacemos más grande para que al girar no queden huecos en las esquinas */
-    height: 40px;
+    width: 20px;  /* Encoge la bandera a lo ancho para que entren los tres colores */
+    height: 28px; /* Mantiene el alto suficiente para tapar las esquinas al rotar */
     object-fit: cover;
-    transform: rotate(45deg); /* Solo gira el contenido (la bandera) */
+    transform: rotate(-45deg);
 }
 
 .driver-name-wrapper {
     display: flex;
     align-items: center;
 }
+
