@@ -496,7 +496,7 @@ footer {
    9. BANDERAS DE PILOTOS (ESTILO FRANJA)
    ========================================= */
 .driver-flag-stripe {
-    width: 12px;  /* Más ancha para distinguir los colores y escudos */
+    width: 10px;  /* Más ancha para distinguir los colores y escudos */
     height: 26px; /* Un poco más alta para alinearse mejor con el texto */
     object-fit: cover; 
     object-position: center; 
@@ -510,3 +510,4 @@ footer {
     display: flex;
     align-items: center;
 }
+
