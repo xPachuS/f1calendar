@@ -497,7 +497,7 @@ footer {
    ========================================= */
 .flag-window {
     width: 12px;
-    height: 26px;
+    height: 30px;
     overflow: hidden; /* Aquí está la magia: recorta todo lo que sobresalga */
     border-radius: 3px;
     margin-right: 12px;
@@ -519,3 +519,4 @@ footer {
     display: flex;
     align-items: center;
 }
+
