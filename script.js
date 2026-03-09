@@ -47,10 +47,10 @@ const teamColors = {
 
 // DICCIONARIO: LOGOS DE LAS ESCUDERÍAS (URLs directas SVG)
 const teamLogos = {
-    "red bull": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/redbullracing/2026redbullracinglogowhite.webp",
-    "ferrari": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/ferrari/2026ferrarilogowhite.webp",
+    "red bull": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/red_bull.png",
+    "ferrari": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/ferrari.png",
     "mercedes": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/mercedes.png",
-    "mclaren": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/mclaren/2026mclarenlogowhite.webp",
+    "mclaren": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/mclaren.png",
     "aston martin": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/astonmartin/2026astonmartinlogowhite.webp",
     "alpine": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/alpine/2026alpinelogowhite.webp",
     "williams": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/williams/2026williamslogowhite.webp",
@@ -417,6 +417,7 @@ window.filterRaces = (type) => {
     if (event) event.target.classList.add('active');
     renderRaces(type);
 };
+
 
 
 
