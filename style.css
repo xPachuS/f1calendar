@@ -512,11 +512,12 @@ footer {
     width: 25px;  /* Encoge la bandera a lo ancho para que entren los tres colores */
     height: 29px; /* Mantiene el alto suficiente para tapar las esquinas al rotar */
     object-fit: cover;
-    transform: rotate(-45deg);
+    transform: rotate(-40deg);
 }
 
 .driver-name-wrapper {
     display: flex;
     align-items: center;
 }
+
 
