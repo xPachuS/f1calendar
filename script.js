@@ -131,14 +131,23 @@ async function loadResultsForRace(round) {
         if (!container) return; 
 
         if (raceData && raceData.Results && raceData.Results.length > 0) {
-            // AQUÍ ESTÁ LA NUEVA LÓGICA IMPLEMENTADA
+            // LÓGICA DE TIEMPOS, VUELTAS PERDIDAS Y ABANDONOS
             race.results = raceData.Results.map(r => {
-                let displayTime = r.status;
+                let displayTime = r.status; // Por defecto tomamos el status (+1 Lap, Engine, etc.)
 
-                // Solo mostramos el tiempo exacto si el piloto finalizó en la vuelta del líder
+                // 1. Si terminó en la misma vuelta que el líder y tiene tiempo válido
                 if (r.status === "Finished" && r.Time) {
                     displayTime = r.Time.time; 
+                } 
+                // 2. Si el status indica que ha perdido vueltas (doblado)
+                else if (r.status.includes("Lap")) {
+                    displayTime = r.status.replace("Laps", "Vueltas").replace("Lap", "Vuelta");
                 }
+                // 3. Traducir algunos abandonos comunes para que quede mejor en español
+                else if (r.status === "Engine") displayTime = "Motor";
+                else if (r.status === "Gearbox") displayTime = "Caja de cambios";
+                else if (r.status === "Collision" || r.status === "Accident") displayTime = "Accidente";
+                else if (r.status === "Spun off") displayTime = "Trompo";
 
                 return {
                     pos: r.position,
