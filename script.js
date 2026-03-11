@@ -131,12 +131,22 @@ async function loadResultsForRace(round) {
         if (!container) return; 
 
         if (raceData && raceData.Results && raceData.Results.length > 0) {
-            race.results = raceData.Results.map(r => ({
-                pos: r.position,
-                driver: r.Driver.code || r.Driver.familyName.substring(0, 3).toUpperCase(),
-                team: r.Constructor.name,
-                time: r.Time ? r.Time.time : r.status 
-            }));
+            // AQUÍ ESTÁ LA NUEVA LÓGICA IMPLEMENTADA
+            race.results = raceData.Results.map(r => {
+                let displayTime = r.status;
+
+                // Solo mostramos el tiempo exacto si el piloto finalizó en la vuelta del líder
+                if (r.status === "Finished" && r.Time) {
+                    displayTime = r.Time.time; 
+                }
+
+                return {
+                    pos: r.position,
+                    driver: r.Driver.code || r.Driver.familyName.substring(0, 3).toUpperCase(),
+                    team: r.Constructor.name,
+                    time: displayTime
+                };
+            });
 
             container.innerHTML = race.results.map(r => `
                 <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
