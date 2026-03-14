@@ -420,7 +420,7 @@ async function showStandings(type) {
             <tbody>`;
 
         list.forEach((item, index) => {
-            const posicionReal = item.position; // Usamos la posición que nos da la API
+            const posicionReal = index + 1;
 
             if (type === 'drivers') {
                 const teamName = item.Constructors[0].name;
