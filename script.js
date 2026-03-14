@@ -1,1 +1,474 @@
-document.addEventListener("DOMContentLoaded",()=>loadData());let db_races=[],db_tv=[];const emojiToIso={"🇦🇺":"au","🇨🇳":"cn","🇯🇵":"jp","🇧🇭":"bh","🇸🇦":"sa","🇺🇸":"us","🇨🇦":"ca","🇲🇨":"mc","🇪🇸":"es","🇦🇹":"at","🇬🇧":"gb","🇧🇪":"be","🇭🇺":"hu","🇳🇱":"nl","🇮🇹":"it","🇦🇿":"az","🇸🇬":"sg","🇲🇽":"mx","🇧🇷":"br","🇶🇦":"qa","🇦🇪":"ae","🇫🇷":"fr","🇩🇪":"de","🇦🇷":"ar","🇫🇮":"fi"},nationalityToIso={Spanish:"es",British:"gb",Dutch:"nl",Monegasque:"mc",French:"fr",Australian:"au",Japanese:"jp",Canadian:"ca",American:"us",Thai:"th",Chinese:"cn",German:"de",Finnish:"fi",Mexican:"mx",Brazilian:"br",Italian:"it",Argentine:"ar","New Zealander":"nz",Danish:"dk"},sessionLabels={fp1:"Libres 1",fp2:"Libres 2",fp3:"Libres 3",sprint_quali:"Clasif. Sprint",sprint_race:"Carrera Sprint",quali:"Clasificación",race:"CARRERA"},teamColors={"red bull":"#3671C6",ferrari:"#E8002D",mercedes:"#00D2BE",mclaren:"#FF8000","aston martin":"#229971",alpine:"#0090FF",williams:"#005AFF",rb:"#6692FF",audi:"#F20000",sauber:"#52E252",haas:"#FFFFFF",cadillac:"#FFB81C"},teamLogos={"red bull":"https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/red_bull.png",ferrari:"https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/ferrari.png",mercedes:"https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/mercedes.png",mclaren:"https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/mclaren.png","aston martin":"https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/racing_point.png",alpine:"https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/lotus.png",williams:"https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/williams.png",rb:"https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/rb.png",audi:"https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/audi.png",haas:"https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/haas_f1_team.png",cadillac:"https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/cadillac.png"};function getTeamColor(e){const t=e.toLowerCase();for(const[e,o]of Object.entries(teamColors))if(t.includes(e))return o;return"var(--text-dim)"}function getTeamLogo(e){const t=e.toLowerCase();for(const[e,o]of Object.entries(teamLogos))if(t.includes(e))return o;return""}function getPosColor(e){return"1"===e||1===e?"#FFD700":"2"===e||2===e?"#C0C0C0":"3"===e||3===e?"#CD7F32":"var(--text-dim)"}async function loadData(){const e=document.getElementById("races-grid");try{const[t,o]=await Promise.all([fetch("races.json"),fetch("tv.json")]);if(!t.ok||!o.ok)throw new Error("Err");db_races=await t.json(),db_tv=await o.json(),renderRaces("all"),initCountdown()}catch(t){console.error(t),e.innerHTML='<div class="error-msg" style="color:white; text-align:center; grid-column:1/-1;">⚠️ Error cargando datos.</div>'}}async function loadResultsForRace(e){const t=db_races.find(t=>t.round===e);if(!t||t.results)return;try{const o=await fetch(`https://api.jolpi.ca/ergast/f1/2026/${e}/results.json`),r=await o.json();if(!r||!r.MRData||!r.MRData.RaceTable||!r.MRData.RaceTable.Races.length)return;const s=r.MRData.RaceTable.Races[0],a=document.getElementById(`results-list-${e}`);if(!a)return;if(s&&s.Results&&s.Results.length>0){const e=s.Results[0],o=e&&e.laps?parseInt(e.laps):0;t.results=s.Results.map(e=>{let t=e.status||"N/A";if("Finished"===e.status&&e.Time&&e.Time.time)t=e.Time.time;else if(e.status&&e.status.toLowerCase().includes("lap")){const r=e.laps?parseInt(e.laps):0,s=o-r;t=s>0?`+${s} lap${s>1?"s":""}`:"+1 lap"}else"Engine"===e.status?t="Motor":"Gearbox"===e.status?t="Caja de cambios":"Collision"===e.status||"Accident"===e.status?t="Accidente":"Spun off"===e.status&&(t="Trompo");const r=e.Driver&&e.Driver.code?e.Driver.code:e.Driver&&e.Driver.familyName?e.Driver.familyName.substring(0,3).toUpperCase():"UNK",s=e.Constructor&&e.Constructor.name?e.Constructor.name:"Unknown";return{pos:e.position,driver:r,team:s,time:t}}),a.innerHTML=t.results.map(e=>`<li class="tv-item" style="justify-content: flex-start; gap: 10px;"><span style="font-weight: 800; width: 20px; color: ${getPosColor(e.pos)}; text-align: right; flex-shrink: 0;">${e.pos}</span><span style="font-weight: 700; color: var(--text-light); width: 40px; flex-shrink: 0;">${e.driver}</span><span style="color: ${getTeamColor(e.team)}; font-weight: 600; font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 3px rgba(0,0,0,0.5);">${e.team}</span><span style="font-family: monospace; font-size: 0.85rem; color: var(--text-light); text-align: right; flex-shrink: 0;">${e.time}</span></li>`).join("")}else a.innerHTML='<li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">Resultados no disponibles aún</li>'}catch(e){console.error(e)}}function renderRaces(e){document.getElementById("races-grid").style.display="grid",document.getElementById("standings-container").style.display="none";const t=document.getElementById("races-grid");t.innerHTML="";const o=new Date,r=db_races.find(e=>{const t=new Date(`${e.date}T${e.sessions.race.split(" ")[1]}:00`);return t.setHours(t.getHours()+3),t>=o});let s=db_races;if("upcoming"===e)s=db_races.filter(e=>{const t=new Date(`${e.date}T${e.sessions.race.split(" ")[1]}:00`);return t.setHours(t.getHours()+3),t>=o});else if("completed"===e)s=db_races.filter(e=>{const t=new Date(`${e.date}T${e.sessions.race.split(" ")[1]}:00`);return t.setHours(t.getHours()+3),t<o});const a=db_tv.map(e=>{const t=emojiToIso[e.flag]||"xx";return`<li class="tv-item"><div class="tv-country-wrapper"><img src="https://flagcdn.com/w40/${t}.png" class="tv-flag-img" alt="${e.country}"><span class="tv-country-name">${e.country}</span></div><span class="tv-broadcaster">${e.broadcaster}</span></li>`}).join("");s.forEach(e=>{const s=document.createElement("div");s.className="race-card-scene";const i=emojiToIso[e.flag]||"xx",n=`linear-gradient(rgba(20, 20, 30, 0.75), rgba(20, 20, 30, 0.95)), url('${e.bg_image}')`,l=new Date(`${e.date}T${e.sessions.race.split(" ")[1]}:00`);l.setHours(l.getHours()+3);const c=l<o;let d="";if(c)d='<div class="date-badge" style="background: rgba(255, 255, 255, 0.05); color: #777;"><i class="fas fa-flag-checkered" style="color: #777;"></i> FINALIZADO</div>';else{const t=new Date(e.date).toLocaleDateString("es-ES",{day:"numeric",month:"long"});d=`<div class="date-badge"><i class="far fa-calendar-alt"></i> ${t}</div>`}const m=Object.entries(e.sessions).map(([e,t])=>`<li class="session-item ${"race"===e?"main-race":""}"><span>${sessionLabels[e]||e}</span><span>${t}</span></li>`).join("");let p="";if(c){let t="";e.results&&e.results.length>0?t=e.results.map(e=>`<li class="tv-item" style="justify-content: flex-start; gap: 10px;"><span style="font-weight: 800; width: 20px; color: ${getPosColor(e.pos)}; text-align: right; flex-shrink: 0;">${e.pos}</span><span style="font-weight: 700; color: var(--text-light); width: 40px; flex-shrink: 0;">${e.driver}</span><span style="color: ${getTeamColor(e.team)}; font-weight: 600; font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 3px rgba(0,0,0,0.5);">${e.team}</span><span style="font-family: monospace; font-size: 0.85rem; color: var(--text-light); text-align: right; flex-shrink: 0;">${e.time}</span></li>`).join(""):t=`<li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;"><i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Obteniendo tiempos oficiales...</li>`,p=`<div class="back-header"><h3>🏁 Clasificación</h3><p>Podio y Tiempos Oficiales</p></div><ul class="tv-list" id="results-list-${e.round}">${t}</ul>`,e.results&&e.results.length>0||loadResultsForRace(e.round)}else p=`<div class="back-header"><h3>📺 Dónde ver</h3><p>Broadcasters Oficiales</p></div><ul class="tv-list">${a}</ul>`;s.innerHTML=`<div class="race-card-flipper" onclick="this.classList.toggle('is-flipped')"><div class="card-face card-front"><div class="card-header" style="background-image: ${n}"><div class="header-top"><span class="round-num">Ronda ${e.round}</span>${e.is_sprint?'<span style="background:var(--f1-red); padding:2px 8px; margin-left:3px; border-radius:4px; font-size:0.9em; font-weight:700;">SPRINT</span>':""}</div><img src="https://flagcdn.com/w80/${i}.png" class="flag-img" alt="Flag"></div><div class="card-body"><h3>${e.name}</h3><span class="circuit-name"><i class="fas fa-road"></i> ${e.circuit}</span>${d}<ul class="sessions-list">${m}</ul></div><div class="flip-hint"><i class="fas fa-sync"></i></div></div><div class="card-face card-back">${p}</div></div>`,r&&e.round===r.round&&s.querySelector(".card-front").classList.add("next-race-highlight"),t.appendChild(s)})}function initCountdown(){const e=document.getElementById("countdown"),t=document.getElementById("next-race-name"),o=()=>{const o=new Date,r=db_races.find(e=>{const t=new Date(`${e.date}T${e.sessions.race.split(" ")[1]}:00`);return t.setHours(t.getHours()+3),t>o});if(!r)return t.innerText="Temporada 2026 Finalizada",void(e.innerText="00d 00h 00m 00s");const s=emojiToIso[r.flag];t.innerHTML=`<img src="https://flagcdn.com/w80/${s}.png" class="hero-flag" style="width:60px; height:40px; object-fit:cover; border-radius:4px;"> <span>${r.name}</span>`;const a=new Date(`${r.date}T${r.sessions.race.split(" ")[1]}:00`)-o;if(a<0)return e.innerText="¡EN VIVO!",void(e.style.color="#44ff44");const i=Math.floor(a/864e5).toString().padStart(2,"0"),n=Math.floor(a%864e5/36e5).toString().padStart(2,"0"),l=Math.floor(a%36e5/6e4).toString().padStart(2,"0"),c=Math.floor(a%6e4/1e3).toString().padStart(2,"0");e.innerText=`${i}d ${n}h ${l}m ${c}s`,e.style.color="var(--f1-red)"};o(),setInterval(o,1e3)}async function showStandings(e){document.querySelectorAll(".filter-btn").forEach(e=>e.classList.remove("active")),event&&event.target.classList.add("active"),document.getElementById("races-grid").style.display="none",document.getElementById("standings-container").style.display="block";const t=document.getElementById("standings-content");t.innerHTML='<div style="text-align:center; padding:40px;"><i class="fas fa-spinner fa-spin"></i> Cargando clasificación oficial 2026...</div>';try{const o=await fetch(`https://api.jolpi.ca/ergast/f1/2026/${"drivers"===e?"driverStandings":"constructorStandings"}.json`),r=await o.json(),s="drivers"===e?r.MRData.StandingsTable.StandingsLists[0].DriverStandings:r.MRData.StandingsTable.StandingsLists[0].ConstructorStandings;let a=`<h3>${"drivers"===e?"Mundial de Pilotos":"Campeonato de Escuderías"}</h3>`;a+=`<table class="standings-table"><thead><tr><th>Pos</th><th>${"drivers"===e?"Piloto":"Escudería"}</th>${"drivers"===e?"<th>Equipo</th>":""}<th style="text-align:right">Pts</th></tr></thead><tbody>`,s.forEach((o,r)=>{const s=r+1;if("drivers"===e){const e=o.Constructors[0].name,r=o.Driver.nationality,i=nationalityToIso[r]||"xx";a+=`<tr><td class="pos-cell">${s}</td><td><div class="driver-name-wrapper"><div class="flag-window"><img src="https://flagcdn.com/w40/${i}.png" alt="${r}"></div><span style="font-weight:700">${o.Driver.givenName} ${o.Driver.familyName}</span></div></td><td style="color:${getTeamColor(e)}">${e}</td><td class="points-cell">${o.points}</td></tr>`}else{const e=o.Constructor.name,r=getTeamLogo(e),i=r?`<img src="${r}" class="team-logo" alt="Logo">`:"";a+=`<tr><td class="pos-cell">${s}</td><td style="font-weight:700; color:${getTeamColor(e)}">${i}${e}</td><td class="points-cell">${o.points}</td></tr>`}}),a+="</tbody></table>",t.innerHTML=a}catch(e){console.error(e),t.innerHTML='<p style="color:red; text-align:center;">Error al conectar con la API.</p>'}}window.filterRaces=e=>{document.querySelectorAll(".filter-btn").forEach(e=>e.classList.remove("active")),event&&event.target.classList.add("active"),renderRaces(e)};
+/**
+ * Lógica principal para F1 Calendario 2026
+ * DATOS OFICIALES EXTRAÍDOS DE FORMULA1.COM + TV INFO + API DE RESULTADOS
+ */
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadData();
+});
+
+let db_races = []; 
+let db_tv = []; 
+
+// DICCIONARIO: TRADUCTOR DE EMOJI A CÓDIGO ISO (FlagCDN)
+const emojiToIso = {
+    "🇦🇺": "au", "🇨🇳": "cn", "🇯🇵": "jp", "🇧🇭": "bh", "🇸🇦": "sa",
+    "🇺🇸": "us", "🇨🇦": "ca", "🇲🇨": "mc", "🇪🇸": "es", "🇦🇹": "at",
+    "🇬🇧": "gb", "🇧🇪": "be", "🇭🇺": "hu", "🇳🇱": "nl", "🇮🇹": "it",
+    "🇦🇿": "az", "🇸🇬": "sg", "🇲🇽": "mx", "🇧🇷": "br", "🇶🇦": "qa",
+    "🇦🇪": "ae", "🇫🇷": "fr", "🇩🇪": "de", "🇦🇷": "ar", "🇫🇮": "fi"
+};
+
+// DICCIONARIO: TRADUCTOR DE NACIONALIDAD A CÓDIGO ISO
+const nationalityToIso = {
+    "Spanish": "es", "British": "gb", "Dutch": "nl", "Monegasque": "mc",
+    "French": "fr", "Australian": "au", "Japanese": "jp", "Canadian": "ca",
+    "American": "us", "Thai": "th", "Chinese": "cn", "German": "de",
+    "Finnish": "fi", "Mexican": "mx", "Brazilian": "br", "Italian": "it",
+    "Argentine": "ar", "New Zealander": "nz", "Danish": "dk"
+};
+
+const sessionLabels = {
+    "fp1": "Libres 1",
+    "fp2": "Libres 2",
+    "fp3": "Libres 3",
+    "sprint_quali": "Clasif. Sprint",
+    "sprint_race": "Carrera Sprint",
+    "quali": "Clasificación",
+    "race": "CARRERA"
+};
+
+// DICCIONARIO: COLORES OFICIALES DE LAS ESCUDERÍAS
+const teamColors = {
+    "red bull": "#3671C6",
+    "ferrari": "#E8002D",
+    "mercedes": "#00D2BE",
+    "mclaren": "#FF8000",
+    "aston martin": "#229971",
+    "alpine": "#0090FF",
+    "williams": "#005AFF",
+    "rb": "#6692FF",       
+    "audi": "#F20000",       // Audi
+    "sauber": "#52E252",     // Mantenemos de respaldo
+    "haas": "#FFFFFF",      
+    "cadillac": "#FFB81C"    // Cadillac
+};
+
+// DICCIONARIO: LOGOS DE LAS ESCUDERÍAS (URLs directas SVG)
+const teamLogos = {
+    "red bull": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/red_bull.png",
+    "ferrari": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/ferrari.png",
+    "mercedes": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/mercedes.png",
+    "mclaren": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/mclaren.png",
+    "aston martin": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/racing_point.png",
+    "alpine": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/lotus.png",
+    "williams": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/williams.png",
+    "rb": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/rb.png",
+    "audi": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/audi.png",
+    "haas": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/haas_f1_team.png",
+    "cadillac": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/cadillac.png"
+};
+
+// Función para obtener el color del equipo de forma dinámica
+function getTeamColor(teamName) {
+    const nameLower = teamName.toLowerCase();
+    for (const [key, color] of Object.entries(teamColors)) {
+        if (nameLower.includes(key)) return color;
+    }
+    return "var(--text-dim)";
+}
+
+// Función para obtener el logo del equipo
+function getTeamLogo(teamName) {
+    const nameLower = teamName.toLowerCase();
+    for (const [key, url] of Object.entries(teamLogos)) {
+        if (nameLower.includes(key)) return url;
+    }
+    return ""; // Devuelve vacío si no encuentra el equipo
+}
+
+// Función auxiliar para obtener el color de la posición (Podio)
+function getPosColor(pos) {
+    if (pos === "1" || pos === 1) return "#FFD700"; 
+    if (pos === "2" || pos === 2) return "#C0C0C0"; 
+    if (pos === "3" || pos === 3) return "#CD7F32"; 
+    return "var(--text-dim)";           
+}
+
+// --- 1. CARGA DE DATOS ---
+async function loadData() {
+    const grid = document.getElementById('races-grid');
+    try {
+        const [racesRes, tvRes] = await Promise.all([
+            fetch('races.json'),
+            fetch('tv.json')
+        ]);
+
+        if (!racesRes.ok || !tvRes.ok) throw new Error("Error cargando archivos JSON");
+
+        db_races = await racesRes.json();
+        db_tv = await tvRes.json();
+
+        renderRaces('all'); 
+        initCountdown();    
+    } catch (error) {
+        console.error("Error:", error);
+        grid.innerHTML = `<div class="error-msg" style="color:white; text-align:center; grid-column:1/-1;">⚠️ Error cargando datos. Asegúrate de ejecutar en un servidor local.</div>`;
+    }
+}
+
+// --- 2. CONEXIÓN A LA API DE F1 PARA RESULTADOS ---
+async function loadResultsForRace(round) {
+    const race = db_races.find(r => r.round === round);
+    if (!race || race.results) return; 
+
+    try {
+        const response = await fetch(`https://api.jolpi.ca/ergast/f1/2026/${round}/results.json`);
+        const data = await response.json();
+        
+        // Comprobación de seguridad para evitar que el JS rompa si la API falla
+        if (!data || !data.MRData || !data.MRData.RaceTable || !data.MRData.RaceTable.Races.length) {
+            return; 
+        }
+
+        const raceData = data.MRData.RaceTable.Races[0];
+        const container = document.getElementById(`results-list-${round}`);
+        if (!container) return; 
+
+        if (raceData && raceData.Results && raceData.Results.length > 0) {
+            
+            // Extraemos de forma segura las vueltas que dio el ganador
+            const winner = raceData.Results[0];
+            const winnerLaps = (winner && winner.laps) ? parseInt(winner.laps) : 0;
+
+            race.results = raceData.Results.map(r => {
+                let displayTime = r.status || "N/A"; 
+
+                // 1. Si terminó en la misma vuelta que el líder y tiene tiempo válido
+                if (r.status === "Finished" && r.Time && r.Time.time) {
+                    displayTime = r.Time.time; 
+                } 
+                // 2. Si el status incluye la palabra "lap" o "lapped"
+                else if (r.status && r.status.toLowerCase().includes("lap")) {
+                    const driverLaps = r.laps ? parseInt(r.laps) : 0;
+                    const lapsDown = winnerLaps - driverLaps;
+                    
+                    if (lapsDown > 0) {
+                        displayTime = `+${lapsDown} lap${lapsDown > 1 ? 's' : ''}`;
+                    } else {
+                        displayTime = "+1 lap"; // Fallback de seguridad
+                    }
+                }
+                // 3. Traducir abandonos comunes
+                else if (r.status === "Engine") displayTime = "Motor";
+                else if (r.status === "Gearbox") displayTime = "Caja de cambios";
+                else if (r.status === "Collision" || r.status === "Accident") displayTime = "Accidente";
+                else if (r.status === "Spun off") displayTime = "Trompo";
+
+                // Extracción segura de nombres para no romper el JS
+                const driverCode = (r.Driver && r.Driver.code) ? r.Driver.code : (r.Driver && r.Driver.familyName ? r.Driver.familyName.substring(0, 3).toUpperCase() : "UNK");
+                const teamName = (r.Constructor && r.Constructor.name) ? r.Constructor.name : "Unknown";
+
+                return {
+                    pos: r.position,
+                    driver: driverCode,
+                    team: teamName,
+                    time: displayTime
+                };
+            });
+
+            container.innerHTML = race.results.map(r => `
+                <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
+                    <span style="font-weight: 800; width: 20px; color: ${getPosColor(r.pos)}; text-align: right; flex-shrink: 0;">${r.pos}</span>
+                    <span style="font-weight: 700; color: var(--text-light); width: 40px; flex-shrink: 0;">${r.driver}</span>
+                    <span style="color: ${getTeamColor(r.team)}; font-weight: 600; font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 3px rgba(0,0,0,0.5);">${r.team}</span>
+                    <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-light); text-align: right; flex-shrink: 0;">${r.time}</span>
+                </li>
+            `).join('');
+        } else {
+            container.innerHTML = `<li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">Resultados no disponibles aún</li>`;
+        }
+    } catch (e) {
+        console.error(`Error cargando los resultados de la ronda ${round}:`, e);
+    }
+}
+
+// --- 3. RENDERIZADO DE TARJETAS ---
+function renderRaces(filter) {
+    document.getElementById('races-grid').style.display = 'grid';
+    document.getElementById('standings-container').style.display = 'none';
+
+    const grid = document.getElementById('races-grid');
+    grid.innerHTML = ''; 
+    const now = new Date();
+    
+    const nextActiveRace = db_races.find(r => {
+        const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
+        raceEndTime.setHours(raceEndTime.getHours() + 3);
+        return raceEndTime >= now;
+    });
+
+    let filtered = db_races;
+    if (filter === 'upcoming') {
+        filtered = db_races.filter(r => {
+            const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
+            raceEndTime.setHours(raceEndTime.getHours() + 3);
+            return raceEndTime >= now;
+        });
+    } else if (filter === 'completed') {
+        filtered = db_races.filter(r => {
+            const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
+            raceEndTime.setHours(raceEndTime.getHours() + 3);
+            return raceEndTime < now;
+        });
+    }
+
+    const tvListHTML = db_tv.map(tv => {
+        const iso = emojiToIso[tv.flag] || 'xx'; 
+        return `
+        <li class="tv-item">
+            <div class="tv-country-wrapper">
+                <img src="https://flagcdn.com/w40/${iso}.png" class="tv-flag-img" alt="${tv.country}">
+                <span class="tv-country-name">${tv.country}</span>
+            </div>
+            <span class="tv-broadcaster">${tv.broadcaster}</span>
+        </li>
+        `;
+    }).join('');
+
+    filtered.forEach(race => {
+        const scene = document.createElement('div');
+        scene.className = 'race-card-scene';
+
+        const isoCode = emojiToIso[race.flag] || 'xx'; 
+        const backgroundStyle = `linear-gradient(rgba(20, 20, 30, 0.75), rgba(20, 20, 30, 0.95)), url('${race.bg_image}')`;
+
+        const raceEndTime = new Date(`${race.date}T${race.sessions.race.split(' ')[1]}:00`);
+        raceEndTime.setHours(raceEndTime.getHours() + 3);
+        const isFinished = raceEndTime < now;
+
+        let badgeHTML = '';
+        if (isFinished) {
+            badgeHTML = `<div class="date-badge" style="background: rgba(255, 255, 255, 0.05); color: #777;"><i class="fas fa-flag-checkered" style="color: #777;"></i> FINALIZADO</div>`;
+        } else {
+            const humanDate = new Date(race.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+            badgeHTML = `<div class="date-badge"><i class="far fa-calendar-alt"></i> ${humanDate}</div>`;
+        }
+
+        const sessionsHTML = Object.entries(race.sessions).map(([key, value]) => `
+            <li class="session-item ${key === 'race' ? 'main-race' : ''}">
+                <span>${sessionLabels[key] || key}</span>
+                <span>${value}</span>
+            </li>
+        `).join('');
+
+        let backFaceHTML = '';
+        if (isFinished) {
+            let resultsContent = '';
+            
+            if (race.results && race.results.length > 0) {
+                resultsContent = race.results.map(r => `
+                    <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
+                        <span style="font-weight: 800; width: 20px; color: ${getPosColor(r.pos)}; text-align: right; flex-shrink: 0;">${r.pos}</span>
+                        <span style="font-weight: 700; color: var(--text-light); width: 40px; flex-shrink: 0;">${r.driver}</span>
+                        <span style="color: ${getTeamColor(r.team)}; font-weight: 600; font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 3px rgba(0,0,0,0.5);">${r.team}</span>
+                        <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-light); text-align: right; flex-shrink: 0;">${r.time}</span>
+                    </li>
+                `).join('');
+            } else {
+                resultsContent = `
+                    <li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">
+                        <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Obteniendo tiempos oficiales...
+                    </li>
+                `;
+                loadResultsForRace(race.round);
+            }
+
+            backFaceHTML = `
+                <div class="back-header">
+                    <h3>🏁 Clasificación</h3>
+                    <p>Podio y Tiempos Oficiales</p>
+                </div>
+                <ul class="tv-list" id="results-list-${race.round}">
+                    ${resultsContent}
+                </ul>
+            `;
+        } else {
+            backFaceHTML = `
+                <div class="back-header">
+                    <h3>📺 Dónde ver</h3>
+                    <p>Broadcasters Oficiales</p>
+                </div>
+                <ul class="tv-list">
+                    ${tvListHTML}
+                </ul>
+            `;
+        }
+
+        scene.innerHTML = `
+            <div class="race-card-flipper" onclick="this.classList.toggle('is-flipped')">
+                <div class="card-face card-front">
+                    <div class="card-header" style="background-image: ${backgroundStyle}">
+                        <div class="header-top">
+                            <span class="round-num">Ronda ${race.round}</span>
+                            ${race.is_sprint ? '<span style="background:var(--f1-red); padding:2px 8px; margin-left:3px; border-radius:4px; font-size:0.9em; font-weight:700;">SPRINT</span>' : ''}
+                        </div>
+                        <img src="https://flagcdn.com/w80/${isoCode}.png" class="flag-img" alt="Flag">
+                    </div>
+                    <div class="card-body">
+                        <h3>${race.name}</h3>
+                        <span class="circuit-name"><i class="fas fa-road"></i> ${race.circuit}</span>
+                        ${badgeHTML}
+                        <ul class="sessions-list">${sessionsHTML}</ul>
+                    </div>
+                    <div class="flip-hint"><i class="fas fa-sync"></i></div>
+                </div>
+
+                <div class="card-face card-back">
+                    ${backFaceHTML}
+                </div>
+            </div>
+        `;
+        
+        if(nextActiveRace && race.round === nextActiveRace.round) {
+            scene.querySelector('.card-front').classList.add('next-race-highlight');
+        }
+        
+        grid.appendChild(scene);
+    });
+}
+
+// --- 4. LÓGICA DEL COUNTDOWN ---
+function initCountdown() {
+    const timer = document.getElementById('countdown');
+    const name = document.getElementById('next-race-name');
+
+    const update = () => {
+        const now = new Date();
+        const next = db_races.find(r => {
+            const rTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
+            rTime.setHours(rTime.getHours() + 3); 
+            return rTime > now;
+        });
+
+        if (!next) {
+            name.innerText = "Temporada 2026 Finalizada";
+            timer.innerText = "00d 00h 00m 00s";
+            return;
+        }
+
+        const iso = emojiToIso[next.flag];
+        name.innerHTML = `<img src="https://flagcdn.com/w80/${iso}.png" class="hero-flag" style="width:60px; height:40px; object-fit:cover; border-radius:4px;"> <span>${next.name}</span>`;
+
+        const target = new Date(`${next.date}T${next.sessions.race.split(' ')[1]}:00`);
+        const dist = target - now;
+
+        if (dist < 0) {
+            timer.innerText = "¡EN VIVO!";
+            timer.style.color = "#44ff44";
+            return;
+        }
+
+        const d = Math.floor(dist / 86400000).toString().padStart(2, '0');
+        const h = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
+        const m = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
+        const s = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
+
+        timer.innerText = `${d}d ${h}h ${m}m ${s}s`;
+        timer.style.color = "var(--f1-red)";
+    };
+
+    update();
+    setInterval(update, 1000);
+}
+
+// --- 5. LÓGICA DE CLASIFICACIONES (MUNDIAL) ---
+async function showStandings(type) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (event) event.target.classList.add('active');
+    
+    const raceGrid = document.getElementById('races-grid');
+    const standingsContainer = document.getElementById('standings-container');
+    const standingsContent = document.getElementById('standings-content');
+    
+    raceGrid.style.display = 'none';
+    standingsContainer.style.display = 'block';
+    standingsContent.innerHTML = `<div style="text-align:center; padding:40px;"><i class="fas fa-spinner fa-spin"></i> Cargando clasificación oficial 2026...</div>`;
+
+    try {
+        const endpoint = type === 'drivers' ? 'driverStandings' : 'constructorStandings';
+        const response = await fetch(`https://api.jolpi.ca/ergast/f1/2026/${endpoint}.json`);
+        const data = await response.json();
+        
+        const list = type === 'drivers' 
+            ? data.MRData.StandingsTable.StandingsLists[0].DriverStandings 
+            : data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings;
+
+        let html = `<h3>${type === 'drivers' ? 'Mundial de Pilotos' : 'Campeonato de Escuderías'}</h3>`;
+        html += `<table class="standings-table">
+            <thead>
+                <tr>
+                    <th>Pos</th>
+                    <th>${type === 'drivers' ? 'Piloto' : 'Escudería'}</th>
+                    ${type === 'drivers' ? '<th>Equipo</th>' : ''}
+                    <th style="text-align:right">Pts</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+        list.forEach((item, index) => {
+            const posicionReal = index + 1; 
+
+            if (type === 'drivers') {
+                const teamName = item.Constructors[0].name;
+                const nat = item.Driver.nationality;
+                const iso = nationalityToIso[nat] || 'xx'; 
+                
+                html += `
+                <tr>
+                    <td class="pos-cell">${posicionReal}</td>
+                    <td>
+                        <div class="driver-name-wrapper">
+                            <div class="flag-window">
+                                <img src="https://flagcdn.com/w40/${iso}.png" alt="${nat}">
+                            </div>
+                            <span style="font-weight:700">${item.Driver.givenName} ${item.Driver.familyName}</span>
+                        </div>
+                    </td>
+                    <td style="color:${getTeamColor(teamName)}">
+                        ${teamName}
+                    </td>
+                    <td class="points-cell">${item.points}</td>
+                </tr>`;
+            } else {
+                const teamName = item.Constructor.name;
+                const logoUrl = getTeamLogo(teamName);
+                const logoHtml = logoUrl ? `<img src="${logoUrl}" class="team-logo" alt="Logo">` : '';
+
+                html += `
+                <tr>
+                    <td class="pos-cell">${posicionReal}</td>
+                    <td style="font-weight:700; color:${getTeamColor(teamName)}">
+                        ${logoHtml}
+                        ${teamName}
+                    </td>
+                    <td class="points-cell">${item.points}</td>
+                </tr>`;
+            }
+        });
+
+        html += `</tbody></table>`;
+        standingsContent.innerHTML = html;
+
+    } catch (error) {
+        console.error("Error cargando standings:", error);
+        standingsContent.innerHTML = `<p style="color:red; text-align:center;">Error al conectar con la API de resultados.</p>`;
+    }
+}
+
+// Función global para los botones de filtro
+window.filterRaces = (type) => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (event) event.target.classList.add('active');
+    renderRaces(type);
+};
