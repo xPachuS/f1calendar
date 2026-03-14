@@ -404,6 +404,9 @@ async function showStandings(type) {
             ? data.MRData.StandingsTable.StandingsLists[0].DriverStandings 
             : data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings;
 
+        // Ordenar el array de mayor a menor usando los puntos
+        list.sort((a, b) => parseFloat(b.points) - parseFloat(a.points));
+
         let html = `<h3>${type === 'drivers' ? 'Mundial de Pilotos' : 'Campeonato de Escuderías'}</h3>`;
         html += `<table class="standings-table">
             <thead>
@@ -417,7 +420,7 @@ async function showStandings(type) {
             <tbody>`;
 
         list.forEach((item, index) => {
-            const posicionReal = index + 1; 
+            const posicionReal = item.position; // Usamos la posición que nos da la API
 
             if (type === 'drivers') {
                 const teamName = item.Constructors[0].name;
