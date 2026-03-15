@@ -48,10 +48,9 @@ const teamColors = {
     "alpine": "#0090FF",
     "williams": "#005AFF",
     "rb": "#6692FF",       
-    "audi": "#F20000",       // Audi
-    "sauber": "#52E252",     // Mantenemos de respaldo
+    "audi": "#F20000",
     "haas": "#FFFFFF",      
-    "cadillac": "#FFB81C"    // Cadillac
+    "cadillac": "#FFB81C"
 };
 
 // DICCIONARIO: LOGOS DE LAS ESCUDERÍAS (URLs directas SVG)
@@ -204,7 +203,7 @@ function renderRaces(filter) {
     
     const nextActiveRace = db_races.find(r => {
         const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
-        raceEndTime.setHours(raceEndTime.getHours() + 3);
+        raceEndTime.setHours(raceEndTime.getHours() + 2);
         return raceEndTime >= now;
     });
 
@@ -212,7 +211,7 @@ function renderRaces(filter) {
     if (filter === 'upcoming') {
         filtered = db_races.filter(r => {
             const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
-            raceEndTime.setHours(raceEndTime.getHours() + 3);
+            raceEndTime.setHours(raceEndTime.getHours() + 2);
             return raceEndTime >= now;
         });
     } else if (filter === 'completed') {
