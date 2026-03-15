@@ -217,7 +217,7 @@ function renderRaces(filter) {
     } else if (filter === 'completed') {
         filtered = db_races.filter(r => {
             const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
-            raceEndTime.setHours(raceEndTime.getHours() + 3);
+            raceEndTime.setHours(raceEndTime.getHours() + 2);
             return raceEndTime < now;
         });
     }
