@@ -203,7 +203,7 @@ function renderRaces(filter) {
     
     const nextActiveRace = db_races.find(r => {
         const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
-        raceEndTime.setHours(raceEndTime.getHours() + 2);
+        raceEndTime.setHours(raceEndTime.getHours() + 3);
         return raceEndTime >= now;
     });
 
@@ -211,7 +211,7 @@ function renderRaces(filter) {
     if (filter === 'upcoming') {
         filtered = db_races.filter(r => {
             const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
-            raceEndTime.setHours(raceEndTime.getHours() + 2);
+            raceEndTime.setHours(raceEndTime.getHours() + 3);
             return raceEndTime >= now;
         });
     } else if (filter === 'completed') {
