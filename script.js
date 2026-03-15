@@ -364,7 +364,7 @@ function initCountdown() {
         const dist = target - now;
 
         if (dist < 0) {
-            timer.innerText = "¡EN VIVO!";
+            timer.innerText = "¡CARRERA EN CURSO!";
             timer.style.color = "#44ff44";
             return;
         }
