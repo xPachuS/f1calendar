@@ -217,7 +217,7 @@ function renderRaces(filter) {
     } else if (filter === 'completed') {
         filtered = db_races.filter(r => {
             const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
-            raceEndTime.setHours(raceEndTime.getHours() + 2);
+            raceEndTime.setHours(raceEndTime.getHours() + 3);
             return raceEndTime < now;
         });
     }
@@ -243,7 +243,7 @@ function renderRaces(filter) {
         const backgroundStyle = `linear-gradient(rgba(20, 20, 30, 0.75), rgba(20, 20, 30, 0.95)), url('${race.bg_image}')`;
 
         const raceEndTime = new Date(`${race.date}T${race.sessions.race.split(' ')[1]}:00`);
-        raceEndTime.setHours(raceEndTime.getHours() + 2);
+        raceEndTime.setHours(raceEndTime.getHours() + 3);
         const isFinished = raceEndTime < now;
 
         let badgeHTML = '';
