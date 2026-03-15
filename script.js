@@ -347,7 +347,7 @@ function initCountdown() {
         const now = new Date();
         const next = db_races.find(r => {
             const rTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
-            rTime.setHours(rTime.getHours() + 3); 
+            rTime.setHours(rTime.getHours() + 2); 
             return rTime > now;
         });
 
