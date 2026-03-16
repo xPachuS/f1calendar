@@ -169,7 +169,9 @@ async function loadResultsForRace(round) {
                         displayTime = "+1 lap"; // Fallback de seguridad
                     }
                 }
-                // 3. Traducir abandonos comunes
+                // 3. Traducir abandonos comunes y estados oficiales
+                else if (r.status && r.status.toLowerCase() === "did not start") displayTime = "DNS";
+                else if (r.status && r.status.toLowerCase() === "retired") displayTime = "DNF";
                 else if (r.status === "Engine") displayTime = "Motor";
                 else if (r.status === "Gearbox") displayTime = "Caja de cambios";
                 else if (r.status === "Collision" || r.status === "Accident") displayTime = "Accidente";
@@ -187,14 +189,20 @@ async function loadResultsForRace(round) {
                 };
             });
 
-            container.innerHTML = race.results.map(r => `
+            container.innerHTML = race.results.map(r => {
+                // Pequeño extra opcional: Si el displayTime es DNS o DNF, lo ponemos de color rojo oscuro para que destaque
+                const isDnfDns = (r.time === "DNS" || r.time === "DNF");
+                const timeColor = isDnfDns ? "#ff4444" : "var(--text-light)";
+
+                return `
                 <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
                     <span style="font-weight: 800; width: 20px; color: ${getPosColor(r.pos)}; text-align: right; flex-shrink: 0;">${r.pos}</span>
                     <span style="font-weight: 700; color: var(--text-light); width: 40px; flex-shrink: 0;">${r.driver}</span>
                     <span style="color: ${getTeamColor(r.team)}; font-weight: 600; font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 3px rgba(0,0,0,0.5);">${r.team}</span>
-                    <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-light); text-align: right; flex-shrink: 0;">${r.time}</span>
+                    <span style="font-family: monospace; font-size: 0.85rem; color: ${timeColor}; text-align: right; flex-shrink: 0; ${isDnfDns ? 'font-weight: 700;' : ''}">${r.time}</span>
                 </li>
-            `).join('');
+                `;
+            }).join('');
         } else {
             container.innerHTML = `<li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">Resultados no disponibles aún</li>`;
         }
@@ -294,14 +302,19 @@ function renderRaces(filter) {
             let resultsContent = '';
             
             if (race.results && race.results.length > 0) {
-                resultsContent = race.results.map(r => `
+                resultsContent = race.results.map(r => {
+                    const isDnfDns = (r.time === "DNS" || r.time === "DNF");
+                    const timeColor = isDnfDns ? "#ff4444" : "var(--text-light)";
+
+                    return `
                     <li class="tv-item" style="justify-content: flex-start; gap: 10px;">
                         <span style="font-weight: 800; width: 20px; color: ${getPosColor(r.pos)}; text-align: right; flex-shrink: 0;">${r.pos}</span>
                         <span style="font-weight: 700; color: var(--text-light); width: 40px; flex-shrink: 0;">${r.driver}</span>
                         <span style="color: ${getTeamColor(r.team)}; font-weight: 600; font-size: 0.85rem; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 3px rgba(0,0,0,0.5);">${r.team}</span>
-                        <span style="font-family: monospace; font-size: 0.85rem; color: var(--text-light); text-align: right; flex-shrink: 0;">${r.time}</span>
+                        <span style="font-family: monospace; font-size: 0.85rem; color: ${timeColor}; text-align: right; flex-shrink: 0; ${isDnfDns ? 'font-weight: 700;' : ''}">${r.time}</span>
                     </li>
-                `).join('');
+                    `;
+                }).join('');
             } else {
                 resultsContent = `
                     <li class="tv-item" style="justify-content: center; color: var(--text-dim); border:none; margin-top: 20px;">
