@@ -110,7 +110,7 @@ async function loadData() {
 
         // --- LÓGICA DE CANCELACIONES ---
         // Marcamos Bahréin, Arabia Saudí y China como canceladas para forzar el salto de Japón a Miami
-        const carrerasCanceladas = ["bahrain", "bahréin", "saudi", "saudí", "china"]; 
+        const carrerasCanceladas = ["bahrain", "bahréin", "saudi", "saudí"]; 
         db_races.forEach(r => {
             const nameLower = r.name.toLowerCase();
             const circuitLower = r.circuit.toLowerCase();
