@@ -108,6 +108,17 @@ async function loadData() {
         db_races = await racesRes.json();
         db_tv = await tvRes.json();
 
+        // --- LÓGICA DE CANCELACIONES ---
+        // Marcamos Bahréin, Arabia Saudí y China como canceladas para forzar el salto de Japón a Miami
+        const carrerasCanceladas = ["bahrain", "bahréin", "saudi", "saudí", "china"]; 
+        db_races.forEach(r => {
+            const nameLower = r.name.toLowerCase();
+            const circuitLower = r.circuit.toLowerCase();
+            if (carrerasCanceladas.some(c => nameLower.includes(c) || circuitLower.includes(c))) {
+                r.cancelled = true;
+            }
+        });
+
         renderRaces('all'); 
         initCountdown();    
     } catch (error) {
@@ -119,7 +130,7 @@ async function loadData() {
 // --- 2. CONEXIÓN A LA API DE F1 PARA RESULTADOS ---
 async function loadResultsForRace(round) {
     const race = db_races.find(r => r.round === round);
-    if (!race || race.results) return; 
+    if (!race || race.results || race.cancelled) return; 
 
     try {
         const response = await fetch(`https://api.jolpi.ca/ergast/f1/2026/${round}/results.json`);
@@ -202,6 +213,7 @@ function renderRaces(filter) {
     const now = new Date();
     
     const nextActiveRace = db_races.find(r => {
+        if (r.cancelled) return false; // Ignorar canceladas
         const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
         raceEndTime.setHours(raceEndTime.getHours() + 3);
         return raceEndTime >= now;
@@ -212,13 +224,13 @@ function renderRaces(filter) {
         filtered = db_races.filter(r => {
             const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
             raceEndTime.setHours(raceEndTime.getHours() + 3);
-            return raceEndTime >= now;
+            return raceEndTime >= now && !r.cancelled;
         });
     } else if (filter === 'completed') {
         filtered = db_races.filter(r => {
             const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
             raceEndTime.setHours(raceEndTime.getHours() + 3);
-            return raceEndTime < now;
+            return raceEndTime < now && !r.cancelled;
         });
     }
 
@@ -240,14 +252,20 @@ function renderRaces(filter) {
         scene.className = 'race-card-scene';
 
         const isoCode = emojiToIso[race.flag] || 'xx'; 
-        const backgroundStyle = `linear-gradient(rgba(20, 20, 30, 0.75), rgba(20, 20, 30, 0.95)), url('${race.bg_image}')`;
+        let backgroundStyle = `linear-gradient(rgba(20, 20, 30, 0.75), rgba(20, 20, 30, 0.95)), url('${race.bg_image}')`;
+        
+        if (race.cancelled) {
+            backgroundStyle = `linear-gradient(rgba(40, 10, 10, 0.85), rgba(20, 20, 30, 0.95)), url('${race.bg_image}')`;
+        }
 
         const raceEndTime = new Date(`${race.date}T${race.sessions.race.split(' ')[1]}:00`);
         raceEndTime.setHours(raceEndTime.getHours() + 3);
         const isFinished = raceEndTime < now;
 
         let badgeHTML = '';
-        if (isFinished) {
+        if (race.cancelled) {
+            badgeHTML = `<div class="date-badge" style="background: rgba(225, 6, 0, 0.15); color: var(--f1-red); border: 1px solid var(--f1-red);"><i class="fas fa-ban"></i> CANCELADO</div>`;
+        } else if (isFinished) {
             badgeHTML = `<div class="date-badge" style="background: rgba(255, 255, 255, 0.05); color: #777;"><i class="fas fa-flag-checkered" style="color: #777;"></i> FINALIZADO</div>`;
         } else {
             const humanDate = new Date(race.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
@@ -255,14 +273,24 @@ function renderRaces(filter) {
         }
 
         const sessionsHTML = Object.entries(race.sessions).map(([key, value]) => `
-            <li class="session-item ${key === 'race' ? 'main-race' : ''}">
+            <li class="session-item ${key === 'race' ? 'main-race' : ''}" ${race.cancelled ? 'style="opacity:0.3; text-decoration:line-through;"' : ''}>
                 <span>${sessionLabels[key] || key}</span>
                 <span>${value}</span>
             </li>
         `).join('');
 
         let backFaceHTML = '';
-        if (isFinished) {
+        if (race.cancelled) {
+            backFaceHTML = `
+                <div class="back-header" style="border-bottom: 2px solid #555;">
+                    <h3 style="color: #ff4444;">Evento Cancelado</h3>
+                </div>
+                <div style="padding: 2rem; text-align: center; color: var(--text-dim); display:flex; flex-direction:column; justify-content:center; height:100%;">
+                    <i class="fas fa-times-circle" style="font-size: 3rem; color: #555; margin-bottom: 1rem;"></i>
+                    <p>Este Gran Premio ha sido cancelado y no se disputará.</p>
+                </div>
+            `;
+        } else if (isFinished) {
             let resultsContent = '';
             
             if (race.results && race.results.length > 0) {
@@ -306,7 +334,7 @@ function renderRaces(filter) {
 
         scene.innerHTML = `
             <div class="race-card-flipper" onclick="this.classList.toggle('is-flipped')">
-                <div class="card-face card-front">
+                <div class="card-face card-front" ${race.cancelled ? 'style="opacity: 0.7; filter: grayscale(0.5);"' : ''}>
                     <div class="card-header" style="background-image: ${backgroundStyle}">
                         <div class="header-top">
                             <span class="round-num">Ronda ${race.round}</span>
@@ -345,6 +373,7 @@ function initCountdown() {
     const update = () => {
         const now = new Date();
         const next = db_races.find(r => {
+            if (r.cancelled) return false; // Salta las carreras canceladas
             const rTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
             rTime.setHours(rTime.getHours() + 2.5); 
             return rTime > now;
