@@ -440,13 +440,11 @@ header {
     vertical-align: middle; 
 }
 
-/* Si el logo y el nombre están dentro de un div o directamente en el td, 
-   asegúrate de que el contenedor use flex: */
 .standings-table td:nth-child(2) {
     display: flex;
-    align-items: center; /* Alineación vertical perfecta */
-    gap: 18px;            /* Espacio constante entre logo y texto */
-    height: 100%;        /* Asegura que use todo el alto disponible */
+    align-items: center;
+    gap: 28px;
+    height: 100%;
 }
 
 .standings-table tr:hover {
@@ -457,8 +455,8 @@ header {
     width: 60px;
     height: 35px;
     object-fit: contain;
-    flex-shrink: 0; /* Evita que el logo se aplaste si el nombre es largo */
-    margin-right: 0; /* El espacio lo controlamos con 'gap' en el padre */
+    flex-shrink: 0;
+    margin-right: 0;
 }
 
 .pos-cell {
