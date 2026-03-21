@@ -55,17 +55,17 @@ const teamColors = {
 
 // DICCIONARIO: LOGOS DE LAS ESCUDERÍAS (URLs directas SVG)
 const teamLogos = {
-    "red bull": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/red_bull.png",
-    "ferrari": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/ferrari.png",
-    "mercedes": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/mercedes.png",
-    "mclaren": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/mclaren.png",
-    "aston martin": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/racing_point.png",
-    "alpine": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/lotus.png",
-    "williams": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/williams.png",
-    "rb": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/rb.png",
+    "red bull": "https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/redbullracing/2026redbullracingcarright.webp",
+    "ferrari": "https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/ferrari/2026ferraricarright.webp",
+    "mercedes": "https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/mercedes/2026mercedescarright.webp",
+    "mclaren": "https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/mclaren/2026mclarencarright.webp",
+    "aston martin": "https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/astonmartin/2026astonmartincarright.webp",
+    "alpine": "https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/alpine/2026alpinecarright.webp",
+    "williams": "https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/williams/2026williamscarright.webp",
+    "rb": "https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/racingbulls/2026racingbullscarright.webp",
     "audi": "https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/audi/2026audicarright.webp",
-    "haas": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/haas_f1_team.png",
-    "cadillac": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/cadillac.png"
+    "haas": "https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/haas/2026haascarright.webp,
+    "cadillac": "https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/cadillac/2026cadillaccarright.webp"
 };
 
 // Función para obtener el color del equipo de forma dinámica
