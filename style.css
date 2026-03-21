@@ -433,7 +433,7 @@ header {
 }
 
 .standings-table td {
-    padding: 14px 10px;
+    padding: 8px 5px;   /* Reducido de 14px 10px para compensar el logo más grande */
     border-bottom: 1px solid rgba(255,255,255,0.05);
     font-size: 0.95rem;
 }
@@ -443,10 +443,10 @@ header {
 }
 
 .team-logo {
-    width: 35px; 
-    height: 25px;
+    width: 60px;        /* Aumentado de 35px a 60px */
+    height: 35px;       /* Aumentado de 25px a 35px */
     vertical-align: middle; 
-    margin-right: 12px; 
+    margin-right: 8px;  /* Reducido ligeramente para ahorrar espacio horizontal */
     object-fit: contain;
 }
 
