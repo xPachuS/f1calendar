@@ -446,7 +446,7 @@ header {
     width: 60px;        /* Aumentado de 35px a 60px */
     height: 35px;       /* Aumentado de 25px a 35px */
     vertical-align: middle; 
-    margin-right: 20px;  /* Reducido ligeramente para ahorrar espacio horizontal */
+    margin-right: 8px;  /* Reducido ligeramente para ahorrar espacio horizontal */
     object-fit: contain;
 }
 
