@@ -433,9 +433,20 @@ header {
 }
 
 .standings-table td {
-    padding: 8px 5px;   /* Reducido de 14px 10px para compensar el logo más grande */
+    padding: 8px 5px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
     font-size: 0.95rem;
+    /* Añade estas líneas: */
+    vertical-align: middle; 
+}
+
+/* Si el logo y el nombre están dentro de un div o directamente en el td, 
+   asegúrate de que el contenedor use flex: */
+.standings-table td:nth-child(2) {
+    display: flex;
+    align-items: center; /* Alineación vertical perfecta */
+    gap: 8px;            /* Espacio constante entre logo y texto */
+    height: 100%;        /* Asegura que use todo el alto disponible */
 }
 
 .standings-table tr:hover {
@@ -443,11 +454,11 @@ header {
 }
 
 .team-logo {
-    width: 60px;        /* Aumentado de 35px a 60px */
-    height: 35px;       /* Aumentado de 25px a 35px */
-    vertical-align: middle; 
-    margin-right: 8px;  /* Reducido ligeramente para ahorrar espacio horizontal */
+    width: 60px;
+    height: 35px;
     object-fit: contain;
+    flex-shrink: 0; /* Evita que el logo se aplaste si el nombre es largo */
+    margin-right: 0; /* El espacio lo controlamos con 'gap' en el padre */
 }
 
 .pos-cell {
