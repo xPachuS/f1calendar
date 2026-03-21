@@ -445,7 +445,7 @@ header {
 .standings-table td:nth-child(2) {
     display: flex;
     align-items: center; /* Alineación vertical perfecta */
-    gap: 8px;            /* Espacio constante entre logo y texto */
+    gap: 18px;            /* Espacio constante entre logo y texto */
     height: 100%;        /* Asegura que use todo el alto disponible */
 }
 
