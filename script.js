@@ -63,7 +63,7 @@ const teamLogos = {
     "alpine": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/lotus.png",
     "williams": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/williams.png",
     "rb": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/rb.png",
-    "audi": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/audi.png",
+    "audi": "https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/audi/2026audicarright.webp",
     "haas": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/haas_f1_team.png",
     "cadillac": "https://as01.epimg.net/img/motor/formula_1/2026/coches/200x47/cadillac.png"
 };
