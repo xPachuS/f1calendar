@@ -443,7 +443,7 @@ header {
 .standings-table td:nth-child(2) {
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 22px;
     height: 100%;
 }
 
