@@ -119,7 +119,7 @@ async function loadData() {
             }
         });
 
-        renderRaces('all'); 
+        renderRaces('upcoming'); 
         initCountdown();    
     } catch (error) {
         console.error("Error:", error);
