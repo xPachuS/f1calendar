@@ -11,9 +11,10 @@ let db_races = [];
 let db_tv = []; 
 
 // Mapeo "YYYY-MM-DD" -> ronda real en la API de Jolpica.
-// Es necesario porque nuestra numeración local de ronda (que conserva Bahréin/Arabia
-// Saudí como rondas 4 y 5 canceladas) no coincide con la numeración real de la API,
-// que directamente no cuenta esas carreras. La fecha, en cambio, sí coincide siempre.
+// Con Bahréin y Arabia Saudí ya eliminadas y las rondas renumeradas, nuestra numeración
+// local coincide con la de la API. Aun así mantenemos este mapeo por fecha como red de
+// seguridad: si en el futuro la F1 cancela o reordena otra carrera, seguirá pidiendo
+// los resultados correctos sin tener que tocar el código a mano.
 let apiRoundByDate = {};
 let apiRoundMappingPromise = null;
 
