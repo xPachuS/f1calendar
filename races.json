@@ -242,17 +242,17 @@
     {
         "round": 16,
         "name": "GP de Bahrein",
-        "circuit": "Sakhir Circuit",
+        "circuit": "Sepang International Circuit",
         "date": "2026-10-04",
-        "flag": "🇧🇭",
+        "flag": "🇲🇾",
         "is_sprint": false,
-        "bg_image": "https://media.datacenterdynamics.com/media/images/ManamaBahrain.width-880.jpg?q=80&w=1470&auto=format&fit=crop",
+        "bg_image": "https://images.unsplash.com/photo-1666531826321-b20cbe8f37ae?q=80&w=1470&auto=format&fit=crop",
         "sessions": {
-            "fp1": "Vie 13:30",
-            "fp2": "Vie 17:00",
-            "fp3": "Sáb 14:30",
-            "quali": "Sáb 18:00",
-            "race": "Dom 17:00"
+            "fp1": "Vie 04:30",
+            "fp2": "Vie 08:00",
+            "fp3": "Sáb 04:30",
+            "quali": "Sáb 08:00",
+            "race": "Dom 08:00"
         }
     },
     {
