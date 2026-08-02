@@ -36,6 +36,7 @@
         "date": "2026-04-12",
         "flag": "🇧🇭",
         "is_sprint": false,
+        "cancelled": true,
         "bg_image": "https://media.datacenterdynamics.com/media/images/ManamaBahrain.width-880.jpg?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 13:30", "fp2": "Vie 17:00", "fp3": "Sáb 14:30", "quali": "Sáb 18:00", "race": "Dom 17:00" }
     },
@@ -46,6 +47,7 @@
         "date": "2026-04-19",
         "flag": "🇸🇦",
         "is_sprint": false,
+        "cancelled": true,
         "bg_image": "https://www.cloud-europamundo.com/img/carousel/hd/Riad_20221107110852.jpg?q=80&w=1470&auto=format&fit=crop",
         "sessions": { "fp1": "Vie 15:30", "fp2": "Vie 19:00", "fp3": "Sáb 15:30", "quali": "Sáb 19:00", "race": "Dom 19:00" }
     },
@@ -240,18 +242,3 @@
         "sessions": { "fp1": "Vie 10:30", "fp2": "Vie 14:00", "fp3": "Sáb 11:30", "quali": "Sáb 15:00", "race": "Dom 14:00" }
     }
 ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
