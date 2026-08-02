@@ -10,6 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
 let db_races = []; 
 let db_tv = []; 
 
+// Margen de horas que se añade a la hora de inicio de la carrera para considerarla "finalizada".
+// Se usa en todos los sitios donde antes había un +2.5 o +3 sueltos, para que
+// el hero del countdown y el resaltado de la tarjeta siempre coincidan.
+const RACE_END_BUFFER_HOURS = 3;
+
+// Devuelve la fecha/hora exacta en la que se considera que una carrera ha terminado
+function getRaceEndTime(race) {
+    const raceTime = new Date(`${race.date}T${race.sessions.race.split(' ')[1]}:00`);
+    raceTime.setHours(raceTime.getHours() + RACE_END_BUFFER_HOURS);
+    return raceTime;
+}
+
 // DICCIONARIO: TRADUCTOR DE EMOJI A CÓDIGO ISO (FlagCDN)
 const emojiToIso = {
     "🇦🇺": "au", "🇨🇳": "cn", "🇯🇵": "jp", "🇧🇭": "bh", "🇸🇦": "sa",
@@ -107,17 +119,6 @@ async function loadData() {
 
         db_races = await racesRes.json();
         db_tv = await tvRes.json();
-
-        // --- LÓGICA DE CANCELACIONES ---
-        // Marcamos Bahréin y Arabia Saudí como canceladas para forzar el salto de Japón a Miami
-        const carrerasCanceladas = ["bahrein", "bahréin", "saudi", "saudí"]; 
-        db_races.forEach(r => {
-            const nameLower = r.name.toLowerCase();
-            const circuitLower = r.circuit.toLowerCase();
-            if (carrerasCanceladas.some(c => nameLower.includes(c) || circuitLower.includes(c))) {
-                r.cancelled = true;
-            }
-        });
 
         renderRaces('upcoming'); 
         initCountdown();    
@@ -222,24 +223,14 @@ function renderRaces(filter) {
     
     const nextActiveRace = db_races.find(r => {
         if (r.cancelled) return false; // Ignorar canceladas
-        const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
-        raceEndTime.setHours(raceEndTime.getHours() + 3);
-        return raceEndTime >= now;
+        return getRaceEndTime(r) >= now;
     });
 
     let filtered = db_races;
     if (filter === 'upcoming') {
-        filtered = db_races.filter(r => {
-            const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
-            raceEndTime.setHours(raceEndTime.getHours() + 3);
-            return raceEndTime >= now && !r.cancelled;
-        });
+        filtered = db_races.filter(r => getRaceEndTime(r) >= now && !r.cancelled);
     } else if (filter === 'completed') {
-        filtered = db_races.filter(r => {
-            const raceEndTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
-            raceEndTime.setHours(raceEndTime.getHours() + 3);
-            return raceEndTime < now && !r.cancelled;
-        });
+        filtered = db_races.filter(r => getRaceEndTime(r) < now && !r.cancelled);
     }
 
     const tvListHTML = db_tv.map(tv => {
@@ -266,9 +257,7 @@ function renderRaces(filter) {
             backgroundStyle = `linear-gradient(rgba(40, 10, 10, 0.85), rgba(20, 20, 30, 0.95)), url('${race.bg_image}')`;
         }
 
-        const raceEndTime = new Date(`${race.date}T${race.sessions.race.split(' ')[1]}:00`);
-        raceEndTime.setHours(raceEndTime.getHours() + 3);
-        const isFinished = raceEndTime < now;
+        const isFinished = getRaceEndTime(race) < now;
 
         let badgeHTML = '';
         if (race.cancelled) {
@@ -387,9 +376,7 @@ function initCountdown() {
         const now = new Date();
         const next = db_races.find(r => {
             if (r.cancelled) return false; // Salta las carreras canceladas
-            const rTime = new Date(`${r.date}T${r.sessions.race.split(' ')[1]}:00`);
-            rTime.setHours(rTime.getHours() + 2.5); 
-            return rTime > now;
+            return getRaceEndTime(r) > now;
         });
 
         if (!next) {
