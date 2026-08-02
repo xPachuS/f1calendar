@@ -10,6 +10,26 @@ document.addEventListener('DOMContentLoaded', () => {
 let db_races = []; 
 let db_tv = []; 
 
+// Mapeo "YYYY-MM-DD" -> ronda real en la API de Jolpica.
+// Es necesario porque nuestra numeración local de ronda (que conserva Bahréin/Arabia
+// Saudí como rondas 4 y 5 canceladas) no coincide con la numeración real de la API,
+// que directamente no cuenta esas carreras. La fecha, en cambio, sí coincide siempre.
+let apiRoundByDate = {};
+let apiRoundMappingPromise = null;
+
+function loadApiRoundMapping() {
+    if (!apiRoundMappingPromise) {
+        apiRoundMappingPromise = fetch('https://api.jolpi.ca/ergast/f1/2026/races.json')
+            .then(res => res.json())
+            .then(data => {
+                const races = (data && data.MRData && data.MRData.RaceTable && data.MRData.RaceTable.Races) || [];
+                races.forEach(r => { apiRoundByDate[r.date] = r.round; });
+            })
+            .catch(e => console.error("No se pudo cargar el calendario de la API para mapear rondas:", e));
+    }
+    return apiRoundMappingPromise;
+}
+
 // Margen de horas que se añade a la hora de inicio de la carrera para considerarla "finalizada".
 // Se usa en todos los sitios donde antes había un +2.5 o +3 sueltos, para que
 // el hero del countdown y el resaltado de la tarjeta siempre coincidan.
@@ -122,6 +142,7 @@ async function loadData() {
 
         renderRaces('upcoming'); 
         initCountdown();    
+        loadApiRoundMapping(); // Se lanza en paralelo; loadResultsForRace espera a que termine
     } catch (error) {
         console.error("Error:", error);
         grid.innerHTML = `<div class="error-msg" style="color:white; text-align:center; grid-column:1/-1;">⚠️ Error cargando datos. Asegúrate de ejecutar en un servidor local.</div>`;
@@ -133,8 +154,13 @@ async function loadResultsForRace(round) {
     const race = db_races.find(r => r.round === round);
     if (!race || race.results || race.cancelled) return; 
 
+    // Traducimos nuestra ronda local a la ronda real de la API usando la fecha,
+    // porque los números de ronda pueden no coincidir (ver loadApiRoundMapping).
+    await loadApiRoundMapping();
+    const apiRound = apiRoundByDate[race.date] || race.round;
+
     try {
-        const response = await fetch(`https://api.jolpi.ca/ergast/f1/2026/${round}/results.json`);
+        const response = await fetch(`https://api.jolpi.ca/ergast/f1/2026/${apiRound}/results.json`);
         const data = await response.json();
         
         // Comprobación de seguridad para evitar que el JS rompa si la API falla
