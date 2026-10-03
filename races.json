@@ -248,11 +248,11 @@
         "is_sprint": false,
         "bg_image": "https://media.datacenterdynamics.com/media/images/ManamaBahrain.width-880.jpg?q=80&w=1470&auto=format&fit=crop",
         "sessions": {
-            "fp1": "Vie 13:30",
-            "fp2": "Vie 17:00",
-            "fp3": "Sáb 14:30",
-            "quali": "Sáb 18:00",
-            "race": "Dom 17:00"
+            "fp1": "Vie 06:30",
+            "fp2": "Vie 10:00",
+            "fp3": "Sáb 06:30",
+            "quali": "Sáb 10:00",
+            "race": "Dom 09:00"
         }
     },
     {
